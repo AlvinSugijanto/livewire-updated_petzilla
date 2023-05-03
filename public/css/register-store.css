@@ -1,0 +1,100 @@
+@import url('https://fonts.cdnfonts.com/css/bebas-neue');
+@import url('https://fonts.cdnfonts.com/css/cloud-2');
+
+body {
+  background-image: url("/background.jpg");
+  /* path to your image file in the public folder */
+  background-size: cover;
+  background-position: center;
+}
+
+
+
+@media (max-width: 576px) {
+  form {
+    max-width: 90%;
+  }
+}
+
+#regForm {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 50px auto;
+  width: 50%;
+  min-width: 300px;
+}
+h4{
+  font-family: 'Bebas Neue', sans-serif;        
+  font-weight: 700;
+  text-align: center;
+  font-size : 30px;
+  letter-spacing: 2px;
+}
+h1 {
+  text-align: center;
+}
+h6.load{
+  font-family: 'Bebas Neue', sans-serif;        
+  font-weight: 600;
+  text-align: center;
+  font-size : 20px;
+  letter-spacing: 2px;
+}
+
+label{
+  font-family: 'Cloud', sans-serif;
+  color: #6d400ff7;
+                                                
+}
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #706e6e;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+.step.active{
+  opacity: 1;
+}
+.btn-next{
+  width: 70px;
+  color: aliceblue;
+  background-color:#6d400ff7;
+  border: 2px solid #6d400ff7;
+
+}
+.btn-next:hover{
+  background-color: #ffffff;
+  color: #8a5c0dff;
+  border-color: #8a5c0dff;
+
+}
+.btn-previous{
+  width: 100px;
+  color: aliceblue;
+  background-color:#6d400ff7;
+  border: 2px solid #6d400ff7;
+
+}
+.btn-previous:hover{
+  background-color: #ffffff;
+  color: #8a5c0dff;
+  border-color: #8a5c0dff;
+
+}
+.btn-submit{
+  width: 90px;
+  color: aliceblue;
+  background-color:#6d400ff7;
+  border: 2px solid #6d400ff7;
+
+}
+.btn-submit:hover{
+  background-color: #ffffff;
+  color: #8a5c0dff;
+  border-color: #8a5c0dff;
+
+}
