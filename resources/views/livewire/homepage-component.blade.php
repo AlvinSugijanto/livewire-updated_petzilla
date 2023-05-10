@@ -35,7 +35,7 @@
                         </label>
                     </div>
                     <div class="form-check pl-5">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                         <label class="form-check-label" for="flexCheckChecked">
                             Dog
                         </label>

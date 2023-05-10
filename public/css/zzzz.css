@@ -1,16 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/bebas-neue');
 @import url('https://fonts.cdnfonts.com/css/cloud-2');
+@import url('https://fonts.cdnfonts.com/css/gotham');
 
-body {
-  margin: 0;
-  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #53545f;
-  text-align: left;
-  background-color: #fff;
-}
 
 #wrapper {
   display: flex;
@@ -969,7 +960,7 @@ body {
 .trash-hover {
   opacity: 0;
   position: absolute;
-  top: 40%;
+  top: 15%;
   left: 40%;
   font-size: 50px;
   cursor: pointer;
@@ -984,60 +975,168 @@ body {
 
 .animal-description {
   display: -webkit-box;
-  max-width: 200px;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: justify;
+  text-justify: inter-word;
+  max-width: 300px;
+}
+.judul-post {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
-.nav-item a i{
-  color:white;
+.nav-item a i {
+  color: white;
 }
-.nav-item a h5{
-  color:white;
+
+.nav-item a h5 {
+  color: white;
   font-family: 'Cloud', sans-serif;
-  font-size : 16px;
+  font-size: 16px;
 }
-.nav-item a.active{
-  background-color:#ffffff;
+
+.nav-item a.active {
+  background-color: #ffffff;
 
 }
-.nav-item a.active h5, .nav-item a.active i{
-  color:#6c581d;
+
+.nav-item a.active h5,
+.nav-item a.active i {
+  color: #6c581d;
 
 }
-.nav-item a:hover{
-  background-color:#ffffff;
+
+.nav-item a:hover {
+  background-color: #ffffff;
 
 }
-.nav-item a:hover h5, .nav-item a:hover i{
-  color:#6c581d;
+
+.nav-item a:hover h5,
+.nav-item a:hover i {
+  color: #6c581d;
 
 }
-button.btn-transaction{
+
+.list-group-item.active {
+  background-color: #A9907E !important;
+  border-color: white !important;
+}
+
+.list-group-item:hover {
+  background-color: #b8815d !important;
+  border-color: white;
+  cursor: pointer;
+}
+
+.list-group-item:hover i,
+.list-group-item:hover h6,
+.list-group-item:hover small {
+  color: #ffffff;
+}
+
+button.btn-transaction {
   color: #6d400ff7;
-  background-color:white;
+  background-color: white;
   border: 2px solid #6d400ff7;
   border-radius: 10px;
 
 }
-button.btn-transaction:hover{
+
+button.btn-transaction:hover {
   color: white;
-  background-color:#6d400ff7;
+  background-color: #6d400ff7;
   border: 2px solid #6d400ff7;
   opacity: 0.7;
 }
-button.btn-transaction.active{
+
+button.btn-transaction.active {
   color: white;
-  background-color:#6d400ff7;
+  background-color: #6d400ff7;
   border: 2px solid #6d400ff7;
   opacity: 0.7;
 
 }
-h5.transaction{
+
+h5.transaction {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.pengajuan_ongkir h5 {
   font-family: 'Cloud', sans-serif;
   font-weight: 500;
-  font-size : 15px;
-  letter-spacing: 2px;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.pengajuan_ongkir h5 span {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.collapse.pengajuan_ongkir thead td {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.tableProduk {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.tableProduk th {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #c8c9d5;
+  text-align: center;
+}
+
+.tableProduk td {
+  padding: 1.25rem;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.tableProduk thead th {
+  vertical-align: bottom;
+  box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tableProduk th {
+  color: rgb(86, 86, 86);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+
+}
+
+.tableProduk td {
+  color: rgb(86, 86, 86);
+  font-family: 'Gotham', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tableProduk .table-status {
+  border-radius: 12px;
+}
+.tableProduk tr:nth-child(even) {
+  background-color: #FFF5F4;
+}
+.tableProduk tbody tr:hover{
+  background-color: #ececec;
 }

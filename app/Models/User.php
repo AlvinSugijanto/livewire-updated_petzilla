@@ -60,18 +60,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public function store(){
+        return $this->hasOne('App\Models\StoreModel', 'user_id_user', 'id_user');
+    }
     public function verifyUser(){
         return $this->hasOne('App\Models\VerifyUser', 'user_id_user', 'id_user');
     }
-    public function messagesFrom()
+    public function messages()
     {
-        return $this->hasMany(Chat::class, 'from_id_user','id_user');
+        return $this->hasMany(Chat::class, 'users_id_user','id_user');
     }
-    public function messagesTo()
-    {
-        return $this->hasMany(Chat::class, 'to_id_user','id_user');
-    } 
+
     public function geocode($data)
     {
         $nama_kecamatan = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/district/'.$data['kecamatan'].'.json')->json();
@@ -100,5 +99,12 @@ class User extends Authenticatable
 
 
         return $nama_kecamatan.', '.$nama_kabupaten.', '.$nama_provinsi;
+    }
+    public function getKabupaten($prov, $kab)
+    {
+        $object = new Kabupaten();
+        $nama_kabupaten = $object->getNama($prov, $kab);
+
+        return $nama_kabupaten;
     }
 }

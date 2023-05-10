@@ -17,19 +17,19 @@ class Message extends Component
     public $message;
     public $messages = [];
     public $who_is_this;
-    public $name;
+    public $enemy_name, $your_name;
 
     // protected $listeners = ['dispatchMessageSent'];
 
     public function getListeners()
     {
-        if($this->who_is_this == 'user'){
+        if ($this->who_is_this == 'user') {
             $id = Auth::id();
-        }else{
-            $store = StoreModel::where('user_id_user',Auth::id())->first();
+        } else {
+            $store = StoreModel::where('user_id_user', Auth::id())->first();
             $id = $store->id_store;
         }
-        return[
+        return [
             "echo-private:chat.{$id},MessageSent" => 'broadcastedMessageReceived',
             "refresh-me" => '$refresh'
         ];
@@ -44,45 +44,40 @@ class Message extends Component
             'sender_type' => $event['sender_type'],
             'created_at' => $event['created_at']
         ]));
-
     }
     public function mount($to_id)
     {
         $this->to_id = $to_id;
 
         $user = User::find($to_id);
-        if($user){
+        if ($user) {
 
-            $store = StoreModel::where('user_id_user',Auth::id())->first();
-            $this->name = $store->nama_toko;
+            $store = StoreModel::where('user_id_user', Auth::id())->first();
+            $this->enemy_name = $user->name;
+            $this->your_name = $store->nama_toko;
             $this->who_is_this = 'store';
-            $this->messages = Chat::where(function ($query) use($user, $store){
+            $this->messages = Chat::where(function ($query) use ($user, $store) {
                 $query->where('users_id_user', $user->id_user)
-                      ->where('store_id_store', $store->id_store);
-            })
-
-            ->orderBy('created_at', 'asc')
-            ->get()
-            ->toArray();
-
-
-        }else{
+                    ->where('store_id_store', $store->id_store);
+                })
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->toArray();
+        } else {
             $user = User::where('id_user', Auth::id())->first();
-            
-            $this->name = $user->name;
+            $store = StoreModel::where('id_store', $to_id)->first();
+            $this->enemy_name = $store->nama_toko;
+            $this->your_name = $user->name;
             $this->who_is_this = 'user';
 
             $this->messages = Chat::where(function ($query) use ($user) {
                 $query->where('users_id_user', Auth::id())
-                      ->where('store_id_store', $this->to_id);
+                    ->where('store_id_store', $this->to_id);
             })
-
-            ->orderBy('created_at', 'asc')
-            ->get()
-            ->toArray();
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->toArray();
         }
-        
-
     }
 
     public function render()
@@ -90,8 +85,7 @@ class Message extends Component
         $this->dispatchBrowserEvent('scroll-bottom');
 
 
-         return view('livewire.cobamessage')->layout('livewire.layouts.base');
-
+        return view('livewire.message')->layout('livewire.layouts.base');
     }
 
     public function sendMessage()
@@ -99,14 +93,14 @@ class Message extends Component
         $this->validate([
             'message' => 'required|min:1',
         ]);
-        
-        $store = StoreModel::where('user_id_user',Auth::id())->first();
+
+        $store = StoreModel::where('user_id_user', Auth::id())->first();
 
         Chat::create([
             'users_id_user' => $this->who_is_this == 'user' ? Auth::id() : $this->to_id,
             'store_id_store' => $this->who_is_this == 'user' ? $this->to_id : $store->id_store,
             'message' => $this->message,
-            'sender_type' => $this->who_is_this
+            'sender_type' => $this->who_is_this,
         ]);
 
         array_push($this->messages, ([
@@ -121,8 +115,5 @@ class Message extends Component
         broadcast(new MessageSent($this->who_is_this == 'user' ? Auth::id() : $this->to_id, $this->who_is_this == 'user' ? $this->to_id : $store->id_store, $this->message, $this->who_is_this));
 
         $this->message = '';
-
-
     }
-
 }

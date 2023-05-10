@@ -26,7 +26,7 @@ a {
 }
 
 .vl {
-    border-left: 2px solid #675D50;
+    border-left: 2px solid #ffffff;
     height: 25px;
 }
 
@@ -41,24 +41,30 @@ h6.card-title {
     font-family: 'Roboto', sans-serif;
     letter-spacing: 1px;
 }
+.other-preview:hover {
+  cursor: pointer;
+  border: 1px solid rgb(80, 80, 216);
 
+}
 .container ul li {
     list-style-type: none
 }
 
 .list-group-item.active {
     background-color: #A9907E;
+    
     border-color: white;
 }
 
 .list-group-item:hover {
-    background-color: #8e7869;
+    background-color: #b8815d;
     border-color: white;
     cursor: pointer;
 }
 
 .list-group-item:hover i,
-.list-group-item:hover h6 {
+.list-group-item:hover h6,
+.list-group-item:hover small {
     color: #ffffff;
 }
 button.btn-transaction{
@@ -86,4 +92,39 @@ button.btn-transaction{
     font-weight: 500;
     font-size : 15px;
     letter-spacing: 2px;
+  }
+  h5.text-title{
+    font-family: 'Roboto', sans-serif;
+    font-size : 22px;
+    margin-bottom: 0px;
+    
+  }
+  .pengajuan_ongkir h5, #pembayaranModal h5{
+    font-family: 'Cloud', sans-serif;
+    font-weight: 500;
+    font-size : 15px;
+    letter-spacing: 1px;
+  }
+  .pengajuan_ongkir h5 span, #pembayaranModal h5 span{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size : 13px;
+  }
+  .collapse.pengajuan_ongkir td{
+    font-family: 'Cloud', sans-serif;
+    font-weight: 500;
+    font-size : 15px;
+    letter-spacing: 1px;
+  }
+  .collapse.pengajuan_ongkir thead td{
+    font-family: 'Cloud', sans-serif;
+    font-weight: 600;
+    font-size : 15px;
+    letter-spacing: 1px;
+  }
+  img.default_store_logo{
+    border-radius: 50%;
+    border: 1px solid rgb(177, 177, 177);
+    width: 100px;
+    height: 100px;
   }

@@ -9,7 +9,7 @@
               <a href="/user/profile">
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap active">
                   <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                  <h6 class="mb-0">Profil Saya</h5>
+                  <h6 class="mb-0">Profil Saya</h6>
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </li>
               </a>
@@ -17,7 +17,7 @@
               <a href="/user/transaction">
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                  <h6 class="mb-0">Daftar Transaksi</h5>
+                  <h6 class="mb-0">Daftar Transaksi</h6>
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </li>
               </a>
@@ -43,7 +43,11 @@
 
           <div class="card mb-3">
             <div class="card-body">
-              <h6><i class="fa fa-user" aria-hidden="true"></i> Personal Information</h6>
+              <div class="d-flex align-items-center">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <h6 class="mb-0 ml-1">Personal Information</h6>
+                <a href="#" wire:click.prevent="openEditPersonal"><i class="fa fa-pencil-square-o ml-3 text-primary" aria-hidden="true"></i></a>
+              </div>
               <hr>
               <div class="row">
                 <div class="col-sm-3">
@@ -74,9 +78,6 @@
                 <button wire:click="updatePersonal" class="btn btn-primary mt-2 ml-2" style="float:right">Submit</button>
                 <button wire:click="cancelEditPersonal" class="btn btn-danger mt-2 ml-2" style="float:right">Cancel</button>
                 @endif
-                @if(!$edit_personal)
-                <button wire:click="openEditPersonal" class="btn btn-primary mt-2" style="float:right">Edit Profile</button>
-                @endif
               </div>
             </div>
           </div>
@@ -84,7 +85,11 @@
           <!-- Address -->
           <div class="card mb-3">
             <div class="card-body">
-              <h6><i class="fa fa-address-book-o" aria-hidden="true"></i> Address</h6>
+              <div class="d-flex align-items-center">
+                <i class="fa fa-address-book-o" aria-hidden="true"></i>
+                <h6 class="mb-0 ml-1">Address</h6>
+                <a href="#" wire:click.prevent="openEditAddress"><i class="fa fa-pencil-square-o ml-3 text-primary" aria-hidden="true"></i></a>
+              </div>
               <hr>
               <div class="row">
                 <div class="col-sm-3">
@@ -140,9 +145,7 @@
                 <button wire:click="updateAddress" class="btn btn-primary mt-2 ml-2" style="float:right">Submit</button>
                 <button wire:click="cancelEditAddress" class="btn btn-danger mt-2 ml-2" style="float:right">Cancel</button>
                 @endif
-                @if(!$edit_address)
-                <button wire:click="openEditAddress" class="btn btn-primary mt-2" style="float:right">Edit Profile</button>
-                @endif
+
               </div>
             </div>
           </div>

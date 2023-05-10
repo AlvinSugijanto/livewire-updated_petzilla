@@ -13,7 +13,6 @@
 
 
     <!-- Plugins CSS -->
-    <link href="{{ asset('css/plugin.css') }}" rel='stylesheet' type='text/css' />
 
 
     <link href="{{ asset('css/custom.css') }}" rel='stylesheet' type='text/css' />
@@ -62,7 +61,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-center">
-                        <a href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true" style="color:#4D4D4C"></i></a>
+                        <a href="/user/inbox"><i class="fa fa-envelope fa-2x" aria-hidden="true" style="color:#4D4D4C"></i></a>
                         <a href=""><i class="fa fa-heart fa-2x ml-3" aria-hidden="true" style="color:#4D4D4C"></i></a>
 
 
@@ -85,8 +84,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
 
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
     <script src="{{ asset('../js/app.js') }}"></script>
     <script>
         function scrollToBottom() {

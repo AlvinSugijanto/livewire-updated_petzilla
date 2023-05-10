@@ -11,13 +11,13 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
     <!-- Custom styles for this template-->
     <link href="../css/zzzz.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/chat.css') }}" rel='stylesheet' type='text/css' />
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
     @livewireStyles
 
 
@@ -31,7 +31,7 @@
                 <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="170"></a>
             </div>
             <div class="col-md-8 text-right">
-                <a href=""><i class="fa fa-envelope fa-xl" aria-hidden="true" style="color:black"></i></a>
+                <a href="/store/inbox"><i class="fa fa-envelope fa-xl" aria-hidden="true" style="color:black"></i></a>
                 <a href=""><i class="fa fa-bell fa-xl ml-3" aria-hidden="true" style="color:black"></i></a>
 
             </div>
@@ -60,12 +60,6 @@
 
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link align-items-center" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <b>Dashboard</b>
-                </a>
-            </li>
 
             <hr class="sidebar-divider">
 
@@ -175,6 +169,26 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
 
+    <script src="{{ asset('../js/app.js') }}"></script>
+    <script>
+        function scrollToBottom() {
+            var elem = document.getElementById('chats');
+            elem.scrollTop = elem.scrollHeight;
+        }
+        $(document).ready(function() {
+            var $otherPreviews = $('.other-preview');
+
+            $otherPreviews.click(function() {
+                var src = $(this).attr('src');
+
+                $('.main-preview').attr('src', src);
+
+                $otherPreviews.removeClass('active');
+
+                $(this).addClass('active');
+            });
+        });
+    </script>
 
 
 

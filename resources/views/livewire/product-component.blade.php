@@ -7,12 +7,12 @@
                         <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="img-thumbnail img-fluid main-preview" style="max-height: 230px;">
                     </div>
                     <div class="row">
-                        <div class="col-md-3 mt-2 pr-0">
-                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail">
+                        <div class="col-md-3 mt-2">
+                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail" style="height:120px">
                         </div>
                         @foreach($animal_photo as $photo)
-                        <div class="col-md-3 mt-2 pr-0">
-                            <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail">
+                        <div class="col-md-3 mt-2">
+                            <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="height:120px">
                         </div>
                         @endforeach
                     </div>
@@ -30,15 +30,15 @@
                             <hr style="margin: 0em">
                             <div class="store-profile">
                                 <div class="row">
-                                    <div class="col-md-2 text-center">
+                                    <div class="col-md-2 d-flex align-items-center text-center">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle mt-2 border" width="100%">
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h5>{{ $store->nama_toko }}</h5>
+                                        <a href="{{ route('storePage', ['id_store' => $store->id_store]) }}"><h5>{{ $store->nama_toko }}</h5></a>
                                         <span>{{ $store->kecamatan }} ,{{ $store->kabupaten }}</span>
                                         <h5><i class="fa fa-star" aria-hidden="true" style="color:green"></i> (21) total review</h5>
                                     </div>
-                                    <div class="col-md-4 text-left">
+                                    <div class="col-md-4 d-flex align-items-center text-center">
                                         <a href="{{ route('chat', ['to_id' => $to_id_user]) }}" class="btn btn-success mt-4"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
                                     </div>
                                 </div>
@@ -127,7 +127,21 @@
     </div>
     @push('scripts')
     <script>
+        window.addEventListener('success-modal', function() {
+            Swal.fire({
+                title: 'Success',
+                text: 'Transaksi berhasil dibuat, silahkan menunggu toko memasukkan ongkos kirim',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/user/transaction";
+
+                }
+            })
+        });
     </script>
     @endpush
 </div>

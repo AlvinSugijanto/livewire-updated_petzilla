@@ -21,7 +21,8 @@ Route::get('/register_store', Auth\RegisterStore::class);
 Route::middleware(['auth','is_email_verified'])->group(function () {
     
     Route::get('home', HomepageComponent::class);
-    Route::get('inbox', Inbox::class);
+    Route::get('/user/inbox', InboxUser::class);
+    Route::get('/store/inbox', InboxStore::class);
     Route::get('/chat/{to_id}', Message::class)->name('chat');
 
 
@@ -37,6 +38,8 @@ Route::middleware(['auth','is_email_verified'])->group(function () {
 
 
     Route::get('/detail-animal/{id_animal}', ProductComponent::class)->name('detail-animal');
+    Route::get('/store/{id_store}', StorePage::class)->name('storePage');
+
     // Route::get('/delete_animalPhoto/{id_animal_photo}', ProductComponent::class)->name('deletePhoto');
 
 });

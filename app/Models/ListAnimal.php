@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\StoreModel;
+use App\Libraries\Kecamatan;
 
 
 class ListAnimal extends Model
@@ -17,8 +18,8 @@ class ListAnimal extends Model
         'judul_post',
         'deskripsi',
         'harga',
-        'foto_kesehatan',
-        'surat_vaksinasi',
+        'surat_keterangan_sehat',
+        'sertifikat_pedigree',
         'thumbnail',
         'status',
         'store_id_store'
@@ -40,5 +41,12 @@ class ListAnimal extends Model
         $data->kecamatan = $nama_kecamatan;
         
         return $data;
+    }
+    public function getKecamatan($kab, $kec)
+    {
+        $object = new Kecamatan();
+        $nama_kecamatan = $object->getNama($kab, $kec);
+
+        return $nama_kecamatan;
     }
 }
