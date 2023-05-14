@@ -51,20 +51,22 @@
                         <!-- <small><i class="fa fa-circle" aria-hidden="true"></i>Menampilkan hewan dalam radius 50km</small> -->
                         <div class="row mt-2">
                             @foreach($animals as $animal)
-                            <div class="col-md-3 col-sm-4 mt-2">
-                                <div class="card">
-                                    <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:200px">
+                            <div class="col-md-4 col-sm-4 mt-3">
+                                <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
+                                    <div class="card product-card">
+                                        <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:200px">
 
-                                    <div class="card-body">
-                                        <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">
-                                            <h5 alt="aaa">{{ $animal->judul_post }}</h5>
+                                        <div class="card-body">
+                                            <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">
+                                                <h5 alt="aaa">{{ $animal->judul_post }}</h5>
+                                            </div>
+                                            <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->kecamatan }}</small>
+                                            <h6>{{ $animal->nama_toko }}</h6>
+                                            <!-- <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}" class="btn btn-primary"><small>Lihat Detail</small></a> -->
                                         </div>
-                                        <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga) }}</h5>
-                                        <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->kecamatan }}</small>
-                                        <h6>{{ $animal->nama_toko }}</h6>
-                                        <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}" class="btn btn-primary"><small>Lihat Detail</small></a>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             @endforeach
                             @foreach($new_animals as $animal)
@@ -77,7 +79,7 @@
                                         <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">
                                             <h4 alt="aaa">{{ $animal->judul_post }}</h4>
                                         </div>
-                                        <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga) }}</h5>
+                                        <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>
                                         <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->kecamatan }}</small>
                                         <h6>{{ $animal->nama_toko }}</h6>
                                         <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}" class="btn btn-primary"><small>Lihat Detail</small></a>

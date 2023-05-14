@@ -5,13 +5,18 @@ namespace App\Http\Livewire\Auth;
 use Illuminate\Support\Facades\Mail;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
+
 use App\Models\User;
 use App\Models\VerifyUser;
-use Illuminate\Support\Str;
+
 use App\Mail\VerifyEmail;
+
 use App\Libraries\Provinsi;
 use App\Libraries\Kabupaten;
 use App\Libraries\Kecamatan;
+
+use App\Services\Geocode;
 
 
 class RegisterUser extends Component
@@ -19,6 +24,11 @@ class RegisterUser extends Component
     public $name, $email, $password, $alamat_lengkap, $phone_number;
     public $provinsi, $kabupaten, $kecamatan;
     public $jenis_rekening;
+
+    public $isLocationDetected, $lat, $lng, $koordinat;
+    public $geo_data;
+
+
     public function mount()
     {
         $provObject = new Provinsi();
@@ -32,14 +42,29 @@ class RegisterUser extends Component
     }
     public function render()
     {
-
         return view('livewire.auth.register-user')->layout('layouts/layout-register-user');
     }
     public function register()
     {
-        $data = $this->validateForm();
-        $model = new User;
-        $data = $model->geocode($data);
+        // $user_object = new User();
+        // $data = $user_object->createUser($data);
+        // $this->validateForm();
+
+        $data = $this->validate([
+            'name'           => 'required|min:2|max:20',
+            'email'          => 'required|email|unique:users|max:255',
+            'password'       => 'required|string|min:8|max:20',
+            'phone_number'   => 'required|digits_between:10,14',
+            'alamat_lengkap' => 'required|string|min:10',
+            'provinsi'       => 'required',
+            'kabupaten'      => 'required',
+            'kecamatan'      => 'required',
+        ]);
+
+        $data['id_user'] = Str::random(10);
+        $data['password'] = bcrypt($data['password']);
+        $data['latitude'] = $this->geo_data['lat'];
+        $data['longitude'] = $this->geo_data['lon'];
 
         $user = User::create($data);
 
@@ -67,7 +92,10 @@ class RegisterUser extends Component
 
         $this->daftar_kecamatan = $kecObject->getKecamatanFromKabupaten($this->kabupaten);
     }
-
+    public function submit_button()
+    {
+        $this->validateForm();
+    }
     public function nextStep()
     {
         $this->validateForm();
@@ -76,30 +104,47 @@ class RegisterUser extends Component
     public function previousStep()
     {
         $this->currentStep--;
-
     }
+
     public function validateForm()
     {
-        if ($this->currentStep == 1){
+        if ($this->currentStep == 1) {
             $this->validate([
                 'name'           => 'required|min:2|max:20',
                 'email'          => 'required|email|unique:users|max:255',
                 'password'       => 'required|string|min:8|max:20',
                 'phone_number'   => 'required|digits_between:10,14',
             ]);
-        }else if($this->currentStep ==2){
+        } else if ($this->currentStep == 2) {
+            
             $data = $this->validate([
-                'alamat_lengkap' => 'required|string|min:20',
+                'alamat_lengkap' => 'required|string|min:10',
                 'provinsi'       => 'required',
                 'kabupaten'      => 'required',
                 'kecamatan'      => 'required',
-                'name'           => 'required|min:2|max:20',
-                'email'          => 'required|email|unique:users|max:255',
-                'password'       => 'required|string|min:8|max:20',
-                'phone_number'   => 'required|digits_between:10,14',
             ]);
-            return $data;
+
+            if ($this->koordinat == null) {
+
+                $geo_object = new Geocode;
+                $this->geo_data = $geo_object->handle($data);
+
+                if (empty($this->geo_data)) {
+                    $this->isLocationDetected = 'false';
+                } else {
+                    $this->register();
+                }
+            } else {
+                $geo_object = new Geocode;
+                $this->geo_data = $geo_object->geocode_from_coordinate($this->koordinat);
+                $this->register();
+
+            }
         }
     }
 
+    public function openTipsModal()
+    {
+        $this->dispatchBrowserEvent('open-tips-modal');
+    }
 }

@@ -27,7 +27,7 @@ h4{
   font-family: 'Bebas Neue', sans-serif;        
   font-weight: 700;
   text-align: center;
-  font-size : 30px;
+  font-size : 26px;
   letter-spacing: 2px;
 }
 h1 {
@@ -96,5 +96,11 @@ label{
   background-color: #ffffff;
   color: #8a5c0dff;
   border-color: #8a5c0dff;
-
+}
+h6.learn-how, h6.learn-how i{
+  color: rgb(96, 53, 1);
+}
+h6.learn-how:hover, h6.learn-how:hover i{
+  color: rgb(31, 17, 0);
+  cursor : pointer;
 }

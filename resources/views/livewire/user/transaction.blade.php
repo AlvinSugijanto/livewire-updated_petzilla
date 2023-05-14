@@ -64,7 +64,7 @@
                                                         <td width="10%">{{ $data->qty }}x</td>
                                                         <td width="30%"><img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                                         <td width="20%">{{ $data->animal->judul_post }}</td>
-                                                        <td width="20%">{{ number_format($data->animal->harga) }}</td>
+                                                        <td width="20%">{{ number_format($data->animal->harga,0,',','.') }}</td>
                                                         <td width="20%">
                                                             <button class="btn btn-primary btn-sm">Menunggu toko menambahkan ongkir</button>
                                                         </td>
@@ -129,12 +129,16 @@
                                                     <tr class="text-center">
                                                         <td width="20%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                                         <td width="20%">{{ $data->animal->judul_post }}</td>
-                                                        <td width="15%">{{ number_format($data->animal->harga) }}</td>
-                                                        <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman) }}</td>
-                                                        <td width="15%">{{ number_format($data->grand_total) }}</td>
+                                                        <td width="15%">{{ number_format($data->animal->harga,0,',','.') }}</td>
+                                                        <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</td>
+                                                        <td width="15%">{{ number_format($data->grand_total,0,',','.') }}</td>
 
                                                         <td width="15%">
-                                                            <button class="btn btn-primary btn-sm" wire:click.prevent="openPembayaranModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#pembayaranModal"> Bayar sekarang</button>
+                                                            @if($data->payment_reference == NULL)
+                                                                <button class="btn btn-primary btn-sm" wire:click.prevent="openPembayaranModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#pembayaranModal"> Bayar sekarang</button>
+                                                            @else
+                                                                <a href="" class="btn btn-primary btn-sm"></a>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -223,9 +227,9 @@
                             <tr class="text-center">
                                 <td width="30%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                 <td width="20%">{{ $data->animal->judul_post }}</td>
-                                <td width="20%">{{ number_format($data->animal->harga) }}</td>
-                                <td width="20%">{{ number_format($data->pengiriman->biaya_pengiriman) }}</td>
-                                <td width="20%">{{ number_format($data->grand_total) }}</td>
+                                <td width="20%">{{ number_format($data->animal->harga,0,',','.') }}</td>
+                                <td width="20%">{{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</td>
+                                <td width="20%">{{ number_format($data->grand_total,0,',','.') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -257,53 +261,65 @@
                 @elseif(isset($currentModalStep) && $currentModalStep == 2)
 
                 <div class="modal-body">
-                    <h5>Silahkan melakukan pembayaran dengan total <span style="font-weight:bolder; font-size: 15px">Rp.{{ number_format($data->grand_total) }}</span> pada salah satu rekening dibawah. Setelah itu, silahkan klik tombol Next untuk mengupload bukti pembayaran</h5>
+                    <h5>Silahkan melakukan pembayaran dengan total <span style="font-weight:bolder; font-size: 15px">Rp.{{ number_format($data->grand_total,0,',','.') }}</span> pada salah satu rekening dibawah. Setelah itu, silahkan klik tombol Next untuk mengupload bukti pembayaran</h5>
                     <hr>
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5><i class="fa fa-money" aria-hidden="true"></i> Pembayaran Digital</h5>
-                                <div class="row mt-4">
-                                    <div class="col-md-4">
-                                        <h5>Gopay</h5>
-                                        <h5>ShopeePay</h5>
-                                        <h5>OVO</h5>
-                                        <h5>DANA</h5>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 style="font-weight:bolder">: 0895321091566</h5>
-                                        <h5 style="font-weight:bolder">: 0895321091566</h5>
-                                        <h5 style="font-weight:bolder">: 0895321091566</h5>
-                                        <h5 style="font-weight:bolder">: 0895321091566</h5>
+
+                        <div class="payment-card mt-2">
+                            <h5><i class="fa fa-money" aria-hidden="true"></i> Transfer Bank</h5>
+                            <div class="d-flex align-items-center">
+                                @foreach($payment_channels as $channel)
+                                @if($channel['group'] == 'Virtual Account')
+                                <div class="card mr-4" onclick="toggleCardClass(this)">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
+                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h5><i class="fa fa-university" aria-hidden="true"></i> Transfer Bank</h5>
-                                <div class="row mt-4">
-                                    <div class="col-md-4">
-                                        <h5>BCA</h5>
-                                        <h5>BRI</h5>
-                                        <h5>BNI</h5>
-                                        <h5>MANDIRI</h5>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 style="font-weight:bolder">: 3580666352</h5>
-                                        <h5 style="font-weight:bolder">: 3580666352</h5>
-                                        <h5 style="font-weight:bolder">: 3580666352</h5>
-                                        <h5 style="font-weight:bolder">: 3580666352</h5>
-                                    </div>
-                                </div>
+                                @endif
+                                @endforeach
                             </div>
                         </div>
-                        <h5 class="mt-3">Semua rekening diatas memiliki atas nama <span style="font-weight:bolder; font-size: 15px">Alvin Sugijanto</span></h5>
+
+                        <div class="payment-card mt-2">
+                            <h5><i class="fa fa-university" aria-hidden="true"></i> Pembayaran Digital</h5>
+                            <div class="d-flex align-items-center">
+                                @foreach($payment_channels as $channel)
+                                @if($channel['group'] == 'E-Wallet')
+                                <div class="card mr-4" onclick="toggleCardClass(this)">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
+                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
+                                    </div>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="payment-card mt-2">
+                            <h5><i class="fa fa-shopping-bag" aria-hidden="true"></i> Convenience Store</h5>
+                            <div class="d-flex align-items-center">
+                                @foreach($payment_channels as $channel)
+                                @if($channel['group'] == 'Convenience Store')
+                                <div class="card mr-4" onclick="toggleCardClass(this)">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
+                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
+                                    </div>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click.prevent="nextStepModal">Next</button>
+                    <button type="button" class="btn btn-primary" wire:click.prevent="create_tripay_transaction">Lanjutkan Pembayaran</button>
                 </div>
-                @elseif(isset($currentModalStep) && $currentModalStep == 3)
+                <!-- @elseif(isset($currentModalStep) && $currentModalStep == 3)
                 <div class="modal-body">
                     <h5 style="font-weight:bolder">Informasi Pengirim</h5>
                     <hr>
@@ -320,15 +336,15 @@
                         <select class="form-control" wire:model="metode_pembayaran">
                             <option selected hidden>--Pilih Jenis Rekening--</option>
                             @if($tipe_rekening == 'transfer_bank')
-                                <option value="bca">BCA</option>
-                                <option value="mandiri">Mandiri</option>
-                                <option value="bri">BRI</option>
-                                <option value="bni">BNI</option>
+                            <option value="bca">BCA</option>
+                            <option value="mandiri">Mandiri</option>
+                            <option value="bri">BRI</option>
+                            <option value="bni">BNI</option>
                             @elseif($tipe_rekening == 'digital_payment')
-                                <option value="ovo">OVO</option>
-                                <option value="gopay">GoPay</option>
-                                <option value="dana">DANA</option>
-                                <option value="shopee_pay">Shopee Pay</option>
+                            <option value="ovo">OVO</option>
+                            <option value="gopay">GoPay</option>
+                            <option value="dana">DANA</option>
+                            <option value="shopee_pay">Shopee Pay</option>
                             @endif
                         </select>
                     </div>
@@ -347,8 +363,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click.prevent="submitOngkir">Next</button>
-                </div>
+                    <button type="button" class="btn btn-primary">Lanjutkan Pembayaran</button>
+                </div> -->
                 @endif
 
             </div>
@@ -367,12 +383,22 @@
                 this.querySelector("i").classList.toggle("fa-arrow-circle-down");
             });
         }
+
+        function toggleCardClass(element) {
+            var cards = document.querySelectorAll('.payment-card .card');
+
+            cards.forEach(function(card) {
+                card.classList.remove('active');
+            });
+
+            element.classList.add('active');
+        }
+
         window.addEventListener('open-modal-pembayaran', event => {
             $('#pembayaranModal').modal('show');
         });
         window.addEventListener('close-modal-pembayaran', event => {
             $('#pembayaranModal').modal('hide');
-
         });
     </script>
     @endpush

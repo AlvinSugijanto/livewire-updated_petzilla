@@ -28,7 +28,7 @@
                                             <td width="10%">{{ $data->qty }}x</td>
                                             <td width="30%"><img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                             <td width="20%">{{ $data->animal->judul_post }}</td>
-                                            <td width="20%">{{ number_format($data->animal->harga) }}</td>
+                                            <td width="20%">{{ number_format($data->animal->harga,0,',','.') }}</td>
                                             <td width="20%">
                                                 <button class="btn btn-primary btn-sm" wire:click.prevent="openModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#tambahOngkirModal"><i class="fa fa-pencil" aria-hidden="true"></i> Tambah ongkir</button>
                                             </td>
@@ -93,9 +93,9 @@
                                         <tr class="text-center">
                                             <td width="20%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                             <td width="20%">{{ $data->animal->judul_post }}</td>
-                                            <td width="15%">{{ number_format($data->animal->harga) }}</td>
-                                            <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman) }}</td>
-                                            <td width="15%">{{ number_format($data->grand_total) }}</td>
+                                            <td width="15%">{{ number_format($data->animal->harga,0,',','.') }}</td>
+                                            <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</td>
+                                            <td width="15%">{{ number_format($data->grand_total,0,',','.') }}</td>
 
                                             <td width="15%">
                                                 <button class="btn btn-primary btn-sm"> Bayar sekarang</button>
@@ -161,9 +161,8 @@
                                         <tr class="text-center">
                                             <td width="20%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
                                             <td width="20%">{{ $data->animal->judul_post }}</td>
-                                            <td width="15%">{{ number_format($data->animal->harga) }}</td>
-                                            <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman) }}</td>
-                                            <td width="15%">{{ number_format($data->grand_total) }}</td>
+                                            <td width="15%">{{ number_format($data->animal->harga,0,',','.') }}</td>
+                                            <td width="15%">{{ number_format($data->grand_total,0,',','.') }}</td>
 
                                             <td width="15%">
                                                 <button class="btn btn-primary btn-sm"> KIRIM SEKARANG</button>

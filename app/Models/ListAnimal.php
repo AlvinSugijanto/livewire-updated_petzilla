@@ -13,6 +13,8 @@ class ListAnimal extends Model
 
     protected $primaryKey = 'id_animal';
 
+    public $incrementing = false;
+
     protected $fillable = [
         'jenis_hewan',
         'judul_post',
@@ -26,8 +28,11 @@ class ListAnimal extends Model
     ];
     public function store()
     {
-        $data = $this->belongsTo(StoreModel::class, 'store_id_store', 'id_store'); 
-        return $data;
+        return $this->belongsTo(StoreModel::class, 'store_id_store', 'id_store'); 
+    }
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class, 'list_animal_id_animal', 'id_animal');
     }
     public function getStore($data)
     {

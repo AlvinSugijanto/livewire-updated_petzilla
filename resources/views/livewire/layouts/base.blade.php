@@ -61,8 +61,8 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-center">
-                        <a href="/user/inbox"><i class="fa fa-envelope fa-2x" aria-hidden="true" style="color:#4D4D4C"></i></a>
-                        <a href=""><i class="fa fa-heart fa-2x ml-3" aria-hidden="true" style="color:#4D4D4C"></i></a>
+                        <a href="/user/inbox"><i class="fa fa-envelope" aria-hidden="true" style="color:#4D4D4C; font-size:32px"></i></a>
+                        <a href="/user/wishlist"><i class="fa fa-bookmark ml-3" aria-hidden="true" style="color:#4D4D4C; font-size:30px"></i></a>
 
 
                     </div>

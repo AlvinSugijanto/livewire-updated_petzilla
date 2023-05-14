@@ -10,7 +10,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap active">
                   <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                   <h6 class="mb-0">Profil Saya</h6>
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </li>
               </a>
 
@@ -18,7 +18,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                   <h6 class="mb-0">Daftar Transaksi</h6>
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </li>
               </a>
 
@@ -155,4 +155,18 @@
       </div>
     </div>
   </div>
+  @push('scripts')
+  <script>
+    window.addEventListener('success-notification', function() {
+      Swal.fire({
+        title: 'Success',
+        text: 'Data kamu berhasil di update !',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok',
+
+      })
+    });
+  </script>
+  @endpush
 </div>

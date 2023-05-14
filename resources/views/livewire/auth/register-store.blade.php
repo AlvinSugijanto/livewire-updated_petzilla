@@ -7,23 +7,22 @@
         <div class="col-md-12">
           <h6><i class="fa fa-user" aria-hidden="true"></i> Personal Information</h6>
           <hr class="mt-0">
+
           <div class="form-group">
-            <label for="name">Nama Toko</label>
+            <label>Nama Toko</label>
             <input type="text" class="form-control" placeholder="Masukkan Nama Toko..." wire:model.defer="nama_toko">
             <span class="text-danger">@error('nama_toko'){{ $message }}@enderror</span>
           </div>
           <div class="form-group">
-            <label for="name">No Handphone</label>
+            <label>No Handphone</label>
             <input type="text" class="form-control" placeholder="Masukkan No Hp, Contoh : 0895xxx" wire:model.defer="no_hp">
             <span class="text-danger">@error('no_hp'){{ $message }}@enderror</span>
           </div>
-
           <div class="form-group">
-            <label for="name">Deskripsi Toko</label>
+            <label>Deskripsi Toko</label>
             <textarea id="w3review" class="form-control" rows="4" cols="56" placeholder="Masukkan Deskripsi Toko..." wire:model="description"></textarea>
             <span class="text-danger">@error('description'){{ $message }}@enderror</span>
           </div>
-
         </div>
 
 
@@ -34,8 +33,17 @@
         <div class="col-md-12">
           <h6><i class="fa fa-address-book-o" aria-hidden="true"></i> Address</h6>
           <hr class="mt-0">
+          @if($isLocationDetected == 'false')
+
+          <div class="d-flex justify-content-between">
+            <div class="alert alert-danger" role="alert">
+              Mohon maaf, kami tidak bisa menemukan koordinat alamat kamu ! Untuk melanjutkan, silahkan menginput titik koordinat secara manual.
+            </div>
+          </div>
+
+          @endif
           <div class="form-group">
-            <label for="address">Alamat Tinggal</label>
+            <label>Alamat Tinggal</label>
             <select class="form-control" wire:model="provinsi">
               <option value="" selected hidden>--Pilih Provinsi--</option>
               @foreach ($daftar_provinsi as $provinces)
@@ -68,6 +76,7 @@
             <span class="text-danger" style="font-size: 13.5px;">{{ $message }}</span>
             @enderror
           </div>
+
           <div class="form-group">
             <label>Alamat Lengkap</label>
             <textarea id="w3" class="form-control" rows="4" cols="61" placeholder="Tambahkan Alamat Lengkap..." wire:model.defer="alamat_lengkap"></textarea>
@@ -75,6 +84,16 @@
             <span class="text-danger" style="font-size: 13.5px;">{{ $message }}</span>
             @enderror
           </div>
+
+          @if($isLocationDetected == 'false')
+
+          <div class="form-group">
+            <label>Koordinat</label>
+            <input type="text" class="form-control" placeholder="Masukkan Koordinat..." wire:model.defer="koordinat">
+          </div>
+
+          @endif
+
         </div>
       </div>
       @endif
@@ -96,27 +115,27 @@
             <select class="form-control" wire:model="jenis_rekening">
               <option selected hidden>--Pilih Jenis Rekening--</option>
               @if($tipe_rekening == 'transfer_bank')
-                <option value="bca">BCA</option>
-                <option value="mandiri">Mandiri</option>
-                <option value="bri">BRI</option>
-                <option value="bni">BNI</option>
+              <option value="bca">BCA</option>
+              <option value="mandiri">Mandiri</option>
+              <option value="bri">BRI</option>
+              <option value="bni">BNI</option>
               @elseif($tipe_rekening == 'digital_payment')
-                <option value="ovo">OVO</option>
-                <option value="gopay">GoPay</option>
-                <option value="dana">DANA</option>
-                <option value="shopee_pay">Shopee Pay</option>
+              <option value="ovo">OVO</option>
+              <option value="gopay">GoPay</option>
+              <option value="dana">DANA</option>
+              <option value="shopee_pay">Shopee Pay</option>
               @endif
             </select>
           </div>
           <div class="form-group">
-            <label for="">Nama Rekening</label>
-            <input type="text" class="form-control" placeholder="Masukkan nama rekening..." wire:model.lazy="nama_rekening">
+            <label>Nama Rekening</label>
+            <input type="text" class="form-control" placeholder="Masukkan nama rekening..." wire:model.defer="nama_rekening">
 
 
           </div>
           <div class="form-group">
-            <label for="">No Rekening / No Virtual</label>
-            <input type="text" name="" class="form-control" placeholder="No Rekening (Bank) / No Virtual Account (E-Wallet)" wire:model.lazy="nomor_rekening">
+            <label>No Rekening / No Virtual</label>
+            <input type="text" class="form-control" placeholder="No Rekening (Bank) / No Virtual Account (E-Wallet)" wire:model.defer="nomor_rekening">
           </div>
 
         </div>
@@ -149,22 +168,7 @@
 
   </form>
 
-  <!-- Notif Modal -->
 
-  <div wire:loading.delay.longer class="modal fade show" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="d-flex justify-content-center align-items-center">
-            <div class="spinner-border" role="status">
-            </div>
-            <h6 class="ml-3 mb-0">Hold on.. We're sending you an email</h6>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   @push('scripts')
   <script>
   </script>
@@ -179,7 +183,7 @@
 
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location = "/mystore";
+          window.location = "/store/profile";
 
         }
       })

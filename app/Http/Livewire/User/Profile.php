@@ -114,7 +114,12 @@ class Profile extends Component
             'email'         => 'required',
             'phone_number'  => 'required',
         ]);
-        User::where('id_user', Auth::id())->update($data);
+        $user = User::where('id_user', Auth::id())->update($data);
+
+        if ($user) {
+            $this->cancelEditPersonal();
+            $this->dispatchBrowserEvent('success-notification');
+        }
     }
     public function updateAddress()
     {
@@ -136,8 +141,12 @@ class Profile extends Component
 
         $data['latitude'] = $getLatLng[0]['lat'];
         $data['longitude'] = $getLatLng[0]['lon'];
-        
-        User::where('id_user', Auth::id())->update($data);
 
+        $user = User::where('id_user', Auth::id())->update($data);
+
+        if ($user) {
+            $this->cancelEditAddress();
+            $this->dispatchBrowserEvent('success-notification');
+        }
     }
 }

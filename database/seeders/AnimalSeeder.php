@@ -15,24 +15,32 @@ class AnimalSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run($id_animal, $id_store)
     {
         $faker = Faker::create('id_ID');
-        $array = ['Kucing','Anjing'];
+        $array = ['Kucing', 'Anjing'];
         $rand = array_rand($array);
         $z = $array[$rand];
 
-        for($i=0;$i<5;$i++){
 
-            DB::table('list_animal')->insert([
-                'id_animal' => $i+1,
-                'judul_post' => $z. ' '. $faker->firstName,
-                'jenis_hewan' => $z,
-                'deskripsi' => $faker->text,
-                'harga'     => rand(1000000, 2000000),
-                'status' => 1,
-                'store_id_store' => 'pGpa2e5DUc'
+        DB::table('list_animal')->insert([
+            'id_animal' => $id_animal,
+            'judul_post' => $z . ' ' . $faker->firstName,
+            'jenis_hewan' => $z,
+            'deskripsi' => $faker->text,
+            'harga'     => rand(10, 20) * 100000,
+            'status' => 'aktif',
+            'stok'   => rand(0, 10),
+            'store_id_store' => $id_store,
+            'thumbnail' => 'tester/' . $z . '/' . 'ANIMALS-' . rand(0, 146) . '.jpg'
+        ]);
+
+        for ($i = 0; $i < rand(1, 5); $i++) {
+
+            DB::table('animal_photo')->insert([
+                'photo'           => 'tester/' . $z . '/' . 'ANIMALS-' . rand(0, 146) . '.jpg',
+                'list_animal_id_animal' => $id_animal
             ]);
-        }    
+        }
     }
 }

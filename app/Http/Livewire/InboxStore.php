@@ -18,11 +18,6 @@ class InboxStore extends Component
     public $toUser;
 
         
-    public function mount()
-    {
-
-        
-    }
 
     public function render()
     {

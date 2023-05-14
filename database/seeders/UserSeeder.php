@@ -51,14 +51,15 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $randomProv = rand(31,36);
-        // $provinsi = Http::get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')->json();
-        // $provinsi = array_shift($provinsi);
-        // $randomProv = $provinsi[array_rand($provinsi, 1)];
+
         $geo_data = $this->geocode($randomProv);
 
         while(empty($geo_data['getLatLng'])){
             $geo_data = $this->geocode($randomProv);
         }
+        // if(empty($geo_data['getLatLng'])){
+        //     dd($geo_data);
+        // }
         DB::table('users')->insert([
             'id_user' => $id,
             'email' => Str::random(10).'@gmail.com',

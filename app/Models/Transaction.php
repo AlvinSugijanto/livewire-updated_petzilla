@@ -30,6 +30,7 @@ class Transaction extends Model
         'users_id_user',
         'store_id_store',
         'list_animal_id_animal',
+        'payment_reference'
     ];
     public function user()
     {

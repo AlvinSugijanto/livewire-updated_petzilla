@@ -64,9 +64,9 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item px-3">
-                <a href="/store/profile" class="d-flex nav-child btn align-items-center @if($blueButton == 'profil') active @endif">
-                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
-                    <h5 class="mb-0">Profil Toko</h5>
+                <a href="/store/profile" class="d-flex align-items-center btn @if($blueButton == 'profil') active @endif">
+                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    <h5 class="mb-0 ml-2">Profil Toko</h5>
                 </a>
             </li>
             <li class="nav-item px-3 mt-3">

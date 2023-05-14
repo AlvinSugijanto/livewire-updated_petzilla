@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\User;
 
-use App\Models\BuktiPembayaran;
 use Livewire\Component;
-use App\Models\Transaction as UserTransaction;
+
 use Auth;
+use App\Services\Tripay;
+
+use App\Models\BuktiPembayaran;
+use App\Models\Transaction as UserTransaction;
 
 use Livewire\WithFileUploads;
 
@@ -21,6 +24,7 @@ class Transaction extends Component
 
     public $currentModalStep, $selectedTransactionId;
 
+    public $payment_channels;
 
     public function render()
     {
@@ -51,6 +55,7 @@ class Transaction extends Component
             ->with('store')
             ->with('animal')
             ->with('pengiriman')
+            ->with('user')
             ->get();
 
         $this->menunggu_pembayaran = $this->menunggu_pembayaran->map(function ($item, $key) {
@@ -63,22 +68,41 @@ class Transaction extends Component
     {
         $this->selectedTransactionId = $id;
         $this->currentModalStep = 1;
+
+        $payment = new Tripay();
+        $this->payment_channels = $payment->get_payment_channels();
+        // dd($this->payment_channels);
     }
     public function nextStepModal()
     {
         $this->currentModalStep++;
     }
-    public function submitOngkir()
+    // public function submitOngkir()
+    // {
+    //     UserTransaction::where('id_transaction', $this->selectedTransactionId)
+    //         ->update([
+    //             'status'            => 'sedang_diproses',
+    //         ]);
+    //     BuktiPembayaran::create([
+    //         'metode_pembayaran'  => $this->metode_pembayaran,
+    //         'nama_rekening'   => $this->nama_rekening,
+    //         'nomor_rekening'   => $this->nomor_rekening,
+    //         'transaction_id_transaction' => $this->selectedTransactionId
+    //     ]);
+    // }
+    
+    public function create_tripay_transaction()
     {
-        UserTransaction::where('id_transaction', $this->selectedTransactionId)
-            ->update([
-                'status'            => 'sedang_diproses',
+        $data = $this->menunggu_pembayaran->where('id_transaction', $this->selectedTransactionId)->first();
+
+        $payment = new Tripay();
+        $response_data = $payment->request_transaction($data);
+
+        if($response_data)
+        {
+            UserTransaction::where('id_transaction',$this->selectedTransactionId)->update([
+                'payment_reference' => $response_data->reference
             ]);
-        BuktiPembayaran::create([
-            'metode_pembayaran'  => $this->metode_pembayaran,
-            'nama_rekening'   => $this->nama_rekening,
-            'nomor_rekening'   => $this->nomor_rekening,
-            'transaction_id_transaction' => $this->selectedTransactionId
-        ]);
+        }
     }
 }

@@ -23,7 +23,7 @@
 					<div class="text-muted small text-nowrap mt-2">{{ date('j F', strtotime($message['created_at'])) }}</div>
 					<div class="text-muted small text-nowrap">{{ date('g:i a', strtotime($message['created_at'])) }}</div>
 				</div>
-				<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3 text">
+				<div class="flex-shrink-1 bg-white rounded py-2 px-3 mr-3 text">
 					<div class="font-weight-bold mb-1">{{ $your_name }}</div>
 					{{$message['message']}}
 				</div>

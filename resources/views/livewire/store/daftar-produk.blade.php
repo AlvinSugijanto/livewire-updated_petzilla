@@ -63,7 +63,7 @@
               <td>
                 <div class="animal-description">{!! $animal->deskripsi !!}</div>
               </td>
-              <td>Rp. {{ number_format($animal->harga) }}</td>
+              <td>Rp. {{ number_format($animal->harga,0,',','.') }}</td>
               <td class="px-3">
                 @if($animal->status == "aktif")
                 <div class="table-status d-flex justify-content-center py-1" style="background-color:#B3FFA6; color:#35B620; font-size:13px">Aktif</div>
@@ -73,7 +73,8 @@
                 @endif
               </td>
               <td class="text-center">
-                <a wire:click.prevent="editProduk( {{$animal->id_animal}} )" role="button"><i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i></a>
+                <a href="#" wire:click.prevent="editProduk('{{$animal->id_animal}}')"><i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i></a>
+
               </td>
             </tr>
             @endforeach
@@ -306,7 +307,7 @@
               <p style="color:red">(*) Wajib Diisi</p>
             </div>
             <div class="col-9 text-right">
-              <button type="button" class="btn btn-sm btn-primary" wire:click.prevent="nextStepEditModal">Next</button>
+              <button type="button" class="btn btn-primary" wire:click.prevent="nextStepEditModal">Next</button>
             </div>
           </div>
         </div>
@@ -323,8 +324,8 @@
               <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
               @enderror
               @if($surat_keterangan_sehat)
-                <p></p>
-                <img src="{{ $surat_keterangan_sehat->temporaryUrl() }}" class="mt-2 img-thumbnail" style="max-height:120px;">
+              <p></p>
+              <img src="{{ $surat_keterangan_sehat->temporaryUrl() }}" class="mt-2 img-thumbnail" style="max-height:120px;">
               @endif
             </div>
           </div>
@@ -335,8 +336,8 @@
               <input type="file" class="form-control" wire:model.lazy="sertifikat_pedigree">
               <small style="color:#FF6843">file type: jpg, png, pdf (max size 2mb)</small>
               @if($sertifikat_pedigree)
-                <p></p>
-                <img src="{{ $sertifikat_pedigree->temporaryUrl() }}" class="img-thumbnail" style="max-height:120px;">
+              <p></p>
+              <img src="{{ $sertifikat_pedigree->temporaryUrl() }}" class="img-thumbnail" style="max-height:120px;">
               @endif
             </div>
           </div>
@@ -346,8 +347,8 @@
               <p style="color:red">(*) Wajib Diisi</p>
             </div>
             <div class="col-9 text-right">
-              <button type="button" class="btn btn-sm btn-primary" wire:click.prevent="previousStepEditModal">Previous</button>
-              <button type="button" class="btn btn-sm btn-primary" wire:click.prevent="editProdukData">Submit</button>
+              <button type="button" class="btn btn-primary" wire:click.prevent="previousStepEditModal">Previous</button>
+              <button type="button" class="btn btn-primary" wire:click.prevent="editProdukData">Submit</button>
             </div>
           </div>
         </div>
@@ -360,15 +361,27 @@
   @push('scripts')
 
   <script>
-    window.addEventListener('close-modal', event => {
-      $('#addProdukModal').modal('hide');
 
-    });
     window.addEventListener('show-add-modal', event => {
       $('#addProdukModal').modal('show');
     });
     window.addEventListener('show-edit-modal', event => {
       $('#editProdukModal').modal('show');
+    });
+    window.addEventListener('success-notification', function() {
+      Swal.fire({
+        title: 'Success',
+        text: 'Data hewan kamu berhasil di update !',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok',
+
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $('#editProdukModal').modal('hide');
+
+        }
+      })
     });
     document.addEventListener('DOMContentLoaded', function() {
       @this.on('triggerDelete', id_animal_photo => {

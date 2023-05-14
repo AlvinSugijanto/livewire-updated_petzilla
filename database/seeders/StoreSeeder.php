@@ -46,7 +46,7 @@ class StoreSeeder extends Seeder
             'getLatLng' => $getLatLng
         ];
     }
-    public function run($id_user, $counter)
+    public function run($id_user, $id_store)
     {
         $faker = Faker::create('id_ID');
         $randomProv = rand(31,36);
@@ -60,7 +60,6 @@ class StoreSeeder extends Seeder
             $geo_data = $this->geocode($randomProv);
         }
 
-        $id_store = Str::random(10);
         $store = DB::table('store')->insert([
             'id_store' => $id_store,
             'nama_toko' => $faker->company,
@@ -75,22 +74,23 @@ class StoreSeeder extends Seeder
             'user_id_user' => $id_user
         ]);    
 
-        for($i=0; $i<5; $i++)
-        {
-            $array = ['Kucing','Anjing'];
-            $rand = array_rand($array);
-            $z = $array[$rand];
+        // for($i=0; $i<5; $i++)
+        // {
+        //     $array = ['Kucing','Anjing'];
+        //     $rand = array_rand($array);
+        //     $z = $array[$rand];
 
-            DB::table('list_animal')->insert([
-                'judul_post' => $z. ' '. $faker->firstName,
-                'jenis_hewan' => $z,
-                'deskripsi' => $faker->text,
-                'harga'     => rand(10,20) * 100000,
-                'status' => 1,
-                'store_id_store' => $id_store,
-                'thumbnail' => 'tester/'.$z.'/'.'ANIMALS-'.rand(0,146).'.jpg'
-            ]);
-        }
+        //     DB::table('list_animal')->insert([
+        //         'judul_post' => $z. ' '. $faker->firstName,
+        //         'jenis_hewan' => $z,
+        //         'deskripsi' => $faker->text,
+        //         'harga'     => rand(10,20) * 100000,
+        //         'status' => 'Aktif',
+        //         'stok'   => rand(0,10),
+        //         'store_id_store' => $id_store,
+        //         'thumbnail' => 'tester/'.$z.'/'.'ANIMALS-'.rand(0,146).'.jpg'
+        //     ]);
+        // }
 
     }
 }

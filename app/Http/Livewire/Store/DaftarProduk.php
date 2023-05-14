@@ -112,7 +112,10 @@ class DaftarProduk extends Component
             $model->storePhoto($this->photos, $animal->id_animal);
         }
         $animal->update($data);
-        $animal->save();
+        if($animal->save())
+        {
+            $this->dispatchBrowserEvent('success-notification');
+        }
     }
 
 

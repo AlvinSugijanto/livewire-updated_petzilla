@@ -15,6 +15,7 @@ class InboxUser extends Component
     public $isActive;
 
     protected $queryString = ['toStore'];
+    
     public $toStore;
     
     public function render()

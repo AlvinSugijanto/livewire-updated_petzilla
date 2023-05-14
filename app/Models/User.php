@@ -73,19 +73,37 @@ class User extends Authenticatable
 
     public function geocode($data)
     {
-        $nama_kecamatan = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/district/'.$data['kecamatan'].'.json')->json();
-        $nama_kabupaten = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/regency/'.$data['kabupaten'].'.json')->json();
+        // $nama_kecamatan = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/district/'.$data['kecamatan'].'.json')->json();
+        // $nama_kabupaten = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/regency/'.$data['kabupaten'].'.json')->json();
 
-        $temp = explode(" ", $nama_kabupaten['name']);
-        $kabupaten_name = implode(" ", array_slice($temp, 1));
-        $getLatLng = Http::get('https://geocode.maps.co/search?q='.$nama_kecamatan['name'].', '.$kabupaten_name)->json();
+        // $temp = explode(" ", $nama_kabupaten['name']);
+        // $kabupaten_name = implode(" ", array_slice($temp, 1));
+        // $getLatLng = Http::get('https://geocode.maps.co/search?q='.$nama_kecamatan['name'].', '.$kabupaten_name)->json();
 
         $data['id_user'] = Str::random(10);
         $data['password'] = bcrypt($data['password']);
-        $data['latitude'] = $getLatLng[0]['lat'];
-        $data['longitude'] = $getLatLng[0]['lon'];
+
 
         return $data;
+    }
+    public function createUser($data)
+    {
+        // $nama_kecamatan = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/district/'.$data['kecamatan'].'.json')->json();
+        // $nama_kabupaten = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/regency/'.$data['kabupaten'].'.json')->json();
+
+        // $temp = explode(" ", $nama_kabupaten['name']);
+        // $kabupaten_name = implode(" ", array_slice($temp, 1));
+        // $getLatLng = Http::get('https://geocode.maps.co/search?q='.$nama_kecamatan['name'].', '.$kabupaten_name)->json();
+
+        $data['id_user'] = Str::random(10);
+        $data['password'] = bcrypt($data['password']);
+
+
+        return $data;
+    }
+    public function real_geocode()
+    {
+        
     }
     public function getAddress($prov, $kab, $kec)
     {

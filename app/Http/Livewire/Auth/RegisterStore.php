@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -14,11 +13,18 @@ use App\Libraries\Provinsi;
 use App\Libraries\Kabupaten;
 use App\Libraries\Kecamatan;
 
+use App\Services\Geocode;
+
 class RegisterStore extends Component
 {
     public $nama_toko, $description, $alamat_lengkap, $no_hp;
+
     public $provinsi, $kabupaten, $kecamatan;
+
     public $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening;
+
+    public $isLocationDetected, $koordinat;
+    public $geo_data;
 
     public function mount()
     {
@@ -52,24 +58,7 @@ class RegisterStore extends Component
 
     public function registerStore()
     {
-        $this->validate([
-            'nama_toko'      => 'required|min:2|max:20',
-            'description'    => 'required|string|min:10',
-            'no_hp'          => 'required|digits_between:10,14',
-            'alamat_lengkap' => 'required|string|min:10',
-            'provinsi'       => 'required',
-            'kabupaten'      => 'required',
-            'kecamatan'      => 'required'
-        ]);
-        $kabObject = new Kabupaten();
-        $kecObject = new Kecamatan();
 
-        $nama_kecamatan = $kecObject->getNama($this->kabupaten, $this->kecamatan);
-        $nama_kabupaten = $kabObject->getNama($this->provinsi, $this->kabupaten);
-
-        $temp = explode(" ", $nama_kabupaten);
-        $kabupaten_name = implode(" ", array_slice($temp, 1));
-        $getLatLng = Http::get('https://geocode.maps.co/search?q=' . $nama_kecamatan . ', ' . $kabupaten_name)->json();
 
         $store = StoreModel::create([
             'id_store' => Str::random(10),
@@ -81,8 +70,8 @@ class RegisterStore extends Component
             'kabupaten'     => $this->kabupaten,
             'kecamatan'     => $this->kecamatan,
             'user_id_user'  => Auth::id(),
-            'latitude'    => $getLatLng[0]['lat'],
-            'longitude'     => $getLatLng[0]['lon']
+            'latitude'    => $this->geo_data['lat'],
+            'longitude'     => $this->geo_data['lon'],
         ]);
         StoreBankAccount::create([
             'tipe_rekening' => $this->tipe_rekening,
@@ -97,7 +86,7 @@ class RegisterStore extends Component
     public function nextStep()
     {
         $this->validateForm();
-        $this->currentStep++;
+       
     }
     public function previousStep()
     {
@@ -106,18 +95,41 @@ class RegisterStore extends Component
     public function validateForm()
     {
         if ($this->currentStep == 1) {
+
             $this->validate([
                 'nama_toko'      => 'required|min:2|max:20',
                 'description'    => 'required|string|min:10',
                 'no_hp'          => 'required|digits_between:10,14',
             ]);
+            
+            $this->currentStep++;
+
         } else if ($this->currentStep == 2) {
-            $this->validate([
+
+            $data = $this->validate([
                 'alamat_lengkap' => 'required|string|min:10',
                 'provinsi'       => 'required',
                 'kabupaten'      => 'required',
-                'kecamatan'      => 'required'
+                'kecamatan'      => 'required',
             ]);
+
+            if ($this->koordinat == null) {
+
+                $geo_object = new Geocode;
+                $this->geo_data = $geo_object->handle($data);
+
+                if (empty($this->geo_data)) {
+                    $this->isLocationDetected = 'false';
+                } else {
+                    $this->currentStep++;
+                    $this->nextStep();
+                }
+            } else {
+                $geo_object = new Geocode;
+                $this->geo_data = $geo_object->geocode_from_coordinate($this->koordinat);
+                $this->currentStep++;
+                $this->nextStep();
+            }
         } else if ($this->currentStep == 3) {
             $this->validate([
                 'tipe_rekening' => 'required',
