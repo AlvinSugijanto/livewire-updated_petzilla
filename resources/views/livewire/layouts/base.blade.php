@@ -20,12 +20,12 @@
 
     <link href="{{ asset('css/chat.css') }}" rel='stylesheet' type='text/css' />
 
-    <script src="https://use.fontawesome.com/e4d06741cf.js"></script>
+    <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
 
     @livewireStyles
 </head>
 
-<body style="background-color:#F3F3F3">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg p-2" style="height:35px; background-color:#A9907E">
             <div class="container justify-content-end ">
@@ -47,22 +47,37 @@
 
         </nav>
         <div class="header_mid">
-            <div class="container p-2" style="background-color:white">
+            <div class="container px-2 py-1" style="background-color:white">
                 <div class="row d-flex align-items-center">
-                    <div class="col-md-3">
-                        <a href="/home"><img src="{{ asset('logo.png') }}" alt="" width="250"></a>
+                    <div class="col-md-3 text-center">
+                        <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="200"></a>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group rounded">
-                            <input type="search" class="form-control rounded" placeholder="Cari di sini..." aria-label="Search" aria-describedby="search-addon" style="height:50px" />
-                            <span class="input-group-text border-0" id="search-addon">
+                    <div class="col-md-7">
+                        <div class="d-flex align-items-center">
+                            <div class="categories d-flex align-items-center py-3">
+                                <i class="fa-solid fa-list"></i>
+                                <h5 class="mb-0 inter-font ml-2">Categories</h5>
+                                <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+                                    <g class="nc-icon-wrapper" fill="currentColor">
+                                        <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" fill="currentColor"></path>
+                                    </g>
+                                </svg>
+                                <div class="categories-dropdown">
+                                    <div class="container p-3">
+                                        Cat
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group ml-5" style="width:400px">
+                                <input type="text" class="search-input" placeholder="Cari disini...">
                                 <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
-                            </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 text-center">
+                    <div class="col-md-2">
                         <a href="/user/inbox"><i class="fa fa-envelope" aria-hidden="true" style="color:#4D4D4C; font-size:32px"></i></a>
-                        <a href="/user/wishlist"><i class="fa fa-bookmark ml-3" aria-hidden="true" style="color:#4D4D4C; font-size:30px"></i></a>
+                        <a href="/user/wishlist"><i class="fa fa-bookmark ml-4" aria-hidden="true" style="color:#4D4D4C; font-size:30px"></i></a>
 
 
                     </div>

@@ -159,7 +159,7 @@
                                     </thead>
                                     <tbody>
                                         <tr class="text-center">
-                                            <td width="20%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
+                                            <td width="20%"><div class="d-flex justify-content-center align-items-center pt-2">{{ $data->qty }}x&nbsp<img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="120" height="60"></div></td>
                                             <td width="20%">{{ $data->animal->judul_post }}</td>
                                             <td width="15%">{{ number_format($data->animal->harga,0,',','.') }}</td>
                                             <td width="15%">{{ number_format($data->grand_total,0,',','.') }}</td>

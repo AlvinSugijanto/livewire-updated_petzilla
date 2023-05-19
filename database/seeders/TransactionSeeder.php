@@ -61,13 +61,14 @@ class TransactionSeeder extends Seeder
 
             $random_total = rand(10, 20) * 100000;
             $random_status = rand(0, 4);
+            $random_ongkir = rand(1,10) * 10000;
             $id_transaction = Str::random(10);
 
             DB::table('transaction')->insert([
                 'id_transaction' => $id_transaction,
                 'qty' => rand(1, 10),
                 'sub_total' => $random_total,
-                'grand_total' => $random_total + (rand(1, 10) * 10000),
+                'grand_total' => $random_total + $random_ongkir,
                 'status'      => $status[$random_status],
                 'users_id_user' => $user->id_user,
                 'store_id_store' => $store->id_store,
@@ -76,7 +77,7 @@ class TransactionSeeder extends Seeder
             if ($random_status == 1) {
                 DB::table('informasi_pengiriman')->insert([
                     'jasa_pengiriman' => $nama_pengiriman[rand(1, 7)],
-                    'biaya_pengiriman' => rand(1, 10) * 10000,
+                    'biaya_pengiriman' => $random_ongkir,
                     'transaction_id_transaction' => $id_transaction
                 ]);
             }

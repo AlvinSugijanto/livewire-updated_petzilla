@@ -18,7 +18,7 @@ class AnimalSeeder extends Seeder
     public function run($id_animal, $id_store)
     {
         $faker = Faker::create('id_ID');
-        $array = ['Kucing', 'Anjing'];
+        $array = ['kucing', 'anjing'];
         $rand = array_rand($array);
         $z = $array[$rand];
 
@@ -32,13 +32,13 @@ class AnimalSeeder extends Seeder
             'status' => 'aktif',
             'stok'   => rand(0, 10),
             'store_id_store' => $id_store,
-            'thumbnail' => 'tester/' . $z . '/' . 'ANIMALS-' . rand(0, 146) . '.jpg'
+            'thumbnail' => 'tester/' . $z . '/' . 'ANIMALS (' . rand(0, 199) .')' . '.jpg'
         ]);
 
         for ($i = 0; $i < rand(1, 5); $i++) {
 
             DB::table('animal_photo')->insert([
-                'photo'           => 'tester/' . $z . '/' . 'ANIMALS-' . rand(0, 146) . '.jpg',
+                'photo'           => 'tester/' . $z . '/' . 'ANIMALS (' . rand(0, 199) .')' . '.jpg',
                 'list_animal_id_animal' => $id_animal
             ]);
         }

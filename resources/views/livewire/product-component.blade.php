@@ -7,11 +7,11 @@
                         <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="img-thumbnail img-fluid main-preview" style="max-height: 230px;">
                     </div>
                     <div class="row">
-                        <div class="col-md-3 mt-2">
+                        <div class="col-md-4 mt-2">
                             <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail" style="height:120px">
                         </div>
                         @foreach($animal_photo as $photo)
-                        <div class="col-md-3 mt-2">
+                        <div class="col-md-4 mt-2 justify-content-center">
                             <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="height:120px">
                         </div>
                         @endforeach

@@ -1,53 +1,69 @@
 <div>
-
-    <div class="container mt-3">
-        <div id="carouselExampleIndicators" class="carousel slide mx-auto d-block border" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block" src="{{ asset('article1.png') }}" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block" src="{{ asset('article2.png') }}" alt="Second slide">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-        <div class="row container mt-3">
-            <div class="col-md-2">
-                <div class="card pt-3" style="height:400px">
-                    <h6 class="card-title text-center mt-2">FILTER</h6>
-                    <hr class="mt-0">
-                    <div class="form-check pl-5">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Cat
-                        </label>
+    <!-- <div class="article-section">
+        <img src="{{ asset('article3.png') }}" alt="" class="image-article">
+        <button class="button-article">GET NOW</button>
+    </div> -->
+    <div class="container">
+        <div class="row container">
+            <div class="col-md-3">
+                <div class="card" style="height:400px">
+                    <div class="card-body py-3 px-4">
+                        <h5 class="card-title mb-0">Filters</h5>
+                        <div class="filter-categories mt-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6 class="mb-0">Animal Type</h6>
+                                <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+                                    <g class="nc-icon-wrapper" fill="currentColor">
+                                        <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" fill="currentColor"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Cat
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Dog
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="">
+                        <div class="filter-categories mt-2">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6 class="mb-0">Dokumentasi</h6>
+                                <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+                                    <g class="nc-icon-wrapper" fill="currentColor">
+                                        <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" fill="currentColor"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Bersertifikat murni
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Memiliki surat keterangan kesehatan
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check pl-5">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Dog
-                        </label>
-                    </div>
                 </div>
+
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-body px-5">
 
-                        <h5><i class="fa fa-paw" aria-hidden="true"></i> Hewan</h5>
+                        <h3><i class="fa fa-paw" aria-hidden="true"></i> Hewan</h3>
                         <!-- <small><i class="fa fa-circle" aria-hidden="true"></i>Menampilkan hewan dalam radius 50km</small> -->
                         <div class="row mt-2">
                             @foreach($animals as $animal)
@@ -62,7 +78,7 @@
                                             </div>
                                             <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>
                                             <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->kecamatan }}</small>
-                                            <h6>{{ $animal->nama_toko }}</h6>
+                                            <h6><i class="fa-solid fa-store"></i> {{ $animal->nama_toko }}</h6>
                                             <!-- <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}" class="btn btn-primary"><small>Lihat Detail</small></a> -->
                                         </div>
                                     </div>

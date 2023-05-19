@@ -14,6 +14,32 @@
 
 }
 
+.article-section {
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 0 2px #cfb6a5);
+}
+
+.button-article {
+  position: absolute;
+  top: 55%;
+  left: 35%;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 10px 24px;
+  background-color: #5B4212;
+  font-size: 25px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.button-article:hover {
+  border: 2px solid #5B4212;
+  background-color: white;
+  color: #5B4212;
+
+}
+
 a {
   text-decoration: none !important;
   color: black;
@@ -225,10 +251,63 @@ img.default_store_logo {
 
 }
 
+.inter-font {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #231f1e;
+}
+
 .no-chat {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.input-group i {
+  position: absolute;
+  right: 3%;
+  top: 37%;
+}
+
+.search-input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 16px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+
+}
+
+.categories {
+  position: relative;
+  transition: all .2s ease-in;
+  border-bottom: 3px solid transparent;
+
+}
+
+.categories:hover {
+  cursor: pointer;
+  border-bottom-color: #576EF2;
+
+}
+.categories:hover i.fa-list,
+.categories:hover h5.inter-font,
+.categories:hover svg {
+  color: #576EF2;
+}
+
+.categories-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
