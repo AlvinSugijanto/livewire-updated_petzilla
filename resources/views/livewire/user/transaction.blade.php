@@ -1,5 +1,6 @@
 <div>
-    <div class="container mt-3">
+
+    <div class="container">
         <div class="main-body">
             <div class="row gutters-sm">
                 <div class="col-md-3">
@@ -48,52 +49,53 @@
                             <div class="collapse-menu">
                                 <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <h5 class="transaction">PENGAJUAN HARGA ONGKIR ({{ $pengajuan_ongkir_count }})</h5>
-                                    <i class="fa fa-arrow-circle-right mb-3 mr-2" aria-hidden="true"></i>
+                                    <i class="fa fa-arrow-circle-right mb-3 mr-2 arrow-icon" aria-hidden="true"></i>
                                 </div>
                                 <div class="collapse pengajuan_ongkir" id="collapse1">
                                     @foreach($pengajuan_ongkir as $data)
-                                    <div class="d-flex align-items-center justify-content-between mt-2 pl-3" data-toggle="collapse" href="#collapse-ongkir-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction">{{ $data->animal->judul_post }}</h5>
-                                        <i class="fa fa-minus mb-3 mr-2" aria-hidden="true"></i>
+                                    <div class="d-flex justify-content-between align-items-center mt-2 p-2" data-toggle="collapse" href="#collapse-ongkir-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <div class="transaction-item px-2">
+                                            <h5 class="transaction mb-0"><i class="fa-solid fa-paw text-secondary"></i> {{ $data->animal->judul_post }}</h5>
+                                        </div>
+                                        <i class="fa fa-minus align-items-end" aria-hidden="true"></i>
+
                                     </div>
                                     <div class="collapse" id="collapse-ongkir-{{$loop->iteration}}">
-                                        <div class="card card-body mt-3">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td width="10%">{{ $data->qty }}x</td>
-                                                        <td width="30%"><img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
-                                                        <td width="20%">{{ $data->animal->judul_post }}</td>
-                                                        <td width="20%">{{ number_format($data->animal->harga,0,',','.') }}</td>
-                                                        <td width="20%">
-                                                            <button class="btn btn-primary btn-sm">Menunggu toko menambahkan ongkir</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr class="">
-                                            <div class="d-flex inline align-items-center">
-                                                <h6 class="mb-0">Biodata Penjual</h6>
-                                                <div class="btn btn-success btn-sm ml-3"><i class="fa fa-comments" aria-hidden="true" style="color:#DFFFE1"></i> Chat Penjual</div>
-                                            </div>
+                                        <div class="container border p-2">
+                                            <div class="alert alert-primary">Silahkan menunggu toko menambahkan informasi pengiriman, jika toko tidak mem-proses dalam 24 jam maka transaksi akan dibatalkan</div>
 
-                                            <div class="col-md-12 mt-4">
-                                                <div class="row">
-                                                    <div class="col-md-6 p-0">
-                                                        <h5><span>Nama : </span>{{ $data->store->nama_toko }}</h5>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><span>No Hp : </span>{{ $data->store->no_hp }}</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6 p-0">
-                                                        <h5><span>Alamat : </span>{{ $data->store->alamat }}</h5>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><span>Alamat Lengkap : </span>{{ $data->store->alamat_lengkap }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-4 border-right">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Hewan</h5>
+                                                    <div class="d-flex align-items-start mt-3">
+                                                        <div class="img-wrapper">
+                                                            <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="120">
+                                                        </div>
+                                                        <div class="product-wrapper ml-2">
+                                                            <h5 class="transaction mb-0" style="font-size:smaller"> {{ $data->animal->judul_post }}</h5>
+                                                            <p style="font-size: small;">{{ $data->qty }} x Rp. {{ number_format($data->animal->harga,0,',','.') }}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4 border-right">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Penjual <button class="btn btn-outline-success btn-sm"><i class="fa fa-comments" aria-hidden="true"></i> Tanya</button></h5>
+                                                    <h5 class="transaction mt-3" style="font-size:smaller"><i class="fa fa-user"></i> {{ $data->store->nama_toko }}</h5>
+                                                    <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-phone"></i> {{ $data->store->no_hp }}</h5>
+                                                    <h5 class="transaction mb-0" style="font-size:smaller; text-align:justify; text-justify: inter-word;"><i class="fa fa-address-book"></i> {{ $data->store->alamat_lengkap }}</h5>
+                                                    <small>{{ $data->store->alamat }}</small>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Pengiriman</h5>
+
+                                                </div>
+                                            </div>
+                                            <div class="rounded bg-light py-2 px-4">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h6 class="mb-0">Subtotal</h6>
+                                                    <h6 class="mb-0">Rp. {{ number_format($data->sub_total,0,',','.') }}</h6>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -104,68 +106,66 @@
                             <div class="collapse-menu">
                                 <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse2" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <h5 class="transaction">MENUNGGU PEMBAYARAN ({{ $menunggu_pembayaran_count }})</h5>
-                                    <i class="fa fa-arrow-circle-right mb-3 mr-2" aria-hidden="true"></i>
+                                    <i class="fa fa-arrow-circle-right mb-3 mr-2 arrow-icon" aria-hidden="true"></i>
                                 </div>
                                 <div class="collapse pengajuan_ongkir" id="collapse2">
                                     @foreach($menunggu_pembayaran as $data)
-                                    <div class="d-flex align-items-center justify-content-between mt-2 pl-3" data-toggle="collapse" href="#collapse-pembayaran-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction">{{ $data->animal->judul_post }}</h5>
-                                        <i class="fa fa-minus mb-3 mr-2" aria-hidden="true"></i>
+                                    <div class="d-flex justify-content-between align-items-center mt-2 p-2" data-toggle="collapse" href="#collapse-ongkir-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <div class="transaction-item px-2">
+                                            <h5 class="transaction mb-0"><i class="fa-solid fa-paw text-secondary"></i> {{ $data->animal->judul_post }}</h5>
+                                        </div>
+                                        <i class="fa fa-minus align-items-end" aria-hidden="true"></i>
+
                                     </div>
-                                    <div class="collapse" id="collapse-pembayaran-{{$loop->iteration}}">
-                                        <div class="card card-body mt-3">
-                                            <table>
-                                                <thead>
-                                                    <tr class="border-bottom text-center">
-                                                        <td>Qty</td>
-                                                        <td>Hewan</td>
-                                                        <td>Subtotal</td>
-                                                        <td>Ongkir</td>
-                                                        <td>Total</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="text-center">
-                                                        <td width="20%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
-                                                        <td width="20%">{{ $data->animal->judul_post }}</td>
-                                                        <td width="15%">{{ number_format($data->animal->harga,0,',','.') }}</td>
-                                                        <td width="15%">{{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</td>
-                                                        <td width="15%">{{ number_format($data->grand_total,0,',','.') }}</td>
+                                    <div class="collapse" id="collapse-ongkir-{{$loop->iteration}}">
+                                        <div class="container border p-2">
+                                            <div class="alert alert-warning">Silahkan melakukan pembayaran dalam waktu 24 jam, jika tidak memproses maka transaksi akan dibatalkan. Waktu tenggat : </div>
 
-                                                        <td width="15%">
-                                                            @if($data->payment_reference == NULL)
-                                                                <button class="btn btn-primary btn-sm" wire:click.prevent="openPembayaranModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#pembayaranModal"> Bayar sekarang</button>
-                                                            @else
-                                                                <a href="" class="btn btn-primary btn-sm"></a>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr class="">
-                                            <div class="d-flex inline align-items-center">
-                                                <h6 class="mb-0">Biodata Penjual</h6>
-                                                <div class="btn btn-success btn-sm ml-3"><i class="fa fa-comments" aria-hidden="true" style="color:#DFFFE1"></i> Chat Pembeli</div>
+                                            <div class="row">
+                                                <div class="col-md-4 border-right">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Hewan</h5>
+                                                    <div class="d-flex align-items-start mt-3">
+                                                        <div class="img-wrapper">
+                                                            <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="120">
+                                                        </div>
+                                                        <div class="product-wrapper ml-2">
+                                                            <h5 class="transaction mb-0" style="font-size:smaller"> {{ $data->animal->judul_post }}</h5>
+                                                            <p style="font-size: small;">{{ $data->qty }} x Rp. {{ number_format($data->animal->harga,0,',','.') }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 border-right">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Penjual <button class="btn btn-outline-success btn-sm"><i class="fa fa-comments" aria-hidden="true"></i> Tanya</button></h5>
+                                                    <h5 class="transaction mt-3" style="font-size:smaller"><i class="fa fa-user"></i> {{ $data->store->nama_toko }}</h5>
+                                                    <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-phone"></i> {{ $data->store->no_hp }}</h5>
+                                                    <h5 class="transaction mb-0" style="font-size:smaller; text-align:justify; text-justify: inter-word;"><i class="fa fa-address-book"></i> {{ $data->store->alamat_lengkap }}</h5>
+                                                    <small>{{ $data->store->alamat }}</small>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <h5 class="cloud-font" style="font-size:larger">Informasi Pengiriman</h5>
+                                                    <h5 class="transaction mt-3" style="font-size:smaller"><i class="fa-solid fa-truck"></i> {{ $data->pengiriman->jasa_pengiriman }}</h5>
+                                                    <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-money-check-dollar"></i> Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h5>
+                                                </div>
                                             </div>
-
-                                            <div class="col-md-12 mt-4">
-                                                <div class="row">
-                                                    <div class="col-md-6 p-0">
-                                                        <h5><span>Nama Toko: </span>{{ $data->store->nama_toko }}</h5>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><span>No Hp : </span>{{ $data->store->no_hp }}</h5>
-                                                    </div>
+                                            <div class="rounded bg-light py-2 px-4">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h6 class="mb-0">Subtotal</h6>
+                                                    <h6 class="mb-0">Rp. {{ number_format($data->sub_total,0,',','.') }}</h6>
                                                 </div>
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6 p-0">
-                                                        <h5><span>Alamat : </span>{{ $data->store->alamat }}</h5>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h5><span>Alamat Lengkap : </span>{{ $data->store->alamat_lengkap }}</h5>
-                                                    </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                    <h6 class="mb-0">Biaya pengiriman</h6>
+                                                    <h6 class="mb-0">Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h6>
                                                 </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2 border-top py-2">
+                                                    <h6 class="mb-0">Harga Total</h6>
+                                                    <h6 class="mb-0">Rp. {{ number_format($data->grand_total,0,',','.') }}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                @if($data->payment_reference == NULL)
+                                                <button class="btn btn-primary btn-sm mt-2" wire:click.prevent="openPembayaranModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#pembayaranModal"> Bayar sekarang</button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                             <div class="collapse3">
                                 <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse3" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <h5 class="transaction">SEDANG DIPROSES (0)</h5>
-                                    <i class="fa fa-arrow-circle-right mb-3 mr-2" aria-hidden="true"></i>
+                                    <i class="fa fa-arrow-circle-right mb-3 mr-2 arrow-icon" aria-hidden="true"></i>
                                 </div>
                                 <div class="collapse" id="collapse3">
                                     <div class="card card-body">
@@ -188,7 +188,7 @@
                             <div class="collapse4">
                                 <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse4" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <h5 class="transaction">SEDANG DIKIRIM (0)</h5>
-                                    <i class="fa fa-arrow-circle-right mb-3 mr-2" aria-hidden="true"></i>
+                                    <i class="fa fa-arrow-circle-right mb-3 mr-2 arrow-icon" aria-hidden="true"></i>
                                 </div>
                                 <div class="collapse" id="collapse4">
                                     <div class="card card-body">
@@ -225,11 +225,11 @@
                         </thead>
                         <tbody>
                             <tr class="text-center">
-                                <td width="30%">{{ $data->qty }}x <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="100"></td>
-                                <td width="20%">{{ $data->animal->judul_post }}</td>
-                                <td width="20%">{{ number_format($data->animal->harga,0,',','.') }}</td>
-                                <td width="20%">{{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</td>
-                                <td width="20%">{{ number_format($data->grand_total,0,',','.') }}</td>
+                                <td width="30%">{{ $selectedTransaction->qty }}x <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" alt="" width="100"></td>
+                                <td width="20%">{{ $selectedTransaction->animal->judul_post }}</td>
+                                <td width="20%">{{ number_format($selectedTransaction->sub_total,0,',','.') }}</td>
+                                <td width="20%">{{ number_format($selectedTransaction->pengiriman->biaya_pengiriman,0,',','.') }}</td>
+                                <td width="20%">{{ number_format($selectedTransaction->grand_total,0,',','.') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -261,7 +261,7 @@
                 @elseif(isset($currentModalStep) && $currentModalStep == 2)
 
                 <div class="modal-body">
-                    <h5>Silahkan melakukan pembayaran dengan total <span style="font-weight:bolder; font-size: 15px">Rp.{{ number_format($data->grand_total,0,',','.') }}</span> pada salah satu rekening dibawah. Setelah itu, silahkan klik tombol Next untuk mengupload bukti pembayaran</h5>
+                    <h5>Silahkan melakukan pembayaran dengan total <span style="font-weight:bolder; font-size: 15px">Rp.{{ number_format($selectedTransaction->grand_total,0,',','.') }}</span> pada salah satu rekening dibawah. Setelah itu, silahkan klik tombol Next untuk mengupload bukti pembayaran</h5>
                     <hr>
                     <div class="col-md-12">
 
@@ -369,6 +369,23 @@
 
             </div>
         </div>
+
+        <!-- LOADER -->
+    </div>
+    <div wire:loading.delay class="loader-wrapper">
+        <div class="text-center">
+            <div class="la-ball-spin la-2x">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
     </div>
     @push('scripts')
     <script>
@@ -379,8 +396,8 @@
             // Add an event listener to the "data-toggle" element
             coll[i].previousElementSibling.addEventListener("click", function() {
                 // Toggle the class of the "i" element
-                this.querySelector("i").classList.toggle("fa-arrow-circle-right");
-                this.querySelector("i").classList.toggle("fa-arrow-circle-down");
+                this.querySelector(".arrow-icon").classList.toggle("fa-arrow-circle-right");
+                this.querySelector(".arrow-icon").classList.toggle("fa-arrow-circle-down");
             });
         }
 

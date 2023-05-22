@@ -6,39 +6,6 @@
         <button class="btn p-2" style="background-color:#A27B5C" wire:click="openAddModal">
           <h6 class="m-0" style="font-size:14px; color:#FFF9F2">Tambah Produk</h6>
         </button>
-        <!-- <table class="table table-hover mt-2">
-          <thead>
-            <tr>
-              <th width="5%">#</th>
-              <th width="15%">Nama</th>
-              <th width="10%">Jenis</th>
-              <th width="20%">Foto</th>
-              <th width="25%">Deskripsi</th>
-              <th width="5%">Status</th>
-              <th width="15%">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($animals as $animal)
-            <tr>
-              <th>{{ $loop->iteration }}</th>
-              <td>{{ $animal->judul_post }}</td>
-              <td>{{ $animal->jenis_hewan }}</td>
-              <td><img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" style="max-height:100px"></td>
-              <td>
-                <div class="animal-description">{!! $animal->deskripsi !!}</div>
-              </td>
-              <td class="align-middle">@if($animal->status == 'Aktif') <h5 style="color:green">Aktif</h5> @endif</td>
-              <td class="align-middle">
-                <div class="row">
-                  <button class="btn btn-primary btn-sm ml-2" wire:click="editProduk( {{$animal->id_animal}} )">Edit</button>
-                  <button class="btn btn-danger btn-sm ml-1">Delete</button>
-                </div>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table> -->
         <table class="tableProduk mt-2">
           <thead>
             <tr>
@@ -47,7 +14,7 @@
               <th width="15%">JENIS</th>
               <th width="20%">DESKRIPSI</th>
               <th width="15%">HARGA</th>
-              <th width="15%" class="text-center">STATUS</th>
+              <th width="15%">STATUS</th>
               <th width="10%">ACTION</th>
 
             </tr>

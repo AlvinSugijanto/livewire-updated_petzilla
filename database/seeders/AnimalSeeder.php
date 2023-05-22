@@ -19,8 +19,10 @@ class AnimalSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $array = ['kucing', 'anjing'];
-        $rand = array_rand($array);
+        $rand = rand(0,1);
         $z = $array[$rand];
+
+        
 
 
         DB::table('list_animal')->insert([
@@ -43,4 +45,6 @@ class AnimalSeeder extends Seeder
             ]);
         }
     }
+
+
 }

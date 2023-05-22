@@ -25,7 +25,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body style="background-color:#F8F8F8">
     <header>
         <nav class="navbar navbar-expand-lg p-2" style="height:35px; background-color:#A9907E">
             <div class="container justify-content-end ">
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-7">
                         <div class="d-flex align-items-center">
-                            <div class="categories d-flex align-items-center py-3">
+                            <div class="categories d-flex align-items-center py-3" onclick="toggleCategoriesDropdown()">
                                 <i class="fa-solid fa-list"></i>
                                 <h5 class="mb-0 inter-font ml-2">Categories</h5>
                                 <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
@@ -62,13 +62,27 @@
                                         <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" fill="currentColor"></path>
                                     </g>
                                 </svg>
-                                <div class="categories-dropdown">
-                                    <div class="container p-3">
-                                        Cat
+                            </div>
+                            <div class="categories-dropdown">
+                                <div class="container">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6>Popular Categories</h6>
+                                            <hr>
+                                            <div class="d-flex align-items-center">
+                                                <div class="d-flex justify-content-between border rounded px-5 py-2" style="background-color:#DCDBDB">
+                                                    <i class="fa-solid fa-cat"></i>
+                                                    <h6 class="mb-0 ml-3">Kucing</h6>
+                                                </div>
+                                                <div class="d-flex justify-content-between border rounded px-5 py-2 ml-3" style="background-color:#DCDBDB">
+                                                    <i class="fa-solid fa-dog"></i>
+                                                    <h6 class="mb-0 ml-3">Anjing</h6>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="input-group ml-5" style="width:400px">
                                 <input type="text" class="search-input" placeholder="Cari disini...">
                                 <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
@@ -101,6 +115,15 @@
 
     <script src="{{ asset('../js/app.js') }}"></script>
     <script>
+        function toggleCategoriesDropdown() {
+            var dropdown = document.querySelector('.categories-dropdown');
+            var dropdown2 = document.querySelector('.categories');
+
+            dropdown.classList.toggle('active');
+            dropdown2.classList.toggle('active');
+
+        }
+
         function scrollToBottom() {
             var elem = document.getElementById('chats');
             elem.scrollTop = elem.scrollHeight;

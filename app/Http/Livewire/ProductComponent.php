@@ -47,11 +47,12 @@ class ProductComponent extends Component
     {
         $transaction = Transaction::create([
             'id_transaction' => Str::random(16),
-            'sub_total'  => $this->animal->harga,
+            'sub_total'  => $this->animal->harga * $this->current_qty,
             'status'    => 'pengajuan_ongkir',
             'users_id_user' => Auth::id(),
             'store_id_store' => $this->animal->store_id_store,
-            'list_animal_id_animal' => $this->animal->id_animal
+            'list_animal_id_animal' => $this->animal->id_animal,
+            'qty'           => $this->current_qty
         ]);
         if ($transaction) {
             $this->dispatchBrowserEvent('success-modal');

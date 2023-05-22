@@ -16,6 +16,7 @@ class ListAnimal extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id_animal',
         'jenis_hewan',
         'judul_post',
         'deskripsi',

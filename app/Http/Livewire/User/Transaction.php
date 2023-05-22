@@ -22,7 +22,7 @@ class Transaction extends Component
     public $menunggu_pembayaran, $menunggu_pembayaran_count;
     public $tipe_rekening, $metode_pembayaran, $nama_rekening, $nomor_rekening, $foto_bukti;
 
-    public $currentModalStep, $selectedTransactionId;
+    public $currentModalStep, $selectedTransactionId, $selectedTransaction;
 
     public $payment_channels;
 
@@ -67,6 +67,7 @@ class Transaction extends Component
     public function openPembayaranModal($id)
     {
         $this->selectedTransactionId = $id;
+        $this->selectedTransaction = $this->menunggu_pembayaran->where('id_transaction',$id)->first();
         $this->currentModalStep = 1;
 
         $payment = new Tripay();
@@ -103,6 +104,9 @@ class Transaction extends Component
             UserTransaction::where('id_transaction',$this->selectedTransactionId)->update([
                 'payment_reference' => $response_data->reference
             ]);
+
+            return redirect()->to('/user/detail_pembayaran/'.$response_data->reference);
+
         }
     }
 }

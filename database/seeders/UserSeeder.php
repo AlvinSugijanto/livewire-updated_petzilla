@@ -72,7 +72,8 @@ class UserSeeder extends Seeder
             'kecamatan' => $geo_data['randomKec']['id'],
             'latitude'    => $geo_data['getLatLng'][0]['lat'],
             'longitude'     => $geo_data['getLatLng'][0]['lon'],
-            'created_at'    => Carbon::now()
+            'created_at'    => Carbon::now(),
+            'email_verified_at' => Carbon::now()
         ]);    
     }
 }

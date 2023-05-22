@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
 
+use App\Libraries\Races\Dog;
+
 class TransactionSeeder extends Seeder
 {
     /**
@@ -36,6 +38,7 @@ class TransactionSeeder extends Seeder
     }
     public function run()
     {
+        
         $status = array(
             'pengajuan_ongkir',
             'menunggu_pembayaran',
@@ -59,16 +62,16 @@ class TransactionSeeder extends Seeder
             $store = $this->randomStore();
             $animal = $this->randomAnimal();
 
-            $random_total = rand(10, 20) * 100000;
+            $random_qty = rand(1, 5);
             $random_status = rand(0, 4);
             $random_ongkir = rand(1,10) * 10000;
             $id_transaction = Str::random(10);
 
             DB::table('transaction')->insert([
                 'id_transaction' => $id_transaction,
-                'qty' => rand(1, 10),
-                'sub_total' => $random_total,
-                'grand_total' => $random_total + $random_ongkir,
+                'qty' => $random_qty,
+                'sub_total' => $random_qty * $animal->harga,
+                'grand_total' => ($random_qty * $animal->harga) + $random_ongkir,
                 'status'      => $status[$random_status],
                 'users_id_user' => $user->id_user,
                 'store_id_store' => $store->id_store,

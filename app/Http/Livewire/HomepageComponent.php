@@ -23,6 +23,7 @@ class HomepageComponent extends Component
     public $animal_type, $animal_name, $description;
     public $nextCursor;
     public $animal_paginator, $new_animals = [];
+    public $alamat;
 
     protected $listeners = [
         'load-more' => 'loadMore',
@@ -33,6 +34,7 @@ class HomepageComponent extends Component
     {
 
         $user = User::where('id_user', Auth::id())->first();
+        $this->alamat = $user->getAddress($user->provinsi, $user->kabupaten, $user->kecamatan);
         $animals = StoreModel::selectRaw("id_store, nama_toko, latitude, longitude, harga, judul_post, list_animal.deskripsi, user_id_user, provinsi, kabupaten, kecamatan, id_animal, list_animal.thumbnail,   
         ( 6371 * acos( cos( radians(?) ) *
           cos( radians( latitude ) )

@@ -125,4 +125,11 @@ class User extends Authenticatable
 
         return $nama_kabupaten;
     }
+    public function getKecamatan($kab, $kec)
+    {
+        $object = new Kecamatan();
+        $nama_kabupaten = $object->getNama($kab, $kec);
+
+        return $nama_kabupaten;
+    }
 }

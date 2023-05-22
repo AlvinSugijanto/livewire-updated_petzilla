@@ -49,12 +49,13 @@ class DaftarProduk extends Component
         $data['store_id_store'] = StoreModel::whereHas('user', function ($query) {
             $query->where('id_user', Auth::id());
         })->value('id_store');
+        $data['id_animal'] = Str::random(10);
 
         $animal = ListAnimal::create($data);
 
         $data['thumbnail'] = Storage::disk('public')->put($animal->id_animal, $this->thumbnail);
         $data['surat_keterangan_sehat'] = Storage::disk('public')->put($animal->id_animal, $this->surat_keterangan_sehat);
-
+        // dd($data['thumbnail']);
         $animal->thumbnail = $data['thumbnail'];
         $animal->surat_keterangan_sehat = $data['surat_keterangan_sehat'];
 
@@ -62,6 +63,7 @@ class DaftarProduk extends Component
             $data['sertifikat_pedigree'] = Storage::disk('public')->put($animal->id_animal, $this->sertifikat_pedigree);
             $animal->sertifikat_pedigree = $data['sertifikat_pedigree'];
         }
+        
         $animal->save();
 
 
