@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Elemen Kopi</title>
+    <title>Petzilla Seller</title>
 
     <!-- Custom fonts for this template-->
     <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
@@ -14,7 +14,7 @@
 
 
     <!-- Custom styles for this template-->
-    <link href="../css/zzzz.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/zzzz.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/chat.css') }}" rel='stylesheet' type='text/css' />
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -28,7 +28,11 @@
     <nav class="navbar navbar-expand navbar-dark static-top shadow" style="background-color:#FFFF">
         <div class="row col-md-12">
             <div class="col-md-4">
-                <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="170"></a>
+                <div class="d-flex align-items-center">
+                    <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="170"></a>
+                    <h3 class="mb-1 ml-2" style="font-weight:400">Seller</h3>
+                </div>
+
             </div>
             <div class="col-md-8 text-right">
                 <a href="/store/inbox"><i class="fa fa-envelope fa-xl" aria-hidden="true" style="color:black"></i></a>
@@ -46,14 +50,13 @@
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#A9907E">
 
             <div class="card" style="margin:10px; padding:10px">
-                <div class="row d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="col-md-4">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle border text-right" width="100%">
-                    </div>
-                    <div class="col-md-8 mt-2">
-                        <p style="font-size:14px; margin:0px; padding:0px">Hi,</p>
-                        <div class="store-name" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                            <h5 style="font-size:14px">Manila PetShoppppppppppppp</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle border" width="50px">
+
+                    <div class="ml-2">
+                        <p style="font-size:14px" class="m-0">Hi,</p>
+                        <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            <h5 style="font-size:14px" class="mb-0">Manila PetShopppppppppppppppppppppppppp</h5>
                         </div>
                     </div>
                 </div>
@@ -70,10 +73,27 @@
                 </a>
             </li>
             <li class="nav-item px-3 mt-3">
-                <a href="/store/products" class="d-flex btn nav-child align-items-center @if($blueButton == 'produk') active @endif">
-                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
-                    <h5 class="mb-0" >Daftar Produk</h5>
+                <a class="d-flex btn nav-child justify-content-between align-items-center @if($blueButton == 'produk') active @endif" data-toggle="collapse" href="#collapseProduk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        <h5 class="mb-0 ml-2">Produk</h5>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                    </svg>
                 </a>
+                <div class="collapse mt-3" id="collapseProduk">
+                    <a href="/store/add-product" style="text-decoration: none">
+                        <div class="d-flex align-items-center collapse-child p-1">
+                            <h5 class="cloud-font mb-0 text-light ml-2" style="font-size:14px">Tambah Produk</h5>
+                        </div>
+                        <a href="/store/products" style="text-decoration: none">
+                            <div class="d-flex align-items-center mt-2 collapse-child p-1">
+                                <h5 class="cloud-font mb-0 text-light ml-2" style="font-size:14px">Daftar Produk</h5>
+                            </div>
+                        </a>
+                </div>
             </li>
             <li class="nav-item px-3 mt-3">
                 <a href="/store/transaction" class="d-flex btn nav-child align-items-center @if($blueButton == 'transaksi') active @endif">

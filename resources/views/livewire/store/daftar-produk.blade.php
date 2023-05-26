@@ -3,50 +3,61 @@
   <div class="container" style="max-width:100%">
     <div class="row">
       <div class="col-md-12">
-        <button class="btn p-2" style="background-color:#A27B5C" wire:click="openAddModal">
-          <h6 class="m-0" style="font-size:14px; color:#FFF9F2">Tambah Produk</h6>
-        </button>
-        <table class="tableProduk mt-2">
-          <thead>
-            <tr>
-              <th width="10%">INVOICE</th>
-              <th width="15%">NAMA</th>
-              <th width="15%">JENIS</th>
-              <th width="20%">DESKRIPSI</th>
-              <th width="15%">HARGA</th>
-              <th width="15%">STATUS</th>
-              <th width="10%">ACTION</th>
+        <div class="d-flex align-items-center justify-content-between px-2">
+          <h5 class="mb-0">Daftar Produk</h5>
+          <a href="/store/add-product" class="btn mt-2 px-3 py-2" style="background-color:#A27B5C">
+            <h6 class="mb-0" style="font-size:14px; color:#FFF9F2"><i class="fa fa-plus"></i> Tambah Produk</h6>
+          </a>
+        </div>
+        <div class="card mt-3 shadow-sm">
+          <div class="card-body py-1">
+            <table class="tableProduk">
+              <thead>
+                <tr>
+                  <th>INFO PRODUK</th>
+                  <th>JENIS</th>
+                  <th>HARGA</th>
+                  <th>STOK</th>
+                  <th class="text-center">STATUS</th>
+                  <th class="text-center">ACTION</th>
 
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($animals as $animal)
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>
-                <div class="judul-post">{{$animal->judul_post}}</div>
-              </td>
-              <td>{{ $animal->jenis_hewan }}</td>
-              <td>
-                <div class="animal-description">{!! $animal->deskripsi !!}</div>
-              </td>
-              <td>Rp. {{ number_format($animal->harga,0,',','.') }}</td>
-              <td class="px-3">
-                @if($animal->status == "aktif")
-                <div class="table-status d-flex justify-content-center py-1" style="background-color:#B3FFA6; color:#35B620; font-size:13px">Aktif</div>
-                @else
-                <div class="table-status d-flex justify-content-center py-1" style="background-color:#FFCACA; color:#CB2D2D; font-size:13px">Tidak Aktif</div>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($animals as $animal)
+                <tr>
+                  <td>
+                    <div class="d-flex">
+                      <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:60px; width:50px">
+                      <div class="px-2">
+                        <h6 class="mb-0">{{$animal->judul_post}}</h6>
+                        <small>Warna : {{$animal->warna}}</small>
+                        <p class="m-0"></p>
+                        <small>Umur : {{$animal->umur}} {{$animal->satuan_umur}}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ ucwords($animal->jenis_hewan) }}</td>
+                  <td>Rp. {{ number_format($animal->harga,0,',','.') }}</td>
+                  <td class="text-center">{{ $animal->stok }}</td>
+                  <td class="px-3">
+                    @if($animal->status == "aktif")
+                    <div class="table-status d-flex justify-content-center py-1" style="background-color:#B3FFA6; color:#35B620; font-size:13px">Aktif</div>
+                    @else
+                    <div class="table-status d-flex justify-content-center py-1" style="background-color:#FFCACA; color:#CB2D2D; font-size:13px">Tidak Aktif</div>
 
-                @endif
-              </td>
-              <td class="text-center">
-                <a href="#" wire:click.prevent="editProduk('{{$animal->id_animal}}')"><i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i></a>
+                    @endif
+                  </td>
+                  <td class="text-center">
+                    <a href="{{ route('edit-product', ['animalId' => $animal->id_animal]) }}"><i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
@@ -328,7 +339,6 @@
   @push('scripts')
 
   <script>
-
     window.addEventListener('show-add-modal', event => {
       $('#addProdukModal').modal('show');
     });

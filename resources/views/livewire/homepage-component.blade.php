@@ -76,7 +76,7 @@
                                     <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:150px">
 
                                     <div class="card-body">
-                                        <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">
+                                        <div class="text-title-card judul-post-text">
                                             <h5 class="inter-font" style="font-size:18px">{{ $animal->judul_post }}</h5>
                                         </div>
                                         <h5 class="roboto-title">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>

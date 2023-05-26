@@ -25,6 +25,10 @@ class ListAnimal extends Model
         'sertifikat_pedigree',
         'thumbnail',
         'status',
+        'stok',
+        'warna',
+        'umur',
+        'satuan_umur',
         'store_id_store'
     ];
     public function store()

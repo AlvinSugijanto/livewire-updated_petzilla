@@ -998,7 +998,8 @@
   text-justify: inter-word;
 }
 
-.nav-item a i {
+.nav-item a i,
+.nav-item a svg {
   color: white;
 }
 
@@ -1015,7 +1016,8 @@
 }
 
 .nav-item a.active h5,
-.nav-item a.active i {
+.nav-item a.active i,
+.nav-item a.active svg {
   color: #6c581d;
 
 }
@@ -1026,11 +1028,27 @@
 }
 
 .nav-item a:hover h5,
-.nav-item a:hover i {
+.nav-item a:hover i,
+.nav-item a:hover svg {
   color: #6c581d;
 
 }
 
+.collapse-child{
+  border: 1px solid transparent;
+  border-radius : 10px;
+}
+.collapse-child:hover{
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #6c581d;
+  border-radius : 8px;
+
+}
+.collapse-child:hover h5{
+  color: #6c581d !important; 
+
+}
 .list-group-item.active {
   background-color: #A9907E !important;
   border-color: white !important;
@@ -1098,21 +1116,21 @@ h5.transaction {
   padding: 0.75rem;
   vertical-align: middle;
   border-bottom: 1px solid #c8c9d5;
-  text-align: center;
 }
 
 .tableProduk td {
-  padding: 1.25rem;
+  padding : 1.25rem 0.75rem;
   vertical-align: middle;
-  text-align: center;
 }
 
 .tableProduk thead th {
   /* box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); */
 }
+
 .tableProduk tbody td {
   border-bottom: 1px solid rgb(205, 205, 205);
 }
+
 .tableProduk th {
   color: rgb(86, 86, 86);
   font-family: Arial, Helvetica, sans-serif;
@@ -1138,9 +1156,26 @@ h5.transaction {
 .tableProduk tbody tr:hover {
   background-color: #ececec;
 }
+
 .cloud-font {
   font-family: 'Cloud', sans-serif;
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 1px;
+}
+
+label.replace_photo{
+  cursor: pointer;
+  
+}
+
+#replace_photo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+#sertifikat_pedigree {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
 }

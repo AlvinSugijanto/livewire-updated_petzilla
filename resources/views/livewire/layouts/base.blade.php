@@ -47,7 +47,7 @@
 
         </nav>
         <div class="header_mid">
-            <div class="container px-2 py-1" style="background-color:white">
+            <div class="container px-2 py-1 shadow-sm" style="background-color:white">
                 <div class="row d-flex align-items-center">
                     <div class="col-md-3 text-center">
                         <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="200"></a>

@@ -37,6 +37,8 @@ Route::middleware(['auth','is_email_verified'])->group(function () {
     // Store
     Route::get('/store/profile', Store\StoreIndex::class);
     Route::get('/store/products', Store\DaftarProduk::class);
+    Route::get('/store/add-product', Store\TambahProduk::class);
+    Route::get('/store/edit-product/{animalId}', Store\EditProduk::class)->name('edit-product');
     Route::get('/store/transaction', Store\Transaction::class);
     Route::get('/store/inbox', InboxStore::class);
 
