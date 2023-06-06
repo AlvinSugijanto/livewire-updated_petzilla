@@ -15,5 +15,6 @@ class InformasiPengiriman extends Model
         'jasa_pengiriman',
         'biaya_pengiriman',
         'transaction_id_transaction',
+        'bukti_pengiriman'
     ];
 }

@@ -22,6 +22,7 @@ class InboxStore extends Component
     public function render()
     {
         $store = StoreModel::where('user_id_user', Auth::id())->first();
+        
         $this->users = User::whereHas('messages', function($query) use ($store){
             $query->where('store_id_store',$store->id_store);
         })->get();

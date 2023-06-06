@@ -12,22 +12,26 @@
                             </button>
                         </div>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-8 gap-2">
                                 <h5 class="roboto-title">DETAIL PEMBAYARAN</h5>
                                 <hr>
-                                <div class="d-flex justify-content-between px-4">
+                                <div class="d-flex justify-content-between px-4 mt-4">
                                     <h5 class="transaction">ID TRANSAKSI</h5>
                                     <h5 class="cloud-font">#{{ $invoice['reference'] }}</h5>
                                 </div>
-                                <div class="d-flex justify-content-between px-4">
+                                <div class="d-flex justify-content-between px-4 mt-2">
+                                    <h5 class="transaction">Status</h5>
+                                    <div class="border px-3 py-1" style="background-color:#FFD813; color:#505050; border-radius:15px; font-size:12px"><h5 class="cloud-font mb-0">{{ $invoice['status'] }}</h5></div>
+                                </div>
+                                <div class="d-flex justify-content-between px-4 mt-2">
                                     <h5 class="transaction">Metode Pembayaran</h5>
                                     <h5 class="cloud-font">{{ $invoice['payment_name'] }}</h5>
                                 </div>
-                                <div class="d-flex justify-content-between px-4">
+                                <div class="d-flex justify-content-between px-4 mt-2">
                                     <h5 class="transaction">Nomor Pembayaran</h5>
                                     <h5 class="cloud-font-bold">{{ $invoice['pay_code'] }}</h5>
                                 </div>
-                                <div class="d-flex justify-content-between px-4">
+                                <div class="d-flex justify-content-between px-4 mt-2">
                                     <h5 class="transaction">Jasa Pengiriman</h5>
                                     <h5 class="cloud-font">{{ $transaction->pengiriman->jasa_pengiriman }}</h5>
                                 </div>

@@ -6,13 +6,13 @@
                     <div class="image-class text-center">
                         <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="img-thumbnail img-fluid main-preview" style="max-height: 230px;">
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 mt-2">
-                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail" style="height:120px">
+                    <div class="row px-3">
+                        <div class="col-md-4 mt-2 p-1">
+                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail" style="width:100%; height:120px; object-fit:cover">
                         </div>
                         @foreach($animal_photo as $photo)
-                        <div class="col-md-4 mt-2 justify-content-center">
-                            <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="height:120px">
+                        <div class="col-md-4 mt-2 p-1">
+                            <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="width:100%; height:120px; object-fit:cover">
                         </div>
                         @endforeach
                     </div>
@@ -41,20 +41,16 @@
                             </div>
                             <hr class="mb-0">
                             <div class="store-profile">
-                                <div class="row">
-                                    <div class="col-md-2 d-flex align-items-center text-center">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle mt-2 border" width="100%">
-                                    </div>
-                                    <div class="col-md-4 mt-3">
+                                <div class="d-flex align-items-center py-2">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle border" width="80px">
+                                    <div class="d-flex flex-column px-4">
                                         <a href="{{ route('storePage', ['id_store' => $store->id_store]) }}">
-                                            <h5>{{ $store->nama_toko }}</h5>
+                                            <h5 class="mb-0">{{ $store->nama_toko }}</h5>
                                         </a>
                                         <span>{{ $store->kecamatan }} ,{{ $store->kabupaten }}</span>
-                                        <h5><i class="fa fa-star" aria-hidden="true" style="color:green"></i> (21) total review</h5>
+                                        <h5 class="mb-0"><i class="fa fa-star" aria-hidden="true" style="color:green"></i> (21) total review</h5>
                                     </div>
-                                    <div class="col-md-4 d-flex align-items-center text-center">
-                                        <a href="{{ route('user-inbox', ['toStore' => $to_id_user]) }}" class="btn btn-success mt-4"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
-                                    </div>
+                                    <a href="{{ route('user-inbox', ['toStore' => $to_id_user]) }}" class="btn btn-success"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
                                 </div>
                             </div>
                     </div>

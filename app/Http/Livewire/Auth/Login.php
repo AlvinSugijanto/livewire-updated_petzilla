@@ -17,7 +17,7 @@ class Login extends Component
 {
     public $email, $password;
 
-    
+
     public function render()
     {
         return view('livewire.auth.login');
@@ -28,14 +28,15 @@ class Login extends Component
         $this->validate([
             'email' => 'required',
             'password' => 'required',
-        ]);     
-        if(Auth::attempt(['email' => $this->email, 'password'=> $this->password])) {
+        ]);
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
 
             return redirect()->to('/home');
 
+        } else {
 
-        }else {
-            return 400;
-        }   
+            session()->flash('error', 'Incorrect credentials !');
+
+        }
     }
 }

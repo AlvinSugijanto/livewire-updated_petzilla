@@ -18,8 +18,10 @@ class Transaction extends Component
     use WithFileUploads;
 
     public $pengajuan_ongkir, $pengajuan_ongkir_count;
-
     public $menunggu_pembayaran, $menunggu_pembayaran_count;
+    public $sedang_diproses, $sedang_diproses_count;
+    public $sedang_dikirim, $sedang_dikirim_count;
+
     public $tipe_rekening, $metode_pembayaran, $nama_rekening, $nomor_rekening, $foto_bukti;
 
     public $currentModalStep, $selectedTransactionId, $selectedTransaction;
@@ -30,6 +32,8 @@ class Transaction extends Component
     {
         $this->getDataPengajuanOngkir();
         $this->getDataMenungguPembayaran();
+        $this->getDataSedangDiProses();
+        $this->getDataSedangDiKirim();
 
         return view('livewire.user.transaction')->layout('livewire.layouts.base');
     }
@@ -64,6 +68,38 @@ class Transaction extends Component
         });
         $this->menunggu_pembayaran_count = count($this->menunggu_pembayaran);
     }
+    public function getDataSedangDiProses()
+    {
+        $this->sedang_diproses = UserTransaction::where('users_id_user', Auth::id())
+            ->where('status', 'sedang_diproses')
+            ->with('store')
+            ->with('animal')
+            ->with('pengiriman')
+            ->with('user')
+            ->get();
+
+        $this->sedang_diproses = $this->sedang_diproses->map(function ($item, $key) {
+            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
+            return $item;
+        });
+        $this->sedang_diproses_count = count($this->sedang_diproses);
+    }
+    public function getDataSedangDiKirim()
+    {
+        $this->sedang_dikirim = UserTransaction::where('users_id_user', Auth::id())
+            ->where('status', 'sedang_dikirim')
+            ->with('store')
+            ->with('animal')
+            ->with('pengiriman')
+            ->with('user')
+            ->get();
+
+        $this->sedang_dikirim = $this->sedang_dikirim->map(function ($item, $key) {
+            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
+            return $item;
+        });
+        $this->sedang_dikirim_count = count($this->sedang_dikirim);
+    }
     public function openPembayaranModal($id)
     {
         $this->selectedTransactionId = $id;
@@ -78,19 +114,6 @@ class Transaction extends Component
     {
         $this->currentModalStep++;
     }
-    // public function submitOngkir()
-    // {
-    //     UserTransaction::where('id_transaction', $this->selectedTransactionId)
-    //         ->update([
-    //             'status'            => 'sedang_diproses',
-    //         ]);
-    //     BuktiPembayaran::create([
-    //         'metode_pembayaran'  => $this->metode_pembayaran,
-    //         'nama_rekening'   => $this->nama_rekening,
-    //         'nomor_rekening'   => $this->nomor_rekening,
-    //         'transaction_id_transaction' => $this->selectedTransactionId
-    //     ]);
-    // }
     
     public function create_tripay_transaction()
     {

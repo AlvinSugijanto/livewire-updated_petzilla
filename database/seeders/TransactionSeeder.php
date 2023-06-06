@@ -56,7 +56,7 @@ class TransactionSeeder extends Seeder
             'Indah Logistik',
             'Wahana Express'
         );
-        for ($i = 0; $i < rand(3, 10); $i++) {
+        for ($i = 0; $i < 50; $i++) {
 
             $user = $this->randomUser();
             $store = $this->randomStore();
@@ -77,7 +77,7 @@ class TransactionSeeder extends Seeder
                 'store_id_store' => $store->id_store,
                 'list_animal_id_animal' => $animal->id_animal
             ]);
-            if ($random_status == 1) {
+            if ($random_status != 0) {
                 DB::table('informasi_pengiriman')->insert([
                     'jasa_pengiriman' => $nama_pengiriman[rand(1, 7)],
                     'biaya_pengiriman' => $random_ongkir,

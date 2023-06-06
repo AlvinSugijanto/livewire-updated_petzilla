@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\StoreModel;
 use App\Libraries\Kecamatan;
-
+use App\Models\Transaction;
 
 class ListAnimal extends Model
 {
@@ -38,6 +38,10 @@ class ListAnimal extends Model
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class, 'list_animal_id_animal', 'id_animal');
+    }
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'list_animal_id_animal', 'id_animal');
     }
     public function getStore($data)
     {

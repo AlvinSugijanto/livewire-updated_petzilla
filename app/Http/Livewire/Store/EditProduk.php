@@ -25,7 +25,8 @@ class EditProduk extends Component
 
     public function mount($animalId)
     {
-        $animal = ListAnimal::find($animalId);
+        $animal = ListAnimal::find($animalId);  
+        // dd($animal);
 
         $this->jenis_hewan = $animal->jenis_hewan;
         $this->judul_post = $animal->judul_post;
@@ -37,8 +38,12 @@ class EditProduk extends Component
         $this->deskripsi = $animal->deskripsi;
         $this->display_photo = $animal->thumbnail;
         $this->display_photos = AnimalPhoto::where('list_animal_id_animal', $animalId)->get();
-        $this->surat_keterangan_sehat = $animal->surat_keterangan_sehat;
-        $this->sertifikat_pedigree = $animal->sertifikat_pedigree;
+        // dd($animal->thumbnail);
+        // $image = Storage::disk('public')->get($animal->thumbnail);
+        // $name = basename($image);
+        // dd($name);
+        // $this->surat_keterangan_sehat = $animal->surat_keterangan_sehat;
+        // $this->sertifikat_pedigree = $animal->sertifikat_pedigree;
     }
     public function render()
     {
@@ -62,6 +67,7 @@ class EditProduk extends Component
         ];
         $data = array_merge($data,$array_data);
         $animal = ListAnimal::where('id_animal', $this->animalId)->first();
+        // dd($this->surat_keterangan_sehat);
         if ($this->thumbnail != NULL) {
             Storage::disk('public')->delete($animal->id_animal, $animal->thumbnail);
             $data['thumbnail'] = Storage::disk('public')->put($animal->id_animal, $this->thumbnail);

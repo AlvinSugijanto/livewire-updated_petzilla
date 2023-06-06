@@ -31,16 +31,17 @@ class ProductComponent extends Component
     public function mount($id_animal)
     {
         $this->animal = ListAnimal::where('id_animal', $id_animal)->first();
-        $this->animal_photo = AnimalPhoto::where('list_animal_id_animal', $id_animal)->get();
+    }
+    public function render()
+    {
+        $this->animal_photo = AnimalPhoto::where('list_animal_id_animal', $this->animal->id_animal)->get();
 
         $data = $this->animal->store;
         $this->store = $this->animal->getStore($data);
 
         $this->user = Auth::user();
         $this->to_id_user =  $this->store->id_store;
-    }
-    public function render()
-    {
+
         return view('livewire.product-component')->layout('livewire.layouts.base');
     }
     public function createTransaction()

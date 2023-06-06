@@ -65,7 +65,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="m-0 p-0">Menampilkan hasil dengan radius < 50km</p>
                         <div class="badge text-wrap p-2" style="background-color:white">
-                            <i class="fa-solid fa-truck"></i> Dikirim ke {{ $alamat }}
+                            <i class="fa-solid fa-truck"></i> Dikirim ke {{ $user->alamat }}
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -73,7 +73,7 @@
                         <div class="col-md-3 col-sm-4 mt-3">
                             <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
                                 <div class="card product-card">
-                                    <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:150px">
+                                    <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:170px; width:100%;  object-fit:cover">
 
                                     <div class="card-body">
                                         <div class="text-title-card judul-post-text">

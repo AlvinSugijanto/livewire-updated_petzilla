@@ -16,8 +16,7 @@ class Wishlist extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'id_transaction',
-        'grand_total',
+        'id',
         'users_id_user',
         'list_animal_id_animal',
         'created_at',

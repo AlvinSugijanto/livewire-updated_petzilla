@@ -71,41 +71,15 @@ class Profile extends Component
 
         $this->daftar_kabupaten = $kabObject->getKabupatenFromProvinsi($this->provinsi);
         $this->daftar_kecamatan = [];
+
+        $this->kabupaten = null;
+        $this->kecamatan = null;
     }
     public function updatedKabupaten()
     {
         $kecObject = new Kecamatan();
-
+        $this->kecamatan = null;
         $this->daftar_kecamatan = $kecObject->getKecamatanFromKabupaten($this->kabupaten);
-    }
-    public function update()
-    {
-
-        $data = $this->validate([
-            'name'      => 'required',
-            'email'    => 'required',
-            'alamat_lengkap'          => 'required',
-            'phone_number' => 'required',
-            'alamat_lengkap' => 'required',
-            'provinsi'       => 'required',
-            'kabupaten'      => 'required',
-            'kecamatan'      => 'required'
-        ]);
-        $kabObject = new Kabupaten();
-        $kecObject = new Kecamatan();
-
-        $nama_kecamatan = $kecObject->getNama($this->kabupaten, $this->kecamatan);
-        $nama_kabupaten = $kabObject->getNama($this->provinsi, $this->kabupaten);
-
-        $temp = explode(" ", $nama_kabupaten);
-        $kabupaten_name = implode(" ", array_slice($temp, 1));
-        $getLatLng = Http::get('https://geocode.maps.co/search?q=' . $nama_kecamatan . ', ' . $kabupaten_name)->json();
-
-        $data['latitude'] = $getLatLng[0]['lat'];
-        $data['longitude'] = $getLatLng[0]['lon'];
-
-
-        User::where('id_user', Auth::id())->update($data);
     }
     public function updatePersonal()
     {
@@ -114,6 +88,7 @@ class Profile extends Component
             'email'         => 'required',
             'phone_number'  => 'required',
         ]);
+        
         $user = User::where('id_user', Auth::id())->update($data);
 
         if ($user) {
@@ -129,6 +104,7 @@ class Profile extends Component
             'kabupaten'      => 'required',
             'kecamatan'      => 'required'
         ]);
+        // dd($data);
         $kabObject = new Kabupaten();
         $kecObject = new Kecamatan();
 

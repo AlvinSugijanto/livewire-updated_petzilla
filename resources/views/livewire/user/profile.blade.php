@@ -55,6 +55,8 @@
                 </div>
                 <div class="col-sm-9 text-secondary">
                   <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Name" wire:model="name" id="formName" @if(!$edit_personal) readonly @endif>
+                  <span class="text-danger">@error('name'){{ $message }}@enderror</span>
+
                 </div>
               </div>
               <div class="row mt-3">
@@ -62,7 +64,7 @@
                   <h6 class="mb-0 mt-2">Alamat Email</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Name" wire:model="email" id="formEmail" @if(!$edit_personal) readonly @endif>
+                  <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Name" wire:model="email" id="formEmail" readonly>
                 </div>
               </div>
               <div class="row mt-3">
@@ -70,7 +72,9 @@
                   <h6 class="mb-0 mt-2">No HP</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Name" wire:model="phone_number" id="formPhone" @if(!$edit_personal) readonly @endif>
+                  <input type="text" class="form-control @error('phone_number') is-invalid @enderror" placeholder="Enter Name" wire:model="phone_number" id="formPhone" @if(!$edit_personal) readonly @endif>
+                  <span class="text-danger">@error('phone_number'){{ $message }}@enderror</span>
+
                 </div>
               </div>
               <div class="flex-end">
@@ -102,6 +106,8 @@
                     </option>
                     @endforeach
                   </select>
+                  <span class="text-danger">@error('provinsi'){{ $message }}@enderror</span>
+
                 </div>
               </div>
               <div class="row mt-3">
@@ -115,6 +121,8 @@
                     <option value="{{ $kabupaten['id'] }}">{{ $kabupaten['nama'] }}</option>
                     @endforeach
                   </select>
+                  <span class="text-danger">@error('kabupaten'){{ $message }}@enderror</span>
+
                 </div>
               </div>
               <div class="row mt-3">
@@ -128,6 +136,8 @@
                     <option value="{{ $kecamatan['id'] }}">{{ $kecamatan['nama'] }}</option>
                     @endforeach
                   </select>
+                  <span class="text-danger">@error('kecamatan'){{ $message }}@enderror</span>
+
                 </div>
               </div>
               <div class="row mt-3">

@@ -24,6 +24,7 @@ class HomepageComponent extends Component
     public $nextCursor;
     public $animal_paginator, $new_animals = [];
     public $alamat;
+    public $user;
 
     protected $listeners = [
         'load-more' => 'loadMore',
@@ -33,26 +34,28 @@ class HomepageComponent extends Component
     public function render()
     {
 
-        $user = User::where('id_user', Auth::id())->first();
-        $this->alamat = $user->getAddress($user->provinsi, $user->kabupaten, $user->kecamatan);
+        $this->user = Auth::user();
+        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
+
         $animals = StoreModel::selectRaw("id_store, nama_toko, latitude, longitude, harga, judul_post, list_animal.deskripsi, user_id_user, provinsi, kabupaten, kecamatan, id_animal, list_animal.thumbnail,   
         ( 6371 * acos( cos( radians(?) ) *
           cos( radians( latitude ) )
           * cos( radians( longitude ) - radians(?)
           ) + sin( radians(?) ) *
           sin( radians( latitude ) ) )
-        ) AS distance", [$user->latitude, $user->longitude, $user->latitude])
-        ->having("distance", "<", 50)
-        ->where('user_id_user','!=',Auth::id())
-        ->join('list_animal', 'store.id_store', '=', 'list_animal.store_id_store')
-        ->paginate(10);
+        ) AS distance", [$this->user->latitude, $this->user->longitude, $this->user->latitude])
+            ->having("distance", "<", 50)
+            ->where('user_id_user', '!=', Auth::id())
+            ->join('list_animal', 'store.id_store', '=', 'list_animal.store_id_store')
+            ->paginate(10);
 
         $kecamatan_object = new Kecamatan();
 
-        for($i=0; $i< count($animals); $i++)
-        {
-            $animals[$i]->kecamatan = $kecamatan_object->getNama($animals[$i]->kabupaten,$animals[$i]->kecamatan);
-        }
+        $animals = $animals->map(function ($animal) use ($kecamatan_object) {
+            $animal->kecamatan = $kecamatan_object->getNama($animal->kabupaten, $animal->kecamatan);
+            return $animal;
+        });
+        
         return view('livewire.homepage-component', ['animals' => $animals])->layout('livewire.layouts.base');
     }
     public function loadMore()
@@ -62,14 +65,14 @@ class HomepageComponent extends Component
         // $newData = DB::table('my_table')->paginate(10)->items();
 
 
-        // $user = User::where('id_user', Auth::id())->first();
+        // $this->user = User::where('id_user', Auth::id())->first();
         // $animals = StoreModel::selectRaw("id_store, nama_toko, latitude, longitude, harga, judul_post, list_animal.deskripsi, user_id_user, provinsi, kabupaten, kecamatan, id_animal, list_animal.thumbnail,   
         // ( 6371 * acos( cos( radians(?) ) *
         //   cos( radians( latitude ) )
         //   * cos( radians( longitude ) - radians(?)
         //   ) + sin( radians(?) ) *
         //   sin( radians( latitude ) ) )
-        // ) AS distance", [$user->latitude, $user->longitude, $user->latitude])
+        // ) AS distance", [$this->user->latitude, $this->user->longitude, $this->user->latitude])
         // ->having("distance", "<", 50)
         // ->where('user_id_user','!=',Auth::id())
         // ->join('list_animal', 'store.id_store', '=', 'list_animal.store_id_store')

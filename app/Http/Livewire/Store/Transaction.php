@@ -7,22 +7,31 @@ use Livewire\Component;
 use App\Models\Transaction as StoreTransaction;
 use App\Models\User;
 use App\Models\InformasiPengiriman;
+use App\Models\ListAnimal;
+
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
+
 use Auth;
 use DB;
 
 class Transaction extends Component
 {
+
+    use WithFileUploads;
+
     protected $queryString = ['type'];
     public $type;
 
     public $pengajuan_ongkir, $pengajuan_ongkir_count;
     public $menunggu_pembayaran, $menunggu_pembayaran_count;
     public $sedang_diproses, $sedang_diproses_count;
+    public $sedang_dikirim, $sedang_dikirim_count;
 
     public $selectedTransactionId;
 
     public $jasa_pengiriman, $biaya_pengiriman;
-
+    public $bukti_pengiriman;
 
     public function mount()
     {
@@ -31,10 +40,11 @@ class Transaction extends Component
     public function render()
     {
         $store = User::find(Auth::id())->store;
-        
+
         $this->getDataPengajuanOngkir($store);
         $this->getDataMenungguPembayaran($store);
         $this->getDataSedangDiProses($store);
+        $this->getDataSedangDiKirim($store);
 
         return view('livewire.store.transaction')->layout('livewire.layouts.tes-layout', ['blueButton' => 'transaksi']);
     }
@@ -47,7 +57,7 @@ class Transaction extends Component
         StoreTransaction::where('id_transaction', $this->selectedTransactionId)
             ->update([
                 'status'            => 'menunggu_pembayaran',
-                'grand_total'       => DB::raw('sub_total + '.$this->biaya_pengiriman)
+                'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
             ]);
         InformasiPengiriman::create([
             'biaya_pengiriman'  => $this->biaya_pengiriman,
@@ -57,6 +67,31 @@ class Transaction extends Component
 
         $this->dispatchBrowserEvent('success-notification');
     }
+    public function submitBuktiPengiriman()
+    {
+        $this->validate([
+            'bukti_pengiriman'  => 'required'
+        ]);
+
+        $id = $this->selectedTransactionId;
+
+        $animal = ListAnimal::whereHas('transaction', function ($query) use ($id) {
+            $query->where('id_transaction', $id);
+        })->first();
+
+        $path = Storage::disk('public')->put($animal->id_animal, $this->bukti_pengiriman);
+
+        StoreTransaction::where('id_transaction', $this->selectedTransactionId)
+            ->update([
+                'status'            => 'sedang_dikirim'
+            ]);
+        InformasiPengiriman::where('transaction_id_transaction', $this->selectedTransactionId)
+            ->update([
+                'bukti_pengiriman'  => $path
+            ]);
+        $this->dispatchBrowserEvent('success-notification');
+    }
+
     public function getDataPengajuanOngkir($store)
     {
 
@@ -71,7 +106,6 @@ class Transaction extends Component
             return $item;
         });
         $this->pengajuan_ongkir_count = count($this->pengajuan_ongkir);
-
     }
     public function getDataMenungguPembayaran($store)
     {
@@ -102,5 +136,20 @@ class Transaction extends Component
             return $item;
         });
         $this->sedang_diproses_count = count($this->sedang_diproses);
+    }
+    public function getDataSedangDiKirim($store)
+    {
+        $this->sedang_dikirim = StoreTransaction::where('store_id_store', $store->id_store)
+            ->where('status', 'sedang_dikirim')
+            ->with('user')
+            ->with('animal')
+            ->with('pengiriman')
+            ->get();
+
+        $this->sedang_dikirim = $this->sedang_dikirim->map(function ($item, $key) {
+            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
+            return $item;
+        });
+        $this->sedang_dikirim_count = count($this->sedang_dikirim);
     }
 }
