@@ -27,6 +27,8 @@ class InboxUser extends Component
             $item->kabupaten = $item->getKabupaten($item->provinsi, $item->kabupaten);
             return $item;
         });
+        $this->isActive = $this->toStore;
+
         return view('livewire.inbox-user')->layout('livewire.layouts.base');
     }
     public function setCurrentMessage($id)

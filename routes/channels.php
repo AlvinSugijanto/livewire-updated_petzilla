@@ -28,3 +28,8 @@ Broadcast::channel('chat.{to_id_user}',function($user,$to_id_user){
         return true; // Allow the store owner to listen to the store's channel
     }
 }); 
+
+Broadcast::channel('successTransaction.{userId}', function ($user, $userId) {
+    return (int) $user->id_user === (int) $userId;
+
+});

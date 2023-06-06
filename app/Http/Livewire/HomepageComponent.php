@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Livewire\WithPagination;
 use Illuminate\Pagination\Cursor;
+use App\Events\PaymentSuccess;
 
 class HomepageComponent extends Component
 {
@@ -29,7 +30,18 @@ class HomepageComponent extends Component
     protected $listeners = [
         'load-more' => 'loadMore',
     ];
-
+    // public function getListeners()
+    // {
+    //     $id = Auth::id();
+        
+    //     return [
+    //         "echo-private:successTransaction.{$id},PaymentSuccess" => 'broadcastedMessageReceived',
+    //     ];
+    // }
+    // public function broadcastedMessageReceived($event)
+    // {
+    //     dd($event);
+    // }
 
     public function render()
     {
@@ -56,7 +68,8 @@ class HomepageComponent extends Component
             return $animal;
         });
         
-        return view('livewire.homepage-component', ['animals' => $animals])->layout('livewire.layouts.base');
+        return view('livewire.homepage-component', ['animals' => $animals])
+                        ->layout('livewire.layouts.base');
     }
     public function loadMore()
     {

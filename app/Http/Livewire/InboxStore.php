@@ -31,6 +31,8 @@ class InboxStore extends Component
             $item->kabupaten = $item->getKabupaten($item->provinsi, $item->kabupaten);
             return $item;
         });
+        $this->isActive = $this->toUser;
+
         return view('livewire.inbox-store')->layout('livewire.layouts.tes-layout',['blueButton' => 'none']);
     }
 

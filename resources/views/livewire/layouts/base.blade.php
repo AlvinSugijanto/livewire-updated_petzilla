@@ -19,6 +19,7 @@
     <link href="{{ asset('css/app.css') }}" rel='stylesheet' type='text/css' />
 
     <link href="{{ asset('css/chat.css') }}" rel='stylesheet' type='text/css' />
+    <!-- <link href="{{ asset('https://0f98-2001-448a-4041-6a39-fd1e-8563-f1b3-3a55.ngrok-free.app/css/app.css') }}" rel='stylesheet' type='text/css' /> -->
 
     <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
 
@@ -100,6 +101,8 @@
         </div>
 
     </header>
+    <livewire:notifications />
+
     {{ $slot }}
 
 
@@ -114,6 +117,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
 
     <script src="{{ asset('../js/app.js') }}"></script>
+    <!-- <script src="{{ asset('https://0f98-2001-448a-4041-6a39-fd1e-8563-f1b3-3a55.ngrok-free.app/js/app.js') }}"></script> -->
+
+
     <script>
         function toggleCategoriesDropdown() {
             var dropdown = document.querySelector('.categories-dropdown');

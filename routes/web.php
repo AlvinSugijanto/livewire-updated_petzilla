@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Livewire;
+namespace App\Http;
 
 use App\Http\Livewire\User\DetailPembayaran;
 use Illuminate\Support\Facades\Route;
@@ -14,43 +14,43 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', LandingPage::class);
+Route::get('/', Livewire\LandingPage::class);
 
-Route::get('register', Auth\RegisterUser::class);
-Route::get('login', Auth\Login::class);
-Route::get('/user/verify/{token}', Auth\EmailVerify::class);
-Route::get('/register_store', Auth\RegisterStore::class);
+Route::get('register', Livewire\Auth\RegisterUser::class);
+Route::get('login', Livewire\Auth\Login::class);
+Route::get('/user/verify/{token}', Livewire\Auth\EmailVerify::class);
+Route::get('/register_store', Livewire\Auth\RegisterStore::class);
 
 
 Route::middleware(['auth','is_email_verified'])->group(function () {
     
-    Route::get('home', HomepageComponent::class);
-    Route::get('/chat/{to_id}', Message::class)->name('chat');
-    Route::get('/detail-animal/{id_animal}', ProductComponent::class)->name('detail-animal');
+    Route::get('home', Livewire\HomepageComponent::class);
+    Route::get('/chat/{to_id}', Livewire\Message::class)->name('chat');
+    Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
 
 
     // User Routes
-    Route::get('/user/profile', User\Profile::class);
-    Route::get('/user/transaction', User\Transaction::class);
-    Route::get('/user/wishlist', Wishlist::class);
-    Route::get('/user/inbox', InboxUser::class)->name('user-inbox');
-    Route::get('/user/detail_pembayaran/{referenceId}', DetailPembayaran::class);
+    Route::get('/user/profile', Livewire\User\Profile::class);
+    Route::get('/user/transaction', Livewire\User\Transaction::class);
+    Route::get('/user/wishlist', Livewire\Wishlist::class);
+    Route::get('/user/inbox', Livewire\InboxUser::class)->name('user-inbox');
+    Route::get('/user/detail_pembayaran/{referenceId}', Livewire\User\DetailPembayaran::class);
 
 
     // Store Routes
-    Route::get('/store/profile', Store\StoreIndex::class);
-    Route::get('/store/products', Store\DaftarProduk::class);
-    Route::get('/store/add-product', Store\TambahProduk::class);
-    Route::get('/store/edit-product/{animalId}', Store\EditProduk::class)->name('edit-product');
-    Route::get('/store/transaction', Store\Transaction::class);
-    Route::get('/store/inbox', InboxStore::class);
-    Route::get('/store/{id_store}', StorePage::class)->name('storePage');
+    Route::get('/store/profile', Livewire\Store\StoreIndex::class);
+    Route::get('/store/products', Livewire\Store\DaftarProduk::class);
+    Route::get('/store/add-product', Livewire\Store\TambahProduk::class);
+    Route::get('/store/edit-product/{animalId}', Livewire\Store\EditProduk::class)->name('edit-product');
+    Route::get('/store/transaction', Livewire\Store\Transaction::class);
+    Route::get('/store/inbox', Livewire\InboxStore::class);
+    Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 
 
 
 });
 
-
+Route::post('/user/callbackTransaction', [Controllers\CallbackTransactionController::class, 'handle'] );
 
 
 
