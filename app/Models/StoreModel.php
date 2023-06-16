@@ -34,6 +34,7 @@ class StoreModel extends Model
         'latitude',
         'longitude'
     ];
+
     public function messages()
     {
         return $this->hasMany(Chat::class, 'store_id_store', 'id_store');
@@ -44,6 +45,7 @@ class StoreModel extends Model
             ->where('sender_type', 'store')
             ->latest();
     }
+
     public function listAnimal()
     {
         return $this->hasMany(ListAnimal::class, 'store_id_store', 'id_store');
@@ -51,6 +53,10 @@ class StoreModel extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id_user', 'id_user');
+    }
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'store_id_store', 'id_store');
     }
     public function getAddress($prov, $kab, $kec)
     {

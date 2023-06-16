@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Faker\Factory as Faker;
 
 use App\Libraries\Races\Dog;
+use Carbon\Carbon;
 
 class TransactionSeeder extends Seeder
 {
@@ -44,7 +45,9 @@ class TransactionSeeder extends Seeder
             'menunggu_pembayaran',
             'sedang_diproses',
             'sedang_dikirim',
-            'sampai_tujuan'
+            'sampai_tujuan',
+            'selesai',
+            'dalam_masalah'
         );
         $nama_pengiriman = array(
             'JNE Express',
@@ -63,7 +66,7 @@ class TransactionSeeder extends Seeder
             $animal = $this->randomAnimal();
 
             $random_qty = rand(1, 5);
-            $random_status = rand(0, 4);
+            $random_status = rand(0, 6);
             $random_ongkir = rand(1,10) * 10000;
             $id_transaction = Str::random(10);
 
@@ -75,7 +78,9 @@ class TransactionSeeder extends Seeder
                 'status'      => $status[$random_status],
                 'users_id_user' => $user->id_user,
                 'store_id_store' => $store->id_store,
-                'list_animal_id_animal' => $animal->id_animal
+                'list_animal_id_animal' => $animal->id_animal,
+                'created_at'     => Carbon::now(),
+                'completed_at' => $random_status == 5 ? Carbon::now() : null,
             ]);
             if ($random_status != 0) {
                 DB::table('informasi_pengiriman')->insert([

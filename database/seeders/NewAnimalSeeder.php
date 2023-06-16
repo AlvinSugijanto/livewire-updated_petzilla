@@ -49,7 +49,7 @@ class NewAnimalSeeder extends Seeder
             'deskripsi' => $faker->text,
             'harga'     => rand(10, 20) * 100000,
             'status' => 'aktif',
-            'stok'   => rand(0, 10),
+            'stok'   => rand(1, 10),
             'store_id_store' => $id_store,
             'thumbnail' => $animal['image'][0]
         ]);

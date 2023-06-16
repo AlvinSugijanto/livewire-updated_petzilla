@@ -33,19 +33,21 @@ class Transaction extends Component
     public $jasa_pengiriman, $biaya_pengiriman;
     public $bukti_pengiriman;
 
+    public $completedTransaction;
+
     public function mount()
     {
         $this->type = 'ongoing';
-    }
-    public function render()
-    {
+
         $store = User::find(Auth::id())->store;
 
         $this->getDataPengajuanOngkir($store);
         $this->getDataMenungguPembayaran($store);
         $this->getDataSedangDiProses($store);
         $this->getDataSedangDiKirim($store);
-
+    }
+    public function render()
+    {
         return view('livewire.store.transaction')->layout('livewire.layouts.tes-layout', ['blueButton' => 'transaksi']);
     }
     public function openModal($id)
@@ -151,5 +153,24 @@ class Transaction extends Component
             return $item;
         });
         $this->sedang_dikirim_count = count($this->sedang_dikirim);
+    }
+    public function updateType()
+    {
+        if($this->type == 'completed')
+        {
+            $this->type = 'ongoing';
+
+        }else
+        {
+            $this->type = 'completed';
+            $store = User::find(Auth::id())->store;
+            $this->completedTransaction = StoreTransaction::where('store_id_store', $store->id_store)
+                                                            ->where('status', 'selesai')
+                                                            ->with('user')
+                                                            ->with('animal')
+                                                            ->with('pengiriman')
+                                                            ->get();
+
+        }
     }
 }

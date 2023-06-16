@@ -59,7 +59,7 @@ class CallbackTransactionController extends Controller
 
             switch ($status) {
                 case 'PAID':
-                    $transaction->update(['status' => 'menunggu_pembayaran']);
+                    $transaction->update(['status' => 'sedang_diproses']);
                     break;
 
                 case 'EXPIRED':

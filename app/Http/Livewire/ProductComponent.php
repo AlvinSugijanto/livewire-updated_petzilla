@@ -40,7 +40,10 @@ class ProductComponent extends Component
         $this->store = $this->animal->getStore($data);
 
         $this->user = Auth::user();
+        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
+
         $this->to_id_user =  $this->store->id_store;
+        
 
         return view('livewire.product-component')->layout('livewire.layouts.base');
     }

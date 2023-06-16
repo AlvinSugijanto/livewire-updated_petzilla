@@ -25,9 +25,9 @@
                         <div class="d-flex flex-column">
                             <h6 class="mb-0 mt-2"><i class="fa fa-check-circle-o" aria-hidden="true" style="color:green"></i> Hewan dalam keadaan sehat</h6>
                             @if($animal->sertifikat_pedigree)
-                                <h6 class="mb-0 mt-2"><i class="fa fa-check-circle-0" aria-hidden="true" style="color:green"></i> Hewan bersertifikat asli</h6>
+                            <h6 class="mb-0 mt-2"><i class="fa fa-check-circle-0" aria-hidden="true" style="color:green"></i> Hewan bersertifikat asli</h6>
                             @else
-                                <h6 class="mb-0 mt-2"><i class="fa fa-times-circle" aria-hidden="true" style="color:red"></i> Hewan tidak bersertifikat</h6>
+                            <h6 class="mb-0 mt-2"><i class="fa fa-times-circle" aria-hidden="true" style="color:red"></i> Hewan tidak bersertifikat</h6>
                             @endif
                         </div>
                         <h6 class="mb-0 mt-2 font-weight-normal font-italic">Warna : @if($animal->warna == 'lainnya' || $animal->warna == NULL) - @else {{$animal->warna}} @endif</h6>
@@ -35,7 +35,7 @@
 
                         <h3 class="mt-2">Rp: {{ number_format($animal->harga,0,',','.') }}</h4>
 
-                        <h6 class="mb-0 mt-2"></h6>
+                            <h6 class="mb-0 mt-2"></h6>
                             <h6 class="mb-0">Total Stok : {{ $animal->stok }}</h6>
                             <div class="d-flex align-items-center mt-2">
                                 <div class="stok-qty border border-secondary py-2">
@@ -71,110 +71,94 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">TRANSACTION</h4>
+                    <h4 class="modal-title">Transaction</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body mb-4">
                     <form wire:submit.prevent="storeProduk">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card p-2">
-                                    <h5>Alamat Pengiriman</h5>
-                                    <hr class="p-0 m-0">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h6 class="mt-2">Nama</h6>
-                                            <h6 class="mt-2">No Hp</h6>
-                                            <h6 class="mt-2">Alamat</h6>
-                                            <h6 class="mt-2">Alamat Lengkap</h6>
-
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h6 class="mt-2">:</h6>
-                                            <h6 class="mt-2">:</h6>
-                                            <h6 class="mt-2">:</h6>
-                                            <h6 class="mt-2">:</h6>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h6 class="mt-2">{{ $user->name }}</h6>
-                                            <h6 class="mt-2">{{ $user->phone_number }}</h6>
-                                            <h6 class="mt-2">Purwokerto Selatan, Banyumas, Jawa Tengah</h6>
-                                            <h6 class="mt-2">{{ $user->alamat_lengkap }}</h6>
-
-                                        </div>
-                                    </div>
-
-
+                        <h6 class="mb-0">Informasi Pembeli</h6>
+                        <hr class="mb-1">
+                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                            <div>Nama</div>
+                            <div>{{ $user->name }}</div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                            <div>No Handphone</div>
+                            <div>{{ $user->phone_number }}</div>
+                        </div>
+                        <div class="d-flex justify-content-between pr-3 mb-1">
+                            <div>Alamat</div>
+                            <div class="text-right">{{ $user->alamat }}</div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                            <div>Alamat Lengkap</div>
+                            <div class="text-right">{{ $user->alamat_lengkap }}</div>
+                        </div>
+                        <h6 class="mb-0 mt-3">Rangkuman Pembelian</h6>
+                        <hr class="">
+                        <div class="d-flex justify-content-between align-items-center px-3">
+                            <div class="d-flex align-items-center">
+                                <span class="font-weight-bold">{{ $current_qty }}x</span>
+                                <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top ml-3" style="height:100px; width:80px; object-fit:cover">
+                                <div class="px-2">
+                                    <h6 class="mb-0">{{$animal->judul_post}}</h6>
+                                    <small>Warna : {{$animal->warna}}</small>
+                                    <p class="m-0"></p>
+                                    <small>Umur : {{$animal->umur}} {{$animal->satuan_umur}}</small>
                                 </div>
-
                             </div>
-                            <div class="col-md-6">
-                                <div class="card p-2">
-                                    <h5>Rangkuman Pembelian</h5>
-                                    <hr class="p-0 mt-0">
-                                    <h6 class="mb-0">{{ $store->nama_toko }}</h6>
-                                    <p class="m-0" style="font-size:12px">{{ $store->kecamatan }}, {{ $store->kabupaten }}</p>
-                                    <div class="row pl-4 d-flex align-items-center">
-                                        <h6>1x</h6>
-                                        <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="mt-2 ml-2 img-thumbnail" style="max-height:100px;">
-                                        <div class="items p-1">
-                                            <h6>{{ $animal->judul_post }}</h6>
-                                            <h6>Warna : hitam</h6>
-                                            <h6> Rp. {{ number_format($animal->harga,0,',','.') }} </h6>
-                                        </div>
-                                    </div>
-                                    <hr class="my-2">
-                                    <button class="btn btn-primary col-md-6 offset-md-6" wire:click.prevent="createTransaction">Ajukan harga ongkir</button>
-
-
-
-                                </div>
+                            <div>
+                                <div>Total</div>
+                                <h5>Rp: {{ number_format($animal->harga * $current_qty ,0,',','.') }}</h5>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary btn-sm" wire:click.prevent="createTransaction">Ajukan Biaya Pengiriman</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div id="toast" class="position-fixed top-0 right-0 m-3" style="z-index: 9999;"></div>
+</div>
+<div id="toast" class="position-fixed top-0 right-0 m-3" style="z-index: 9999;"></div>
 
-    @push('scripts')
-    <script>
-        window.addEventListener('success-modal', function() {
-            Swal.fire({
-                title: 'Success',
-                text: 'Transaksi berhasil dibuat, silahkan menunggu toko memasukkan ongkos kirim',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok',
+@push('scripts')
+<script>
+    window.addEventListener('success-modal', function() {
+        Swal.fire({
+            title: 'Success',
+            text: 'Transaksi berhasil dibuat, silahkan menunggu toko memasukkan ongkos kirim',
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
 
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "/user/transaction";
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = "/user/transaction";
 
-                }
-            })
-        });
-        window.addEventListener('success-wishlist', function(e) {
-
-            var icons;
-
-            if (e.detail.status == 200) {
-                icons = 'success'
-            } else {
-                icons = 'warning'
             }
+        })
+    });
+    window.addEventListener('success-wishlist', function(e) {
 
-            Swal.fire({
-                title: 'Success',
-                text: e.detail.message,
-                icon: icons,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok',
+        var icons;
 
-            })
-        });
-    </script>
-    @endpush
+        if (e.detail.status == 200) {
+            icons = 'success'
+        } else {
+            icons = 'warning'
+        }
+
+        Swal.fire({
+            title: 'Success',
+            text: e.detail.message,
+            icon: icons,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+
+        })
+    });
+</script>
+@endpush
 </div>

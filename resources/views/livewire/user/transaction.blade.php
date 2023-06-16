@@ -38,13 +38,15 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9 pb-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-start align-items-start">
-                                <button class="btn btn-transaction active">Ongoing</button>
-                                <button class="btn btn-transaction ml-2">Completed</button>
+                                <button class="btn btn-transaction @if($type == 'ongoing') active @endif" wire:click="updateType">Ongoing</button>
+                                <button class="btn btn-transaction ml-2 @if($type == 'completed') active @endif" wire:click="updateType">Completed</button>
                             </div>
+                            @if($type == 'ongoing')
+
                             <div class="collapse-wrapper py-3">
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -254,7 +256,7 @@
                                         </div>
                                         <div class="collapse" id="collapse-dikirim-{{$loop->iteration}}">
                                             <div class="container border p-2">
-                                                <div class="alert alert-warning">Silahkan melakukan pembayaran dalam waktu 24 jam, jika tidak memproses maka transaksi akan dibatalkan. Waktu tenggat : </div>
+                                                <div class="alert alert-warning">Silahkan menunggu hingga hewan datang. Jika hewan sudah datang, bisa melakukan aksi update</div>
 
                                                 <div class="row">
                                                     <div class="col-md-4 border-right">
@@ -283,7 +285,7 @@
                                                         <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-money-check-dollar"></i> Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h5>
                                                     </div>
                                                 </div>
-                                                <div class="rounded bg-light py-2 px-4">
+                                                <div class="rounded bg-light py-2 px-4 mt-2">
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <h6 class="mb-0">Subtotal</h6>
                                                         <h6 class="mb-0">Rp. {{ number_format($data->sub_total,0,',','.') }}</h6>
@@ -297,8 +299,77 @@
                                                         <h6 class="mb-0">Rp. {{ number_format($data->grand_total,0,',','.') }}</h6>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex justify-content-end">
+                                                <div class="d-flex justify-content-end mt-2">
+                                                    <div class="btn btn-primary btn-sm" onclick="modalConfirmation('{{ $data->id_transaction }}')">Hewan Sudah Datang !</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="collapse-menu py-3 pr-2 border-bottom">
+                                    <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse5" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <h5 class="transaction mb-0">SAMPAI TUJUAN ({{ $sampai_tujuan_count }})</h5>
+                                        <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="collapse pengajuan_ongkir" id="collapse5">
+                                        @foreach($sampai_tujuan as $data)
+                                        <div class="d-flex justify-content-between align-items-center mt-2 p-2" data-toggle="collapse" href="#collapse-sampai-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <div class="transaction-item px-2">
+                                                <h5 class="transaction mb-0"><i class="fa-solid fa-paw text-secondary"></i> {{ $data->animal->judul_post }}</h5>
+                                            </div>
+                                            <i class="fa fa-minus align-items-end" aria-hidden="true"></i>
 
+                                        </div>
+                                        <div class="collapse" id="collapse-sampai-{{$loop->iteration}}">
+                                            <div class="container border p-2">
+                                                <div class="alert alert-primary">Silahkan melakukan pemeriksaan pada hewan dalam kurun waktu 24 jam, jika terdapat masalah bisa laporkan</div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4 border-right">
+                                                        <h5 class="cloud-font" style="font-size:larger">Informasi Hewan</h5>
+                                                        <div class="d-flex align-items-start mt-3">
+                                                            <div class="img-wrapper">
+                                                                <img src="{{ asset('/animal_photos/'.$data->animal->thumbnail) }}" alt="" width="120">
+                                                            </div>
+                                                            <div class="product-wrapper ml-2">
+                                                                <h5 class="transaction mb-0" style="font-size:smaller"> {{ $data->animal->judul_post }}</h5>
+                                                                <p style="font-size: small;">{{ $data->qty }} x Rp. {{ number_format($data->animal->harga,0,',','.') }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 border-right">
+                                                        <h5 class="cloud-font" style="font-size:larger">Informasi Penjual <button class="btn btn-outline-success btn-sm"><i class="fa fa-comments" aria-hidden="true"></i> Tanya</button></h5>
+                                                        <h5 class="transaction mt-3" style="font-size:smaller"><i class="fa fa-user"></i> {{ $data->store->nama_toko }}</h5>
+                                                        <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-phone"></i> {{ $data->store->no_hp }}</h5>
+                                                        <h5 class="transaction mb-0" style="font-size:smaller; text-align:justify; text-justify: inter-word;"><i class="fa fa-address-book"></i> {{ $data->store->alamat_lengkap }}</h5>
+                                                        <small>{{ $data->store->alamat }}</small>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h5 class="cloud-font" style="font-size:larger">Informasi Pengiriman</h5>
+                                                        <h5 class="transaction mt-3" style="font-size:smaller"><i class="fa-solid fa-truck"></i> {{ $data->pengiriman->jasa_pengiriman }}</h5>
+                                                        <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-money-check-dollar"></i> Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="rounded bg-light py-2 px-4 mt-2">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0">Subtotal</h6>
+                                                        <h6 class="mb-0">Rp. {{ number_format($data->sub_total,0,',','.') }}</h6>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                                        <h6 class="mb-0">Biaya pengiriman</h6>
+                                                        <h6 class="mb-0">Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h6>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mt-2 border-top py-2">
+                                                        <h6 class="mb-0">Harga Total</h6>
+                                                        <h6 class="mb-0">Rp. {{ number_format($data->grand_total,0,',','.') }}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-2">
+                                                    <button class="btn btn-outline-danger btn-sm" wire:click.prevent="reportProduct('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#reportModal"><i class="fa-solid fa-flag"></i> Report Product</button>
+
+                                                    <button class="btn btn-outline-success btn-sm ml-2" wire:click.prevent="ratingProduct('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#ratingModal"><i class="fa-solid fa-star"></i> Rating & Review</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -306,8 +377,44 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @elseif($type == 'completed')
+
+                            @foreach($completedTransaction as $transaction)
+
+                            <div class="card mt-3 shadow-sm pb-5 pt-3 px-4">
+                                <div class="d-flex align-items-center">
+                                    <div>{{ date('d M Y', strtotime($transaction->completed_at)) }}</div>
+                                    <div class="border rounded px-2 py-1 ml-3 font-weight-bold" style="background-color:rgb(214, 255, 222); color:rgb(3, 172, 14); font-size:0.8rem">Selesai</div>
+
+                                </div>
+                                <div class="mt-2">
+                                    <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
+                                </div>
+                                <div class="d-flex mt-3 ">
+                                    <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+                                    <div class="d-flex flex-column ml-2" style="width:250px">
+                                        <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
+                                        <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
+                                    </div>
+                                    <div class="d-flex flex-column border-left" style="margin-left:50px; padding-left:50px">
+                                        <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Harga</h6>
+                                        <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->grand_total,0,',','.') }}</h6>
+                                        <i style="font-size: 12px;">*termasuk ongkir + fee</i>
+                                    </div>
+                                    <div class="align-self-center" style="margin-left:50px">
+                                        <button class="btn btn-transaction py-2 px-4" style=" opacity:0.9; font-size:13px"><i class="fa-solid fa-file-invoice"></i> Lihat Detail Transaksi</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endforeach
+
+                            @endif
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -481,6 +588,111 @@
 
         <!-- LOADER -->
     </div>
+    <div wire:ignore.self class="modal fade" id="reportModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modalId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header px-4">
+                    <h5 class="modal-title"><i class="fa-solid fa-flag" style="color:#FF0000"></i> LAPORAN PRODUK</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                @if($currentReportModal == 1)
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center p-2 border-bottom">
+                                <h5 class="transaction mb-0">ID Transaksi</h5>
+                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->id_transaction }}</h5>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                                <h5 class="transaction mb-0">Nama Produk</h5>
+                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->animal->judul_post }}</h5>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                                <h5 class="transaction mb-0">Metode Pengiriman</h5>
+                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->pengiriman->jasa_pengiriman }}</h5>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                                <h5 class="transaction mb-0">Total Harga <small style="letter-spacing:1px">(termasuk ongkir+fee)</small></h5>
+
+                                <h5 class="cloud-font-bold mb-0">Rp. {{ number_format($selectedTransaction->grand_total,0,',','.') }}</h5>
+                            </div>
+                            <div class="form-group px-2 mt-3">
+                                <label>Keluhan</label>
+                                <textarea id="w3review" class="form-control" rows="4" cols="56" placeholder="Masukkan Keluhan..." wire:model.defer="komentar"></textarea>
+                                <span class="text-danger">@error('komentar'){{ $message }}@enderror</span>
+                            </div>
+                            <div class="form-group px-2 mt-2">
+                                <label for="myfile">Foto Bukti</label>
+                                <input type="file" class="form-control" name="myfile" wire:model="complain_photo" multiple>
+                            </div>
+                            <div class="d-flex px-2 justify-content-end">
+                                <button class="btn btn-primary btn-sm" wire:click="submitReport">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    <div wire:ignore.self class="modal fade" id="ratingModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modalId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header px-4">
+                    <h5 class="modal-title"><i class="fa-solid fa-star" style="color:green"></i> Rating & Review Produk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                @if($currentRatingModal == 1)
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-product border rounded">
+                                <div class="d-flex align-items-center justify-content-between card-top px-3 py-1 border-bottom" style="background-color:#F5F5F5">
+                                    <p class="m-0">Penjual : {{ $selectedTransaction->store->nama_toko }}</p>
+                                </div>
+                                <div class="card-bdy p-2 d-flex align-items-center">
+                                    <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:80px;  object-fit:cover">
+                                    <div class="ml-2">
+                                        <h5 class="cloud-font-bold">{{ $selectedTransaction->animal->judul_post }}</h5>
+                                        <h6 class="mb-0 mt-3 font-weight-normal">Rp: {{ number_format($selectedTransaction->animal->harga,0,',','.') }}</h6>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">Bagaimana Kualitas Hewan ini?</div>
+                            <div class="form-group mt-1">
+                                <p class="m-0 font-weight-normal">Rating</p>
+                                <div class="rate">
+                                    <input type="radio" id="star5" value="5" wire:model.defer="rating" />
+                                    <label for="star5" title="Sangat Baik">5 stars</label>
+                                    <input type="radio" id="star4" name="rate" value="4" wire:model.defer="rating" />
+                                    <label for="star4" title="Baik">4 stars</label>
+                                    <input type="radio" id="star3" name="rate" value="3" wire:model.defer="rating" />
+                                    <label for="star3" title="Cukup">3 stars</label>
+                                    <input type="radio" id="star2" name="rate" value="2" wire:model.defer="rating" />
+                                    <label for="star2" title="Buruk">2 stars</label>
+                                    <input type="radio" id="star1" name="rate" value="1" wire:model.defer="rating" />
+                                    <label for="star1" title="Sangat Buruk">1 star</label>
+                                </div>
+
+                            </div>
+                            <div class="form-group mt-3">
+                                <!-- <p class="m-0">Review</p> -->
+                                <textarea id="w3review" class="form-control" rows="4" cols="56" placeholder="Masukkan Review(opsional)..." wire:model.defer="review"></textarea>
+                                <span class="text-danger">@error('review'){{ $message }}@enderror</span>
+                            </div>
+                            <div class="d-flex px-2 justify-content-end">
+                                <button class="btn btn-primary btn-sm" wire:click="submitRating">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
     <div wire:loading.delay class="loader-wrapper">
         <div class="text-center">
             <div class="la-ball-spin la-2x">
@@ -526,6 +738,58 @@
         window.addEventListener('close-modal-pembayaran', event => {
             $('#pembayaranModal').modal('hide');
         });
+        window.addEventListener('open-modal-report', event => {
+            $('#reportModal').modal('show');
+        });
+        window.addEventListener('close-modal-report', event => {
+            $('#reportModal').modal('hide');
+        });
+        window.addEventListener('submitted-report', event => {
+            Swal.fire({
+                title: 'Success',
+                text: 'Hewan kamu sudah masuk terdaftar dalam laporan. Silahkan menunggu untuk dihubungi oleh tim kami !',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                window.location = "/user/transaction";
+            })
+        });
+
+        window.addEventListener('submitted-rating', event => {
+            Swal.fire({
+                title: 'Success',
+                text: 'Terima kasih telah melakukan rating dan review !',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                window.location = "/user/transaction";
+            })
+        });
+
+        function modalConfirmation(element) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak dapat mengubah aksi ini",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hewan saya sudah datang'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Livewire.emit('modalConfirmed', element);
+
+                    Swal.fire(
+                        'Succeed!',
+                        'Transaksi berhasil diupdate',
+                        'success'
+                    )
+                }
+            })
+        }
     </script>
     @endpush
 </div>

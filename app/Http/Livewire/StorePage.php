@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Transaction;
 use App\Models\ListAnimal;
+use App\Models\StoreModel;
 use Livewire\Component;
 
 use function PHPSTORM_META\map;
@@ -10,14 +12,19 @@ use function PHPSTORM_META\map;
 class StorePage extends Component
 {
     public $animals;
-
+    public $store;
+    public $produk_terjual;
+    
     public function mount($id_store)
     {
-        $this->animals = ListAnimal::where('store_id_store', $id_store)->with('store')->get();
-        $this->animals = $this->animals->map(function ($item) {
-            $item->alamat = $item->getKecamatan($item->store->kabupaten, $item->store->kecamatan);
-            return $item;
-        });
+        $this->store = StoreModel::where('id_store', $id_store)->with('listAnimal')->first();
+        $this->store->kecamatan = $this->store->getKecamatan($this->store->kabupaten, $this->store->kecamatan);
+        $this->store->kabupaten = $this->store->getKabupaten($this->store->provinsi, $this->store->kabupaten);
+
+        $this->produk_terjual = Transaction::where('store_id_store', $this->store->id_store)
+                                            ->where('status','selesai')
+                                            ->count();
+        
     }
     public function render()
     {

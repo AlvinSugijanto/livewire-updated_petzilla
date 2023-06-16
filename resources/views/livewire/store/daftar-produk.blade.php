@@ -28,7 +28,7 @@
                 <tr>
                   <td>
                     <div class="d-flex">
-                      <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:60px; width:50px">
+                      <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:60px; width:50px; object-fit:cover">
                       <div class="px-2">
                         <h6 class="mb-0">{{$animal->judul_post}}</h6>
                         <small>Warna : {{$animal->warna}}</small>

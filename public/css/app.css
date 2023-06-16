@@ -303,10 +303,11 @@ img.default_store_logo {
 }
 
 
-.categories.active{
+.categories.active {
   border-bottom-color: #576EF2;
 
 }
+
 .categories.active i.fa-list,
 .categories.active h5.inter-font,
 .categories.active svg {
@@ -321,12 +322,14 @@ img.default_store_logo {
 
   display: block;
   position: absolute;
-  top: 100%; /* Adjust as needed */
+  top: 100%;
+  /* Adjust as needed */
   left: 0;
-  z-index: 9999; /* Adjust the value to make it appear on top */
+  z-index: 9999;
+  /* Adjust the value to make it appear on top */
 }
 
-.judul-post-text{
+.judul-post-text {
   display: -webkit-box;
   max-width: 200px;
   -webkit-line-clamp: 2;
@@ -334,9 +337,47 @@ img.default_store_logo {
   overflow: hidden;
 }
 
+.rate {
+  float: left;
+}
+
+.rate:not(:checked)>input {
+  position: absolute;
+  top: -9999px;
+}
+
+.rate:not(:checked)>label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+
+.rate:not(:checked)>label:before {
+  content: '★ ';
+}
+
+.rate>input:checked~label {
+  color: #ffc700;
+}
+
+.rate:not(:checked)>label:hover,
+.rate:not(:checked)>label:hover~label {
+  color: #deb217;
+}
+
+.rate>input:checked+label:hover,
+.rate>input:checked+label:hover~label,
+.rate>input:checked~label:hover,
+.rate>input:checked~label:hover~label,
+.rate>label:hover~input:checked~label {
+  color: #c59b08;
+}
 
 
 
 
 /* loader */
-

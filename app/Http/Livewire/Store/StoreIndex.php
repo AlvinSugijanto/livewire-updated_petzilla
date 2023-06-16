@@ -20,6 +20,7 @@ class StoreIndex extends Component
     public $nama_toko, $description, $no_hp, $alamat_lengkap;
     public $edit_personal = false, $edit_address = false;
     public $provinsi, $kabupaten, $kecamatan;
+    public $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening;
 
 
     public function mount()
@@ -122,5 +123,21 @@ class StoreIndex extends Component
         $data = $model->geocode($data);
         StoreModel::where('user_id_user', Auth::id())->update($data);
 
+    }
+
+    public function submitTambahRekening()
+    {
+        $data = $this->validate([
+            'tipe_rekening' => 'required',
+            'jenis_rekening'       => 'required',
+            'nama_rekening'      => 'required',
+            'nomor_rekening'      => 'required'
+        ]);
+
+        $data['store_id_store'] = StoreModel::where('user_id_user', Auth::user()->id_user)->value('id_store');
+        if(StoreBankAccount::create($data))
+        {
+            $this->dispatchBrowserEvent('successTambahRekening');
+        }
     }
 }

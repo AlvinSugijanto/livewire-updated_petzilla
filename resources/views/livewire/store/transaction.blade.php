@@ -4,9 +4,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-start align-items-start">
-                    <button class="btn btn-transaction active">Ongoing</button>
-                    <button class="btn btn-transaction ml-2">Completed</button>
+                    <button class="btn btn-transaction @if($type == 'ongoing') active @endif" wire:click="updateType">Ongoing</button>
+                    <button class="btn btn-transaction ml-2 @if($type == 'completed') active @endif" wire:click="updateType">Completed</button>
                 </div>
+                @if($type == 'ongoing')
                 <div class="collapse-wrapper py-3">
                     <div class="collapse-menu py-3 pr-2 border-bottom">
                         <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -169,7 +170,22 @@
                                             <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-money-check-dollar"></i> Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h5>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-end align-items-center rounded bg-light p-2">
+                                    <div class="rounded bg-light py-2 px-4 mt-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">Subtotal</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->animal->harga,0,',','.') }}</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <h6 class="mb-0">Biaya pengiriman</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2 border-top py-2">
+                                            <h6 class="mb-0">Harga Total</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->grand_total,0,',','.') }}</h6>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center rounded p-2">
                                         <button class="btn btn-outline-success btn-sm"><i class="fa fa-comments" aria-hidden="true"></i> Chat pembeli </button>
                                         <button class="btn btn-primary btn-sm ml-3" wire:click.prevent="openModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#prosesTransaksiModal"><i class="fa fa-pencil" aria-hidden="true"></i> Proses sekarang</button>
 
@@ -223,10 +239,19 @@
                                             <h5 class="transaction" style="font-size:smaller"><i class="fa-solid fa-money-check-dollar"></i> Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h5>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-end align-items-center rounded bg-light p-2">
-                                        <button class="btn btn-outline-success btn-sm"><i class="fa fa-comments" aria-hidden="true"></i> Chat pembeli </button>
-                                        <button class="btn btn-primary btn-sm ml-3" wire:click.prevent="openModal('{{ $data->id_transaction }}')" data-toggle="modal" data-target="#prosesTransaksiModal"><i class="fa fa-pencil" aria-hidden="true"></i> Proses sekarang</button>
-
+                                    <div class="rounded bg-light py-2 px-4 mt-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">Subtotal</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->animal->harga,0,',','.') }}</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <h6 class="mb-0">Biaya pengiriman</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->pengiriman->biaya_pengiriman,0,',','.') }}</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2 border-top py-2">
+                                            <h6 class="mb-0">Harga Total</h6>
+                                            <h6 class="mb-0">Rp. {{ number_format($data->grand_total,0,',','.') }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -234,6 +259,38 @@
                         </div>
                     </div>
                 </div>
+                @elseif($type == 'completed')
+
+                @foreach($completedTransaction as $transaction)
+
+                <div class="card shadow-sm mt-3 pb-5 pt-3 px-4">
+                    <div class="d-flex align-items-center">
+                        <div>{{ date('d M Y', strtotime($transaction->completed_at)) }}</div>
+                        <div class="border rounded px-2 py-1 ml-3 font-weight-bold" style="background-color:rgb(214, 255, 222); color:rgb(3, 172, 14); font-size:0.8rem">Selesai</div>
+
+                    </div>
+                    <div class="mt-2">
+                        <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
+                    </div>
+                    <div class="d-flex mt-3 ">
+                        <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+                        <div class="d-flex flex-column ml-2" style="width:300px">
+                            <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
+                            <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
+                        </div>
+                        <div class="d-flex flex-column border-left" style="margin-left:50px; padding-left:50px">
+                            <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Harga</h6>
+                            <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->grand_total,0,',','.') }}</h6>
+                            <i style="font-size: 12px;">*termasuk ongkir + fee</i>
+                        </div>
+                        <div class="align-self-center" style="margin-left:70px">
+                            <button class="btn btn-transaction py-2 px-4" style=" opacity:0.9; font-size:14px"><i class="fa-solid fa-file-invoice"></i> Lihat Detail Transaksi</button>
+                        </div>
+                    </div>
+                </div>
+
+                @endforeach
+                @endif
             </div>
         </div>
     </div>
