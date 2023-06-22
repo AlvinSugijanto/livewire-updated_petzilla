@@ -19,4 +19,13 @@ class Rating extends Model
         'updated_at'
     ];
 
+    public function store()
+    {
+        return $this->belongsTo(StoreModel::class,'store_id_store','id_store');
+    }
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class,'transaction_id_transaction','id_transaction');
+    }
+
 }

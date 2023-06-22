@@ -189,9 +189,6 @@ img.default_store_logo {
   height: 100px;
 }
 
-.product-card {
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
 
 .product-card:hover {
   cursor: pointer;
@@ -377,7 +374,15 @@ img.default_store_logo {
   color: #c59b08;
 }
 
-
+.image-avatar{
+  width: 40px; /* Adjust the width and height to your desired size */
+  height: 40px;
+  border-radius: 50%;
+  background-color: #F0F0F0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 /* loader */

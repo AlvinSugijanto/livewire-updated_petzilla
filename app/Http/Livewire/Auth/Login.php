@@ -29,14 +29,11 @@ class Login extends Component
             'email' => 'required',
             'password' => 'required',
         ]);
+
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-
             return redirect()->to('/home');
-
-        } else {
-
+        }else{
             session()->flash('error', 'Incorrect credentials !');
-
         }
     }
 }

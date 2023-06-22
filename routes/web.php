@@ -44,13 +44,21 @@ Route::middleware(['auth','is_email_verified'])->group(function () {
     Route::get('/store/edit-product/{animalId}', Livewire\Store\EditProduk::class)->name('edit-product');
     Route::get('/store/transaction', Livewire\Store\Transaction::class);
     Route::get('/store/inbox', Livewire\InboxStore::class);
+    Route::get('/store/review', Livewire\Store\DaftarReview::class);
     Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 
 
 
 });
 
+Route::get('/user/error/not-found', Livewire\Error\UserNotFound::class);
 Route::post('/user/callbackTransaction', [Controllers\CallbackTransactionController::class, 'handle'] );
+
+// Admin Routes
+Route::get('/admin/dashboard', Livewire\Admin\Dashboard::class);
+Route::get('/admin/product', Livewire\Admin\Product::class);
+Route::get('/admin/transaction', Livewire\Admin\Transaction::class);
+Route::get('/admin/report', Livewire\Admin\Report::class);
 
 
 

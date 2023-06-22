@@ -55,6 +55,7 @@
                 @endforeach
               </tbody>
             </table>
+            <div class="d-flex justify-content-center">{{ $animals->links() }}</div>
           </div>
         </div>
 

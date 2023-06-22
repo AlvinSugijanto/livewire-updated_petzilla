@@ -4,7 +4,6 @@ namespace App\Http\Livewire\User;
 
 use Livewire\Component;
 
-use Auth;
 use App\Services\Tripay;
 
 use App\Models\BuktiPembayaran;
@@ -14,6 +13,7 @@ use App\Models\ProductReportPhoto;
 use App\Models\Rating;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class Transaction extends Component
 {
@@ -23,13 +23,9 @@ class Transaction extends Component
     protected $queryString = ['type'];
     public $type;
 
-    public $pengajuan_ongkir, $pengajuan_ongkir_count;
-    public $menunggu_pembayaran, $menunggu_pembayaran_count;
-    public $sedang_diproses, $sedang_diproses_count;
-    public $sedang_dikirim, $sedang_dikirim_count;
-    public $sampai_tujuan, $sampai_tujuan_count;
+    public $pengajuan_ongkir, $menunggu_pembayaran, $sedang_diproses, $sedang_dikirim, $sampai_tujuan;
 
-    public $tipe_rekening, $metode_pembayaran, $nama_rekening, $nomor_rekening, $foto_bukti;
+    public $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening, $bukti_pembayaran;
     public $komentar, $complain_photo;
     public $rating, $review;
 
@@ -38,132 +34,94 @@ class Transaction extends Component
     public $payment_channels;
     public $completedTransaction;
 
+    public $currentUser;
+
     protected $listeners = ['modalConfirmed' => 'updateSedangDiKirim'];
 
 
     public function mount()
     {
-        $this->type = 'ongoing';
 
-        $this->getDataPengajuanOngkir();
-        $this->getDataMenungguPembayaran();
-        $this->getDataSedangDiProses();
-        $this->getDataSedangDiKirim();
-        $this->getDataSampaiTujuan();
+        $this->type = 'ongoing';
     }
     public function render()
     {
+        $this->currentUser = Auth::user();
+        $this->currentUser->alamat = $this->currentUser->getAddress($this->currentUser->provinsi, $this->currentUser->kabupaten, $this->currentUser->kecamatan);
+
+        $transactions = (new UserTransaction)->getTransactionData($this->currentUser);
+
+        // $this->pengajuan_ongkir = $transactions['pengajuan_ongkir'];
+        // $this->menunggu_pembayaran = $transactions['menunggu_pembayaran'];
+        // $this->sedang_diproses = $transactions['sedang_diproses'];
+        // $this->sedang_dikirim = $transactions['sedang_dikirim'];
+        // $this->sampai_tujuan = $transactions['sampai_tujuan'];
+
+        $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
+        $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
+        $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
+        $this->sedang_dikirim = $transactions->has('sedang_dikirim') ? $transactions['sedang_dikirim'] : collect();
+        $this->sampai_tujuan = $transactions->has('sampai_tujuan') ? $transactions['sampai_tujuan'] : collect();
+
+        // dd($transactions);
+
         return view('livewire.user.transaction')->layout('livewire.layouts.base');
     }
-    public function getDataPengajuanOngkir()
-    {
 
-        $this->pengajuan_ongkir = UserTransaction::where('users_id_user', Auth::id())
-            ->where('status', 'pengajuan_ongkir')
-            ->with('store')
-            ->with('animal')
-            ->get();
-
-        $this->pengajuan_ongkir = $this->pengajuan_ongkir->map(function ($item, $key) {
-            $item->store->alamat = $item->store->getAddress($item->store->provinsi, $item->store->kabupaten, $item->store->kecamatan);
-            return $item;
-        });
-        $this->pengajuan_ongkir_count = count($this->pengajuan_ongkir);
-    }
-    public function getDataMenungguPembayaran()
-    {
-        $this->menunggu_pembayaran = UserTransaction::where('users_id_user', Auth::id())
-            ->where('status', 'menunggu_pembayaran')
-            ->with('store')
-            ->with('animal')
-            ->with('pengiriman')
-            ->with('user')
-            ->get();
-
-        $this->menunggu_pembayaran = $this->menunggu_pembayaran->map(function ($item, $key) {
-            $item->store->alamat = $item->store->getAddress($item->store->provinsi, $item->store->kabupaten, $item->store->kecamatan);
-            return $item;
-        });
-        $this->menunggu_pembayaran_count = count($this->menunggu_pembayaran);
-    }
-    public function getDataSedangDiProses()
-    {
-        $this->sedang_diproses = UserTransaction::where('users_id_user', Auth::id())
-            ->where('status', 'sedang_diproses')
-            ->with('store')
-            ->with('animal')
-            ->with('pengiriman')
-            ->with('user')
-            ->get();
-
-        $this->sedang_diproses = $this->sedang_diproses->map(function ($item, $key) {
-            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
-            return $item;
-        });
-        $this->sedang_diproses_count = count($this->sedang_diproses);
-    }
-    public function getDataSedangDiKirim()
-    {
-        $this->sedang_dikirim = UserTransaction::where('users_id_user', Auth::id())
-            ->where('status', 'sedang_dikirim')
-            ->with('store')
-            ->with('animal')
-            ->with('pengiriman')
-            ->with('user')
-            ->get();
-
-        $this->sedang_dikirim = $this->sedang_dikirim->map(function ($item, $key) {
-            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
-            return $item;
-        });
-        $this->sedang_dikirim_count = count($this->sedang_dikirim);
-    }
-    public function getDataSampaiTujuan()
-    {
-        $this->sampai_tujuan = UserTransaction::where('users_id_user', Auth::id())
-            ->where('status', 'sampai_tujuan')
-            ->with('store')
-            ->with('animal')
-            ->with('pengiriman')
-            ->with('user')
-            ->get();
-        
-        $this->sampai_tujuan = $this->sampai_tujuan->map(function ($item, $key) {
-            $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
-            return $item;
-        });
-        $this->sampai_tujuan_count = count($this->sampai_tujuan);
-    }
     public function openPembayaranModal($id)
     {
         $this->selectedTransactionId = $id;
         $this->selectedTransaction = $this->menunggu_pembayaran->where('id_transaction', $id)->first();
         $this->currentModalStep = 1;
 
-        $payment = new Tripay();
-        $this->payment_channels = $payment->get_payment_channels();
+        // $payment = new Tripay();
+        // $this->payment_channels = $payment->get_payment_channels();
         // dd($this->payment_channels);
     }
     public function nextStepModal()
     {
         $this->currentModalStep++;
     }
-
-    public function create_tripay_transaction()
+    public function previousStepModal()
     {
-        $data = $this->menunggu_pembayaran->where('id_transaction', $this->selectedTransactionId)->first();
-
-        $payment = new Tripay();
-        $response_data = $payment->request_transaction($data);
-
-        if ($response_data) {
-            UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
-                'payment_reference' => $response_data->reference
-            ]);
-
-            return redirect()->to('/user/detail_pembayaran/' . $response_data->reference);
-        }
+        $this->currentModalStep--;
     }
+
+    public function submitPembayaran()
+    {
+        $data = $this->validate([
+            'tipe_rekening' => 'required',
+            'jenis_rekening' => 'required',
+            'nama_rekening'  => 'required',
+            'nomor_rekening' => 'required',
+            'bukti_pembayaran' => 'required'
+        ]);
+
+
+        $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
+        $data['transaction_id_transaction'] = $this->selectedTransactionId;
+
+        BuktiPembayaran::create($data);
+
+        $this->selectedTransaction->update([
+            'status' => 'sedang_diproses'
+        ]);
+    }
+    // public function create_tripay_transaction()
+    // {
+    //     $data = $this->menunggu_pembayaran->where('id_transaction', $this->selectedTransactionId)->first();
+
+    //     $payment = new Tripay();
+    //     $response_data = $payment->request_transaction($data);
+
+    //     if ($response_data) {
+    //         UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
+    //             'payment_reference' => $response_data->reference
+    //         ]);
+
+    //         return redirect()->to('/user/detail_pembayaran/' . $response_data->reference);
+    //     }
+    // }
 
     public function updateSedangDiKirim($id)
     {
@@ -191,10 +149,9 @@ class Transaction extends Component
             'status'   => 'dalam_review',
             'transaction_id_transaction' => $this->selectedTransaction->id_transaction
         ]);
-        foreach($this->complain_photo as $photo)
-        {
+        foreach ($this->complain_photo as $photo) {
             ProductReportPhoto::create([
-                'photo' => Storage::disk('public')->put('',$photo),
+                'photo' => Storage::disk('public')->put('', $photo),
                 'complain_id' => $report->id
             ]);
         };
@@ -219,26 +176,11 @@ class Transaction extends Component
         UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
             'status' => 'selesai'
         ]);
-        
+
         $this->dispatchBrowserEvent('submitted-rating');
-
     }
-    public function updateType()
+    public function updateType($aa)
     {
-        if($this->type == 'completed')
-        {
-            $this->type = 'ongoing';
-
-        }else
-        {
-            $this->type = 'completed';
-            $this->completedTransaction = UserTransaction::where('users_id_user', Auth::id())
-                                                            ->where('status', 'selesai')
-                                                            ->with('user')
-                                                            ->with('animal')
-                                                            ->with('pengiriman')
-                                                            ->get();
-
-        }
+        $this->type = $aa;
     }
 }

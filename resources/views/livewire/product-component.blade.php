@@ -59,7 +59,7 @@
                                         <span>{{ $store->kecamatan }} ,{{ $store->kabupaten }}</span>
                                         <h5 class="mb-0"><i class="fa fa-star" aria-hidden="true" style="color:green"></i> (21) total review</h5>
                                     </div>
-                                    <a href="{{ route('user-inbox', ['toStore' => $to_id_user]) }}" class="btn btn-success"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
+                                    <a href="{{ route('user-inbox', ['toStore' => $store->id_store]) }}" class="btn btn-success"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
                                 </div>
                             </div>
                     </div>
@@ -70,52 +70,49 @@
     <div wire:ignore.self class="modal fade" id="addTransactionModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Transaction</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body mb-4">
-                    <form wire:submit.prevent="storeProduk">
+
+                    <div class="d-flex justify-content-between">
                         <h6 class="mb-0">Informasi Pembeli</h6>
-                        <hr class="mb-1">
-                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
-                            <div>Nama</div>
-                            <div>{{ $user->name }}</div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
-                            <div>No Handphone</div>
-                            <div>{{ $user->phone_number }}</div>
-                        </div>
-                        <div class="d-flex justify-content-between pr-3 mb-1">
-                            <div>Alamat</div>
-                            <div class="text-right">{{ $user->alamat }}</div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
-                            <div>Alamat Lengkap</div>
-                            <div class="text-right">{{ $user->alamat_lengkap }}</div>
-                        </div>
-                        <h6 class="mb-0 mt-3">Rangkuman Pembelian</h6>
-                        <hr class="">
-                        <div class="d-flex justify-content-between align-items-center px-3">
-                            <div class="d-flex align-items-center">
-                                <span class="font-weight-bold">{{ $current_qty }}x</span>
-                                <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top ml-3" style="height:100px; width:80px; object-fit:cover">
-                                <div class="px-2">
-                                    <h6 class="mb-0">{{$animal->judul_post}}</h6>
-                                    <small>Warna : {{$animal->warna}}</small>
-                                    <p class="m-0"></p>
-                                    <small>Umur : {{$animal->umur}} {{$animal->satuan_umur}}</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div>Total</div>
-                                <h5>Rp: {{ number_format($animal->harga * $current_qty ,0,',','.') }}</h5>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary btn-sm" wire:click.prevent="createTransaction">Ajukan Biaya Pengiriman</button>
+                        <button type="button" class="close mr-2" data-dismiss="modal" aria-label="Close">&times</button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pr-3 mb-1 mt-2">
+                        <div>Nama</div>
+                        <div>{{ $user->name }}</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                        <div>No Handphone</div>
+                        <div>{{ $user->phone_number }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between pr-3 mb-1">
+                        <div>Alamat</div>
+                        <div class="text-right">{{ $user->alamat }}</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                        <div>Alamat Lengkap</div>
+                        <div class="text-right">{{ $user->alamat_lengkap }}</div>
+                    </div>
+                    <hr>
+                    <h6 class="mb-0 mt-3">Rangkuman Pembelian</h6>
+                    <div class="d-flex justify-content-between align-items-center px-3 mt-2">
+                        <div class="d-flex align-items-center">
+                            <span class="font-weight-bold">{{ $current_qty }}x</span>
+                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top ml-3" style="height:90px; width:80px; object-fit:cover">
+                            <div class="px-2">
+                                <h6 class="mb-0">{{$animal->judul_post}}</h6>
+                                <small>Warna : {{$animal->warna}}</small>
+                                <p class="m-0"></p>
+                                <small>Umur : {{$animal->umur}} {{$animal->satuan_umur}}</small>
                             </div>
                         </div>
-                    </form>
+                        <div class="mr-3">
+                            <div>Total</div>
+                            <h5>Rp: {{ number_format($animal->harga * $current_qty ,0,',','.') }}</h5>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary" wire:click.prevent="createTransaction">Ajukan Biaya Pengiriman</button>
+                    </div>
                 </div>
             </div>
         </div>

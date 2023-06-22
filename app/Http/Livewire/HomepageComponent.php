@@ -10,16 +10,15 @@ use App\Libraries\Kabupaten;
 use App\Libraries\Kecamatan;
 
 use Livewire\Component;
-use phpDocumentor\Reflection\Types\This;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Livewire\WithPagination;
-use Illuminate\Pagination\Cursor;
-use App\Events\PaymentSuccess;
+
 
 class HomepageComponent extends Component
 {
     use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public $animal_type, $animal_name, $description;
     public $nextCursor;
@@ -33,7 +32,7 @@ class HomepageComponent extends Component
     // public function getListeners()
     // {
     //     $id = Auth::id();
-        
+
     //     return [
     //         "echo-private:successTransaction.{$id},PaymentSuccess" => 'broadcastedMessageReceived',
     //     ];
@@ -49,27 +48,25 @@ class HomepageComponent extends Component
         $this->user = Auth::user();
         $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
 
-        $animals = StoreModel::selectRaw("id_store, nama_toko, latitude, longitude, harga, judul_post, list_animal.deskripsi, user_id_user, provinsi, kabupaten, kecamatan, id_animal, list_animal.thumbnail,   
-        ( 6371 * acos( cos( radians(?) ) *
-          cos( radians( latitude ) )
-          * cos( radians( longitude ) - radians(?)
-          ) + sin( radians(?) ) *
-          sin( radians( latitude ) ) )
-        ) AS distance", [$this->user->latitude, $this->user->longitude, $this->user->latitude])
+        $animals = StoreModel::selectRaw("store.*, list_animal.* , 
+            ( 6371 * acos( cos( radians(?) ) *
+              cos( radians( latitude ) )
+              * cos( radians( longitude ) - radians(?)
+              ) + sin( radians(?) ) *
+              sin( radians( latitude ) ) )
+            ) AS distance", [$this->user->latitude, $this->user->longitude, $this->user->latitude])
             ->having("distance", "<", 50)
             ->where('user_id_user', '!=', Auth::id())
             ->join('list_animal', 'store.id_store', '=', 'list_animal.store_id_store')
-            ->paginate(10);
+            ->paginate(12);
 
-        $kecamatan_object = new Kecamatan();
+        foreach($animals as $animal)
+        {
+            $animal->kecamatan = $animal->getKecamatan($animal->kabupaten, $animal->kecamatan);
+        }
 
-        $animals = $animals->map(function ($animal) use ($kecamatan_object) {
-            $animal->kecamatan = $kecamatan_object->getNama($animal->kabupaten, $animal->kecamatan);
-            return $animal;
-        });
-        
         return view('livewire.homepage-component', ['animals' => $animals])
-                        ->layout('livewire.layouts.base');
+                ->layout('livewire.layouts.base');
     }
     public function loadMore()
     {

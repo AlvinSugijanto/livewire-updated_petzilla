@@ -48,7 +48,7 @@ class EditProduk extends Component
     public function render()
     {
 
-        return view('livewire.store.edit-produk')->layout('livewire.layouts.tes-layout', ['blueButton' => 'produk']);;
+        return view('livewire.store.edit-produk')->layout('livewire.layouts.tes-layout', ['blueButton' => 'produk']);
     }
     public function editProdukData()
     {

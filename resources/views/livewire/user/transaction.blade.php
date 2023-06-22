@@ -42,15 +42,15 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-start align-items-start">
-                                <button class="btn btn-transaction @if($type == 'ongoing') active @endif" wire:click="updateType">Ongoing</button>
-                                <button class="btn btn-transaction ml-2 @if($type == 'completed') active @endif" wire:click="updateType">Completed</button>
+                                <button class="btn btn-transaction @if($type == 'ongoing') active @endif" wire:click="updateType('ongoing')">Ongoing</button>
+                                <button class="btn btn-transaction ml-2 @if($type == 'completed') active @endif" wire:click="updateType('completed')">Completed</button>
                             </div>
                             @if($type == 'ongoing')
 
                             <div class="collapse-wrapper py-3">
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction mb-0">PENGAJUAN HARGA ONGKIR ({{ $pengajuan_ongkir_count }})</h5>
+                                        <h5 class="transaction mb-0">PENGAJUAN HARGA ONGKIR ({{ $pengajuan_ongkir->count() }})</h5>
                                         <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
                                     </div>
                                     <div class="collapse pengajuan_ongkir" id="collapse1">
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction mb-0">MENUNGGU PEMBAYARAN ({{ $menunggu_pembayaran_count }})</h5>
+                                        <h5 class="transaction mb-0">MENUNGGU PEMBAYARAN ({{ $menunggu_pembayaran->count() }})</h5>
                                         <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
                                     </div>
                                     <div class="collapse pengajuan_ongkir" id="collapse2">
@@ -175,7 +175,7 @@
                                 </div>
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse3" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction mb-0">SEDANG DIPROSES ({{ $sedang_diproses_count }})</h5>
+                                        <h5 class="transaction mb-0">SEDANG DIPROSES ({{ $sedang_diproses->count() }})</h5>
                                         <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
                                     </div>
                                     <div class="collapse pengajuan_ongkir" id="collapse3">
@@ -242,7 +242,7 @@
                                 </div>
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse4" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction mb-0">SEDANG DIKIRIM ({{ $sedang_dikirim_count }})</h5>
+                                        <h5 class="transaction mb-0">SEDANG DIKIRIM ({{ $sedang_dikirim->count() }})</h5>
                                         <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
                                     </div>
                                     <div class="collapse pengajuan_ongkir" id="collapse4">
@@ -309,7 +309,7 @@
                                 </div>
                                 <div class="collapse-menu py-3 pr-2 border-bottom">
                                     <div class="d-flex align-items-center justify-content-between" data-toggle="collapse" href="#collapse5" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <h5 class="transaction mb-0">SAMPAI TUJUAN ({{ $sampai_tujuan_count }})</h5>
+                                        <h5 class="transaction mb-0">SAMPAI TUJUAN ({{ $sampai_tujuan->count() }})</h5>
                                         <i class="fa fa-arrow-circle-right arrow-icon" aria-hidden="true"></i>
                                     </div>
                                     <div class="collapse pengajuan_ongkir" id="collapse5">
@@ -380,35 +380,11 @@
 
                             @elseif($type == 'completed')
 
-                            @foreach($completedTransaction as $transaction)
-
-                            <div class="card mt-3 shadow-sm pb-5 pt-3 px-4">
-                                <div class="d-flex align-items-center">
-                                    <div>{{ date('d M Y', strtotime($transaction->completed_at)) }}</div>
-                                    <div class="border rounded px-2 py-1 ml-3 font-weight-bold" style="background-color:rgb(214, 255, 222); color:rgb(3, 172, 14); font-size:0.8rem">Selesai</div>
-
-                                </div>
-                                <div class="mt-2">
-                                    <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
-                                </div>
-                                <div class="d-flex mt-3 ">
-                                    <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
-                                    <div class="d-flex flex-column ml-2" style="width:250px">
-                                        <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
-                                        <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
-                                    </div>
-                                    <div class="d-flex flex-column border-left" style="margin-left:50px; padding-left:50px">
-                                        <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Harga</h6>
-                                        <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->grand_total,0,',','.') }}</h6>
-                                        <i style="font-size: 12px;">*termasuk ongkir + fee</i>
-                                    </div>
-                                    <div class="align-self-center" style="margin-left:50px">
-                                        <button class="btn btn-transaction py-2 px-4" style=" opacity:0.9; font-size:13px"><i class="fa-solid fa-file-invoice"></i> Lihat Detail Transaksi</button>
-                                    </div>
-                                </div>
+                            <div class="mt-3">
+                                <livewire:user.ongoing-transaction />
                             </div>
 
-                            @endforeach
+
 
                             @endif
                         </div>
@@ -419,174 +395,171 @@
             </div>
         </div>
     </div>
+
     <div wire:ignore.self class="modal fade" id="pembayaranModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">PEMBAYARAN TRANSAKSI</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                @if(isset($currentModalStep) && $currentModalStep == 1)
-                <div class="modal-body">
-                    <table>
-                        <thead>
-                            <tr class="text-center">
-                                <td>Qty</td>
-                                <td>Hewan</td>
-                                <td>Subtotal</td>
-                                <td>Ongkir</td>
-                                <td>Total</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="text-center">
-                                <td width="30%">{{ $selectedTransaction->qty }}x <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" alt="" width="100"></td>
-                                <td width="20%">{{ $selectedTransaction->animal->judul_post }}</td>
-                                <td width="20%">{{ number_format($selectedTransaction->sub_total,0,',','.') }}</td>
-                                <td width="20%">{{ number_format($selectedTransaction->pengiriman->biaya_pengiriman,0,',','.') }}</td>
-                                <td width="20%">{{ number_format($selectedTransaction->grand_total,0,',','.') }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="modal-body px-4">
+                    @if(isset($currentModalStep) && $currentModalStep == 1)
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Informasi Pembeli</h6>
+                        <button type="button" class="close mr-2" data-dismiss="modal" aria-label="Close">&times</button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pr-3 mb-1 mt-2">
+                        <div>Nama</div>
+                        <h5 class="mb-0">{{ $currentUser->name }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pr-3 mb-1">
+                        <div>No Handphone</div>
+                        <h5 class="mb-0">{{ $currentUser->phone_number }}</h5>
+                    </div>
+                    <div class="d-flex justify-content-between pr-3 mb-1">
+                        <div>Alamat</div>
+                        <h5 class="text-right mb-0">{{ $currentUser->alamat }}</h5>
+                    </div>
+                    <div class="d-flex justify-content-between pr-3 mb-1">
+                        <div>Alamat Lengkap</div>
+                        <h5 class="text-right mb-0" style="max-width:300px">{{ $currentUser->alamat_lengkap }}</h5>
+                    </div>
+                    <hr class="">
+                    <h6 class="mb-0">Rangkuman Pembelian</h6>
+                    <div class="d-flex justify-content-between align-items-center px-1 mt-2">
+                        <div class="d-flex align-items-center" style="max-width:300px">
+                            <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" class="card-img-top" style="height:90px; width:80px; object-fit:cover">
+                            <div class="px-2">
+                                <h6 class="mb-2">{{$selectedTransaction->animal->judul_post}}</h6>
+                                <p class="mb-2">{{ $selectedTransaction->qty }} x <span class="">Rp. {{ number_format($selectedTransaction->animal->harga ,0,',','.') }}</span></p>
+
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>Subtotal</div>
+                            <h5 style="font-weight:bolder">Rp. {{ number_format($selectedTransaction->sub_total ,0,',','.') }}</h5>
+                        </div>
+                        <div class="">
+                            <div>Biaya Pengiriman</div>
+                            <h5 style="font-weight:bolder">Rp. {{ number_format($selectedTransaction->pengiriman->biaya_pengiriman ,0,',','.') }}</h5>
+                        </div>
+                        <div class="">
+                            <div>Total</div>
+                            <h5 style="font-weight:bolder">Rp. {{ number_format($selectedTransaction->grand_total ,0,',','.') }}</h5>
+                        </div>
+                    </div>
                     <hr>
-                    <h5 style="font-weight:600"><i class="fa fa-truck" aria-hidden="true"></i> Dikirim ke : </h5>
-                    <div class="col-md-12 mt-4">
-                        <div class="row">
-                            <div class="col-md-6 p-0">
-                                <h5><span>Nama : </span>{{ $data->store->nama_toko }}</h5>
-                            </div>
-                            <div class="col-md-6">
-                                <h5><span>No Hp : </span>{{ $data->store->no_hp }}</h5>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary btn-sm mr-2 mt-2" wire:click.prevent="nextStepModal">Next &raquo;</button>
+                    </div>
+                    @elseif(isset($currentModalStep) && $currentModalStep == 2)
+                    <div>Silahkan Melakukan Pembayaran dengan nominal <span class="font-weight-bold">Rp. {{ number_format($selectedTransaction->grand_total,0,',','.') }}</span> Pada Salah Satu Rekening Dibawah :</div>
+                    <div class="d-flex align-items-center justify-content-between mt-5" style="width: 100%;">
+                        <div class="d-flex align-items-center" style="width:50%">
+                            <img src="{{ asset('/logo/bca.png') }}" alt="" width="120" height="60" style="object-fit:cover">
+                            <div class="d-flex flex-column ml-2">
+                                <div style="color:#6D7588; font-size:0.8rem; font-family:'Open Sauce One',sans-serif">BCA (PT Bank Central Asia Tbk)</div>
+                                <div class="font-weight-bold" style="color:#212121; font-size:1.2rem; font-family:'Open Sauce One',sans-serif">3580666352</div>
+                                <div style="color:#212121; font-size:1rem; font-family:'Open Sauce One',sans-serif">a.n Alvin Sugijanto</div>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-md-6 p-0">
-                                <h5><span>Alamat : </span>{{ $data->store->alamat }}</h5>
+                        <div class="d-flex align-items-center" style="width:50%">
+                            <img src="{{ asset('/logo/mandiri.png') }}" alt="" width="120" height="60" style="object-fit:cover">
+                            <div class="d-flex flex-column ml-2">
+                                <div style="color:#6D7588; font-size:0.8rem; font-family:'Open Sauce One',sans-serif">Mandiri (PT Bank Mandiri Tbk)</div>
+                                <div class="font-weight-bold" style="color:#212121; font-size:1.2rem; font-family:'Open Sauce One',sans-serif">3580666352</div>
+                                <div style="color:#212121; font-size:1rem; font-family:'Open Sauce One',sans-serif">a.n Alvin Sugijanto</div>
                             </div>
-                            <div class="col-md-6">
-                                <h5><span>Alamat Lengkap : </span>{{ $data->store->alamat_lengkap }}</h5>
+                        </div>
+
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-5">
+                        <div class="d-flex align-items-center" style="width:50%">
+                            <img src="{{ asset('/logo/bni.png') }}" alt="" width="120" height="60" style="object-fit:cover">
+                            <div class="d-flex flex-column ml-2">
+                                <div style="color:#6D7588; font-size:0.8rem; font-family:'Open Sauce One',sans-serif">BNI (PT Bank Negara Indonesia Tbk)</div>
+                                <div class="font-weight-bold" style="color:#212121; font-size:1.2rem; font-family:'Open Sauce One',sans-serif">3580666352</div>
+                                <div style="color:#212121; font-size:1rem; font-family:'Open Sauce One',sans-serif">a.n Alvin Sugijanto</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center" style="width:50%">
+                            <img src="{{ asset('/logo/bri.png') }}" alt="" width="120" height="60" style="object-fit:cover">
+                            <div class="d-flex flex-column ml-2">
+                                <div style="color:#6D7588; font-size:0.8rem; font-family:'Open Sauce One',sans-serif">BRI (PT Bank Rakyat Indonesia Tbk)</div>
+                                <div class="font-weight-bold" style="color:#212121; font-size:1.2rem; font-family:'Open Sauce One',sans-serif">3580666352</div>
+                                <div style="color:#212121; font-size:1rem; font-family:'Open Sauce One',sans-serif">a.n Alvin Sugijanto</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click.prevent="nextStepModal">Next</button>
-                </div>
-                @elseif(isset($currentModalStep) && $currentModalStep == 2)
-
-                <div class="modal-body">
-                    <h5>Silahkan melakukan pembayaran dengan total <span style="font-weight:bolder; font-size: 15px">Rp.{{ number_format($selectedTransaction->grand_total,0,',','.') }}</span> pada salah satu rekening dibawah. Setelah itu, silahkan klik tombol Next untuk mengupload bukti pembayaran</h5>
                     <hr>
-                    <div class="col-md-12">
+                    <div class="d-flex justify-content-between mt-3 mr-2">
+                        <button class="btn btn-primary btn-sm" wire:click.prevent="previousStepModal">&laquo; Previous</button>
 
-                        <div class="payment-card mt-2">
-                            <h5><i class="fa fa-money" aria-hidden="true"></i> Transfer Bank</h5>
-                            <div class="d-flex align-items-center">
-                                @foreach($payment_channels as $channel)
-                                @if($channel['group'] == 'Virtual Account')
-                                <div class="card col-md-4 mr-4" onclick="toggleCardClass(this)">
-                                    <div class="card-body p-2 text-center">
-                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
-                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
-                                    </div>
-                                </div>
-                                @endif
-                                @endforeach
-                            </div>
+                        <button class="btn btn-primary btn-sm" wire:click.prevent="nextStepModal">Next &raquo;</button>
+                    </div>
+                    @elseif(isset($currentModalStep) && $currentModalStep == 3)
+                    <div class="py-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold"><i class="fa fa-user"></i> Informasi Pengirim</h5>
+                            <button type="button" class="close mr-2" data-dismiss="modal" aria-label="Close">&times</button>
                         </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="tipe_rekening">Tipe Rekening</label>
+                            <select class="form-control" wire:model="tipe_rekening">
+                                <option selected hidden>--Pilih Tipe--</option>
+                                <option value="transfer_bank">Transfer Bank</option>
+                                <option value="digital_payment">Pembayaran Digital</option>
+                            </select>
+                            <span class="text-danger">@error('tipe_rekening'){{ $message }}@enderror</span>
 
-                        <div class="payment-card mt-2">
-                            <h5><i class="fa fa-university" aria-hidden="true"></i> Pembayaran Digital</h5>
-                            <div class="d-flex align-items-center">
-                                @foreach($payment_channels as $channel)
-                                @if($channel['group'] == 'E-Wallet')
-                                <div class="card col-md-4 mr-4" onclick="toggleCardClass(this)">
-                                    <div class="card-body p-2 text-center">
-                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
-                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
-                                    </div>
-                                </div>
-                                @endif
-                                @endforeach
-                            </div>
                         </div>
-
-                        <div class="payment-card mt-2">
-                            <h5><i class="fa fa-shopping-bag" aria-hidden="true"></i> Convenience Store</h5>
-                            <div class="d-flex align-items-center">
-                                @foreach($payment_channels as $channel)
-                                @if($channel['group'] == 'Convenience Store')
-                                <div class="card col-md-4 mr-4" onclick="toggleCardClass(this)">
-                                    <div class="card-body p-2 text-center">
-                                        <h5 class="card-title mb-0" style="font-weight:bolder">{{ $channel['name'] }}</h5>
-                                        <img src="{{ asset('/logo/'.$channel['code'].'.png') }}" height="70">
-                                    </div>
-                                </div>
+                        <div class="form-group">
+                            <label>Jenis Rekening</label>
+                            <select class="form-control" wire:model="jenis_rekening">
+                                <option selected hidden>--Pilih Jenis Rekening--</option>
+                                @if($tipe_rekening == 'transfer_bank')
+                                <option value="bca">BCA</option>
+                                <option value="mandiri">Mandiri</option>
+                                <option value="bri">BRI</option>
+                                <option value="bni">BNI</option>
+                                @elseif($tipe_rekening == 'digital_payment')
+                                <option value="ovo">OVO</option>
+                                <option value="gopay">GoPay</option>
+                                <option value="dana">DANA</option>
+                                <option value="shopee_pay">ShopeePay</option>
                                 @endif
-                                @endforeach
-                            </div>
+                            </select>
+                            <span class="text-danger">@error('jenis_rekening'){{ $message }}@enderror</span>
+
                         </div>
+                        <div class="form-group">
+                            <label for="">Nama Rekening Pengirim</label>
+                            <input type="text" class="form-control" placeholder="Masukkan nama rekening..." wire:model.defer="nama_rekening">
+                            <span class="text-danger">@error('nama_rekening'){{ $message }}@enderror</span>
 
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click.prevent="create_tripay_transaction">Lanjutkan Pembayaran</button>
-                </div>
-                <!-- @elseif(isset($currentModalStep) && $currentModalStep == 3)
-                <div class="modal-body">
-                    <h5 style="font-weight:bolder">Informasi Pengirim</h5>
-                    <hr>
-                    <div class="form-group mt-3">
-                        <label>Tipe Rekening</label>
-                        <select class="form-control" wire:model="tipe_rekening">
-                            <option selected hidden>--Pilih Tipe Rekening--</option>
-                            <option value="transfer_bank">Transfer Bank</option>
-                            <option value="digital_payment">Pembayaran Digital</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Metode Pembayaran</label>
-                        <select class="form-control" wire:model="metode_pembayaran">
-                            <option selected hidden>--Pilih Jenis Rekening--</option>
-                            @if($tipe_rekening == 'transfer_bank')
-                            <option value="bca">BCA</option>
-                            <option value="mandiri">Mandiri</option>
-                            <option value="bri">BRI</option>
-                            <option value="bni">BNI</option>
-                            @elseif($tipe_rekening == 'digital_payment')
-                            <option value="ovo">OVO</option>
-                            <option value="gopay">GoPay</option>
-                            <option value="dana">DANA</option>
-                            <option value="shopee_pay">Shopee Pay</option>
-                            @endif
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Nama Rekening Pengirim</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nama rekening..." wire:model.lazy="nama_rekening">
-                    </div>
-                    <div class="form-group">
-                        <label for="">No Rekening / No Virtual Pengirim</label>
-                        <input type="text" name="" class="form-control" placeholder="No Rekening (Bank) / No Virtual Account (E-Wallet)" wire:model.lazy="nomor_rekening">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Foto Bukti</label>
-                        <input type="file" name="" class="form-control" wire:model.lazy="foto_bukti">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Lanjutkan Pembayaran</button>
-                </div> -->
-                @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nomor Rekening / Nomor Virtual</label>
+                            <input type="number" class="form-control" placeholder="Masukkan nomor rekening..." wire:model.defer="nomor_rekening">
+                            <span class="text-danger">@error('nomor_rekening'){{ $message }}@enderror</span>
 
+                        </div>
+                        <div class="form-group">
+                            <label for="">Upload Bukti Pembayaran</label>
+                            <input type="file" class="form-control" wire:model.defer="bukti_pembayaran">
+                            <span class="text-danger">@error('bukti_pembayaran'){{ $message }}@enderror</span>
+
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mt-3 mr-2">
+                            <button class="btn btn-primary btn-sm" wire:click.prevent="previousStepModal">&laquo; Previous</button>
+                            <button class="btn btn-primary btn-sm" wire:click.prevent="submitPembayaran">Submit</button>
+                        </div>
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
-
-        <!-- LOADER -->
     </div>
     <div wire:ignore.self class="modal fade" id="reportModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modalId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

@@ -56,7 +56,7 @@
                     <div class="ml-2">
                         <p style="font-size:14px" class="m-0">Hi,</p>
                         <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                            <h5 style="font-size:14px" class="mb-0">Manila PetShopppppppppppppppppppppppppp</h5>
+                            <h5 style="font-size:14px" class="mb-0">{{ Auth::user()->store->nama_toko }}</h5>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                 </a>
             </li>
             <li class="nav-item px-3 mt-3">
-                <a href="/mystore" class="d-flex btn nav-child align-items-center">
+                <a href="/store/review" class="d-flex btn nav-child align-items-center @if($blueButton == 'review') active @endif">
                     <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
                     <h5 class="mb-0">Review Toko</h5>
                 </a>

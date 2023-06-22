@@ -31,22 +31,22 @@ class DatabaseSeeder extends Seeder
     {
         for ($i = 0; $i < 100; $i++) {
 
-            $id_user = Str::random(10);
-            $id_store = Str::random(10);
-            $id_animal = Str::random(10);
+            $id_user = strtoupper('USR-'.Str::random(10,'alnum'));
+            $id_store = strtoupper('STR-'.Str::random(10,'alnum'));
+            $id_animal = strtoupper('ANM-'.Str::random(10,'alnum'));
 
             $this->user_seeder->run($id_user);
             $this->store_seeder->run($id_user, $id_store);
             $this->new_animal_seeder->run($id_animal, $id_store);
 
             for ($i = 0; $i < rand(1, 10); $i++) {
-                $loop_id_animal = Str::random(10);
+                $loop_id_animal = strtoupper('ANM-'.Str::random(10,'alnum'));
                 // $loop_id_transaction = Str::random(10);
 
                 $this->new_animal_seeder->run($loop_id_animal, $id_store);
                 // $this->transaction_seeder->run($id_user, $id_store, $id_animal, $loop_id_transaction);
             }
-            $this->transaction_seeder->run();
+            // $this->transaction_seeder->run();
 
 
             var_dump('=== ' . $this->counter++ . ' ===');

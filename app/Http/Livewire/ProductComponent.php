@@ -10,8 +10,8 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\StoreModel;
 use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 
-use Auth;
 use Illuminate\Support\Str;
 
 
@@ -31,19 +31,20 @@ class ProductComponent extends Component
     public function mount($id_animal)
     {
         $this->animal = ListAnimal::where('id_animal', $id_animal)->first();
+
+        if(!$this->animal){
+            return redirect()->to('/user/error/not-found');
+        }
     }
     public function render()
     {
+        
         $this->animal_photo = AnimalPhoto::where('list_animal_id_animal', $this->animal->id_animal)->get();
 
-        $data = $this->animal->store;
-        $this->store = $this->animal->getStore($data);
+        $this->store = $this->animal->getStore($this->animal->store);
 
         $this->user = Auth::user();
-        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
-
-        $this->to_id_user =  $this->store->id_store;
-        
+        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);        
 
         return view('livewire.product-component')->layout('livewire.layouts.base');
     }

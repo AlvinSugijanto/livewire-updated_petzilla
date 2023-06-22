@@ -46,9 +46,6 @@ class RegisterUser extends Component
     }
     public function register()
     {
-        // $user_object = new User();
-        // $data = $user_object->createUser($data);
-        // $this->validateForm();
 
         $data = $this->validate([
             'name'           => 'required|min:2|max:20',
@@ -66,16 +63,22 @@ class RegisterUser extends Component
         $data['latitude'] = $this->geo_data['lat'];
         $data['longitude'] = $this->geo_data['lon'];
 
-        $user = User::create($data);
 
-        VerifyUser::create([
-            'token' => Str::random(60),
-            'user_id_user' => $user->id_user,
-        ]);
+        try {
+            $user = User::create($data);
 
-        Mail::to($user->email)->send(new VerifyEmail($user));
+            VerifyUser::create([
+                'token' => Str::random(60),
+                'user_id_user' => $user->id_user,
+            ]);
 
-        $this->dispatchBrowserEvent('show-modal');
+            Mail::to($user->email)->send(new VerifyEmail($user));
+
+            $this->dispatchBrowserEvent('show-modal');
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
+
     }
     public function updatedProvinsi()
     {
@@ -116,7 +119,7 @@ class RegisterUser extends Component
                 'phone_number'   => 'required|digits_between:10,14',
             ]);
         } else if ($this->currentStep == 2) {
-            
+
             $data = $this->validate([
                 'alamat_lengkap' => 'required|string|min:10',
                 'provinsi'       => 'required',
@@ -138,7 +141,6 @@ class RegisterUser extends Component
                 $geo_object = new Geocode;
                 $this->geo_data = $geo_object->geocode_from_coordinate($this->koordinat);
                 $this->register();
-
             }
         }
     }

@@ -28,7 +28,6 @@ class Cat{
             'Sphynx',
             'Tonkinese',
             'Toyger',
-            'Turkish Van'
         ];
 
         $this->random_warna = [

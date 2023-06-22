@@ -20,9 +20,10 @@ class StoreIndex extends Component
     public $nama_toko, $description, $no_hp, $alamat_lengkap;
     public $edit_personal = false, $edit_address = false;
     public $provinsi, $kabupaten, $kecamatan;
-    public $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening;
+    public $rekening, $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening;
 
 
+    protected $listeners = ['deleteConfirmed' => 'deleteRekening'];
     public function mount()
     {
         $store = StoreModel::where('user_id_user', Auth::user()->id_user)->first();
@@ -138,6 +139,46 @@ class StoreIndex extends Component
         if(StoreBankAccount::create($data))
         {
             $this->dispatchBrowserEvent('successTambahRekening');
+        }
+    }
+
+    public function openEditRekeningModal($id)
+    {
+        $this->rekening = StoreBankAccount::find($id);
+
+        if($this->rekening)
+        {
+            $this->tipe_rekening = $this->rekening->tipe_rekening;
+            $this->jenis_rekening = $this->rekening->jenis_rekening;
+            $this->nama_rekening = $this->rekening->nama_rekening;
+            $this->nomor_rekening = $this->rekening->nomor_rekening;
+
+            $this->dispatchBrowserEvent('openEditRekeningModal');
+        }
+    }
+
+    public function submitEditRekening()
+    {
+        $data = $this->validate([
+            'tipe_rekening' => 'required',
+            'jenis_rekening'       => 'required',
+            'nama_rekening'      => 'required',
+            'nomor_rekening'      => 'required'
+        ]);
+
+        if($this->rekening->update($data))
+        {
+            $this->dispatchBrowserEvent('successEditRekening');
+        }
+    }
+
+    public function deleteRekening($id)
+    {
+        $rekening = StoreBankAccount::find($id);
+
+        if($rekening)
+        {
+            $rekening->delete();
         }
     }
 }

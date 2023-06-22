@@ -12,10 +12,11 @@ class BuktiPembayaran extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'metode_pembayaran',
+        'tipe_rekening',
+        'jenis_rekening',
         'nama_rekening',
         'nomor_rekening',
-        'foto_bukti',
+        'bukti_pembayaran',
         'transaction_id_transaction'
     ];
 }

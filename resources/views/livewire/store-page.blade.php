@@ -1,6 +1,6 @@
 <div>
 
-    <div class="container">
+    <div class="container mb-5">
         <div class="card">
             <div class="card-body">
                 <div class="col-md-12 row justify-content-center">
@@ -17,7 +17,7 @@
                     <div class="col-md-5 offset-md-1 justify-content-center row">
                         <div class="rating-toko d-flex align-items-center text-center">
                             <div class="rating-and-review px-5" style="border-right:1px solid grey">
-                                <h5 class="text-title"><i class="fa fa-star text-warning" aria-hidden="true"></i> 21</h5>
+                                <h5 class="text-title"><i class="fa fa-star text-warning" aria-hidden="true"></i> {{ $total_review }}</h5>
                                 <h6>Total Ulasan</h6>
                             </div>
                             <div class="produk-terjual px-5">
@@ -34,9 +34,10 @@
             <div class="card mt-3 px-3">
                 <div class="card-body">
                     <div class="button-type d-flex align-items-center">
-                        <button class="btn btn-transaction active">Produk</button>
-                        <button class="btn btn-transaction ml-2">Ulasan</button>
+                        <button class="btn btn-transaction @if($type == 'produk') active @endif" wire:click="updateType('produk')">Produk</button>
+                        <button class="btn btn-transaction ml-2 @if($type == 'ulasan') active @endif" wire:click="updateType('ulasan')">Ulasan</button>
                     </div>
+                    @if($type == 'produk')
                     <h5 class="mt-3">Semua Produk</h5>
                     <div class="row">
                         @foreach($store->listAnimal as $animal)
@@ -58,6 +59,9 @@
                         </div>
                         @endforeach
                     </div>
+                    @elseif($type == 'ulasan')
+                        <livewire:user.rating :id_store="$store->id_store"/>
+                    @endif
                 </div>
             </div>
 

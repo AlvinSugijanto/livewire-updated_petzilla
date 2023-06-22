@@ -64,15 +64,15 @@
                 <div class="container">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="m-0 p-0">Menampilkan hasil dengan radius < 50km</p>
-                        <div class="badge text-wrap p-2" style="background-color:white">
-                            <i class="fa-solid fa-truck"></i> Dikirim ke {{ $user->alamat }}
-                        </div>
+                                <div class="badge text-wrap p-2" style="background-color:white">
+                                    <i class="fa-solid fa-truck"></i> Dikirim ke {{ $user->alamat }}
+                                </div>
                     </div>
                     <div class="row mt-2">
                         @foreach($animals as $animal)
-                        <div class="col-md-3 col-sm-4 mt-3">
+                        <div class="col-md-3 col-sm-4 mb-3">
                             <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
-                                <div class="card product-card">
+                                <div class="card product-card shadow-sm">
                                     <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:170px; width:100%;  object-fit:cover">
 
                                     <div class="card-body">
@@ -89,25 +89,8 @@
                             </a>
                         </div>
                         @endforeach
-                        @foreach($new_animals as $animal)
-                        <div class="col-md-3 ">
-                            <div class="card" style="margin-top:10px">
-
-                                <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:200px">
-
-                                <div class="card-body">
-                                    <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">
-                                        <h4 alt="aaa">{{ $animal->judul_post }}</h4>
-                                    </div>
-                                    <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->kecamatan }}</small>
-                                    <h6>{{ $animal->nama_toko }}</h6>
-                                    <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}" class="btn btn-primary"><small>Lihat Detail</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
                     </div>
+                    <div class="d-flex justify-content-center">{{ $animals->links() }}</div>
                 </div>
             </div>
 

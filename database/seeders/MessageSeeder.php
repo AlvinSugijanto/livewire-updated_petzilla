@@ -20,7 +20,6 @@ class MessageSeeder extends Seeder
             'message' => 'Aselole',
             'from_id_user' => '1QquH5Wgxf',
             'to_id_user'   => '99a11W1Zuh',
-
         ]);    
     }
 }

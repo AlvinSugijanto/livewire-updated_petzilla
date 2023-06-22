@@ -48,4 +48,45 @@ class Transaction extends Model
     {
         return $this->hasOne(InformasiPengiriman::class, 'transaction_id_transaction', 'id_transaction');
     }
+    public function pembayaran()
+    {
+        return $this->hasOne(BuktiPembayaran::class, 'transaction_id_transaction', 'id_transaction');
+    }
+    public function rating()
+    {
+        return $this->hasOne(Rating::class, 'transaction_id_transaction', 'id_transaction');
+    }
+    public function getTransactionData($user)
+    {
+        $transaction = Transaction::where('users_id_user', $user->id_user)
+        ->with('store')
+        ->with('animal')
+        ->get()
+        ->groupBy('status')
+        ->map(function ($group) {
+            return $group->map(function ($item) {
+                $item->store->alamat = $item->store->getAddress($item->store->provinsi, $item->store->kabupaten, $item->store->kecamatan);
+                return $item;
+            });
+        });
+
+        return $transaction;
+    }
+
+    public function getTransactionDataStore($store)
+    {
+        $transaction = Transaction::where('store_id_store', $store->id_store)
+        ->with('user')
+        ->with('animal')
+        ->get()
+        ->groupBy('status')
+        ->map(function ($group) {
+            return $group->map(function ($item) {
+                $item->user->alamat = $item->user->getAddress($item->user->provinsi, $item->user->kabupaten, $item->user->kecamatan);
+                return $item;
+            });
+        });
+
+        return $transaction;
+    }
 }
