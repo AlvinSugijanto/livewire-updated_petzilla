@@ -10,6 +10,7 @@ use Faker\Factory as Faker;
 
 use App\Libraries\Races\Dog;
 use App\Libraries\Races\Cat;
+use Carbon\Carbon;
 
 
 class NewAnimalSeeder extends Seeder
@@ -51,7 +52,8 @@ class NewAnimalSeeder extends Seeder
             'status' => 'aktif',
             'stok'   => rand(1, 10),
             'store_id_store' => $id_store,
-            'thumbnail' => $animal['image'][0]
+            'thumbnail' => $animal['image'][0],
+            'created_at' => Carbon::now()->addMinute(rand(1,60))
         ]);
 
         for ($i = 1; $i < count($animal['image']); $i++) {

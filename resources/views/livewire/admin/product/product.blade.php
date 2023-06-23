@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>{{ date('d F Y, H:i', strtotime(Carbon\Carbon::now())) }}</td>
+                        <td>{{ date('d/m/Y H:i', strtotime($animal->created_at)) }}</td>
                         <td>{{ $animal->store->nama_toko }}</td>
 
                         <td>{{ ucwords($animal->jenis_hewan) }}</td>

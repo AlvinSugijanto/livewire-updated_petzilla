@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin;
+namespace App\Http\Livewire\Admin\Product;
 
 use App\Models\ListAnimal;
 use Livewire\Component;
@@ -15,6 +15,6 @@ class Product extends Component
     public function render()
     {
         $animal = ListAnimal::with('store')->paginate(10);
-        return view('livewire.admin.product',['animals' => $animal])->layout('livewire.layouts.admin-layout');
+        return view('livewire.admin.product.product',['animals' => $animal])->layout('livewire.layouts.admin-layout');
     }
 }
