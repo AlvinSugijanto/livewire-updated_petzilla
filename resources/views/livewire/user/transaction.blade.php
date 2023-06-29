@@ -598,6 +598,8 @@
                             <div class="form-group px-2 mt-2">
                                 <label for="myfile">Foto Bukti</label>
                                 <input type="file" class="form-control" name="myfile" wire:model="complain_photo" multiple>
+                                <span class="text-danger">@error('complain_photo'){{ $message }}@enderror</span>
+
                             </div>
                             <div class="d-flex px-2 justify-content-end">
                                 <button class="btn btn-primary btn-sm" wire:click="submitReport">Submit</button>
@@ -614,7 +616,7 @@
             <div class="modal-content">
                 <div class="modal-header px-4">
                     <h5 class="modal-title"><i class="fa-solid fa-star" style="color:green"></i> Rating & Review Produk</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times
                     </button>
                 </div>
                 @if($currentRatingModal == 1)
@@ -733,6 +735,18 @@
             Swal.fire({
                 title: 'Success',
                 text: 'Terima kasih telah melakukan rating dan review !',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                window.location = "/user/transaction";
+            })
+        });
+
+        window.addEventListener('success-modal', event => {
+            Swal.fire({
+                title: 'Success',
+                text: 'Form Pembayaran Berhasil Dikirim ! Silahkan menunggu admin meninjau pembayaran',
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Ok',

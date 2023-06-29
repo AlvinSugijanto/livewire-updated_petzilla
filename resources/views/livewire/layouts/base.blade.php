@@ -147,6 +147,19 @@
                 $(this).addClass('active');
             });
         });
+        window.addEventListener('error-modal', event => {
+
+            const { detail } = event;
+            const message = detail && detail.message ? detail.message : 'Oops.. Ada Kesalahan. Silahkan Mencoba Kembali';
+
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            })
+        });
     </script>
 
 

@@ -55,9 +55,15 @@ Route::get('/user/error/not-found', Livewire\Error\UserNotFound::class);
 Route::post('/user/callbackTransaction', [Controllers\CallbackTransactionController::class, 'handle'] );
 
 // Admin Routes
+Route::get('/admin/login', Livewire\Admin\Login::class);
+
 Route::get('/admin/dashboard', Livewire\Admin\Dashboard::class);
-Route::get('/admin/product', Livewire\Admin\Product::class);
-Route::get('/admin/transaction', Livewire\Admin\Transaction::class);
+
+Route::get('/admin/product', Livewire\Admin\Product\Product::class);
+Route::get('/admin/review_product', Livewire\Admin\Product\VerifikasiProduk::class);
+Route::get('/admin/product/{id_animal}', Livewire\Admin\Product\DetailProduk::class)->name('detail-product');
+
+Route::get('/admin/verifikasi_pembayaran', Livewire\Admin\VerifikasiPembayaran::class);
 Route::get('/admin/report', Livewire\Admin\Report::class);
 
 

@@ -33,7 +33,7 @@ class Rating extends Component
         ->with('transaction.user')
         ->with('transaction.animal')
         ->paginate(10);
-        // dd($rating);
+        
         return view('livewire.user.rating', ['rating' => $rating]);
     }
     

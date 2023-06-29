@@ -43,6 +43,7 @@ class TransactionSeeder extends Seeder
         $status = array(
             'pengajuan_ongkir',
             'menunggu_pembayaran',
+            'review_pembayaran',
             'sedang_diproses',
             'sedang_dikirim',
             'sampai_tujuan',
@@ -93,14 +94,14 @@ class TransactionSeeder extends Seeder
             "Toko ini memberikan harga yang kompetitif dan saya mendapatkan nilai yang luar biasa untuk pembelian saya.",
             "Saya merasa aman berbelanja di toko ini karena mereka memberikan jaminan kesehatan dan keaslian hewan peliharaan.",
         );
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 2000; $i++) {
 
             $user = $this->randomUser();
             $store = $this->randomStore();
             $animal = $this->randomAnimal();
 
             $random_qty = rand(1, 5);
-            $random_status = rand(0, 6);
+            $random_status = rand(0, 7);
             $random_ongkir = rand(1, 10) * 10000;
             $id_transaction = strtoupper('TRX-' . Str::random(10, 'alnum'));
 
@@ -123,7 +124,7 @@ class TransactionSeeder extends Seeder
                     'transaction_id_transaction' => $id_transaction
                 ]);
             }
-            if ($random_status == 5) {
+            if ($random_status == 6) {
 
                 $should_review = rand(0, 1);
                 if ($should_review == 1) {
@@ -139,17 +140,44 @@ class TransactionSeeder extends Seeder
             }
             if ($random_status > 1) {
                 $faker = Faker::create('id_ID');
-                $pembayaran = array('bca', 'bni', 'bri', 'mandiri', 'ovo', 'gopay', 'shopeepay', 'dana');
-                $random_pembayaran = array_rand($pembayaran, 1);
+                $tipe_pembayaran = array('transfer_bank', 'digital_payment');
+                $random_tipe_pembayaran = array_rand($tipe_pembayaran, 1);
+                if ($random_tipe_pembayaran == 0) {
+                    $pembayaran = array('bca', 'bni', 'bri', 'mandiri');
+                    $random_pembayaran = array_rand($pembayaran, 1);
+                }else{
+                    $pembayaran = array('ovo', 'gopay', 'shopeepay', 'dana');
+                    $random_pembayaran = array_rand($pembayaran, 1);
+
+                }
+
                 DB::table('bukti_pembayaran')->insert([
-                    'tipe_rekening'   => '-',
+                    'tipe_rekening'   => $tipe_pembayaran[$random_tipe_pembayaran],
                     'jenis_rekening'  => strtoupper($pembayaran[$random_pembayaran]),
                     'nama_rekening'  => $faker->name,
                     'nomor_rekening' => mt_rand(10000000, 99999999),
-                    'bukti_pembayaran'    => '-',
+                    'bukti_pembayaran'    => '/animal_photos/bukti_pembayaran.jpg',
                     'transaction_id_transaction' => $id_transaction
-
                 ]);
+            }
+            if($random_status == 6)
+            {
+               
+                $complain = DB::table('complain')->insertGetId([
+                    'komentar' => 'produk saya dalam masalah',
+                    'status' => 'dalam_review',
+                    'created_at' => Carbon::now()->addMinute(rand(1, 60)),
+                    'transaction_id_transaction' => $id_transaction
+                ]);
+                
+                $assign = DB::table('complain')->where('id', $complain)->first();
+                
+                for ($i = 1; $i < 3; $i++) {
+                    DB::table('complain_photo')->insert([
+                        'photo' => '/buktifoto' . $i . '.jpg',
+                        'complain_id' => $assign->id
+                    ]);
+                }
             }
         }
     }

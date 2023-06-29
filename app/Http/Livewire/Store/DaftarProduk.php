@@ -34,8 +34,11 @@ class DaftarProduk extends Component
     {
         $animals = ListAnimal::whereHas('store', function ($query) {
             $query->where('user_id_user', Auth::id());
-        })->paginate(8);
-        // $animals = ListAnimal::paginate(10);
+        })
+        ->orderBy('status')
+        ->orderBy('created_at', 'desc')
+        ->paginate(8);
+
         return view('livewire.store.daftar-produk', [
             'animals' => $animals
         ])->layout('livewire.layouts.tes-layout', ['blueButton' => 'produk']);

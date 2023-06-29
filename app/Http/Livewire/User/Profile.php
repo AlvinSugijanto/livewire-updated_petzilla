@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use App\Libraries\Provinsi;
 use App\Libraries\Kabupaten;
 use App\Libraries\Kecamatan;
+use App\Services\Geocode;
 
 class Profile extends Component
 {
@@ -25,8 +26,6 @@ class Profile extends Component
         $this->email = $user->email;
         $this->phone_number = $user->phone_number;
 
-        $this->daftar_kabupaten = [];
-        $this->daftar_kecamatan = [];
         $this->getAddress();
     }
     public function render()
@@ -88,12 +87,13 @@ class Profile extends Component
             'email'         => 'required',
             'phone_number'  => 'required',
         ]);
-        
-        $user = User::where('id_user', Auth::id())->update($data);
 
-        if ($user) {
+        try {
+            User::where('id_user', Auth::id())->update($data);
             $this->cancelEditPersonal();
             $this->dispatchBrowserEvent('success-notification');
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
         }
     }
     public function updateAddress()
@@ -104,25 +104,29 @@ class Profile extends Component
             'kabupaten'      => 'required',
             'kecamatan'      => 'required'
         ]);
-        // dd($data);
-        $kabObject = new Kabupaten();
-        $kecObject = new Kecamatan();
 
-        $nama_kecamatan = $kecObject->getNama($this->kabupaten, $this->kecamatan);
-        $nama_kabupaten = $kabObject->getNama($this->provinsi, $this->kabupaten);
+        try {
+            $geo_data = (new Geocode)->handle($data);
 
-        $temp = explode(" ", $nama_kabupaten);
-        $kabupaten_name = implode(" ", array_slice($temp, 1));
-        $getLatLng = Http::get('https://geocode.maps.co/search?q=' . $nama_kecamatan . ', ' . $kabupaten_name)->json();
+            if($geo_data)
+            {
+                $data['latitude'] = $geo_data['lat'];
+                $data['longitude'] = $geo_data['lon'];
+    
+                User::where('id_user', Auth::id())->update($data);
+    
+                $this->dispatchBrowserEvent('success-notification');
+            }
 
-        $data['latitude'] = $getLatLng[0]['lat'];
-        $data['longitude'] = $getLatLng[0]['lon'];
+            $this->dispatchBrowserEvent('error-modal',['message' => 'Kami tidak dapat menemukan koordinat lokasimu']);
 
-        $user = User::where('id_user', Auth::id())->update($data);
-
-        if ($user) {
-            $this->cancelEditAddress();
-            $this->dispatchBrowserEvent('success-notification');
+            
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
         }
+
+        $this->cancelEditAddress();
+
+
     }
 }

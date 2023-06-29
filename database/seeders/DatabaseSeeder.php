@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public $user_seeder, $store_seeder, $animal_seeder, $transaction_seeder, $new_animal_seeder;
+    public $user_seeder, $store_seeder, $animal_seeder, $transaction_seeder, $new_animal_seeder, $admin_seeder;
     public $counter = 0;
 
     public function __construct()
@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->animal_seeder = new AnimalSeeder();
         $this->new_animal_seeder = new NewAnimalSeeder();
         $this->transaction_seeder = new TransactionSeeder();
+        $this->admin_seeder = new AdminSeeder();
     }
     public function run()
     {
@@ -51,6 +52,8 @@ class DatabaseSeeder extends Seeder
 
             var_dump('=== ' . $this->counter++ . ' ===');
         }
+        $this->admin_seeder->run();
+
 
     }
 }

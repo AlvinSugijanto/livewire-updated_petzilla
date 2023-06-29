@@ -57,7 +57,7 @@ class TambahProduk extends Component
             'warna'       => $this->warna,
             'umur'        => $this->umur ? $this->umur : null,
             'satuan_umur' => $this->umur ? $this->satuan_umur : null,
-            'status'      => 'aktif',
+            'status'      => 'menunggu_persetujuan',
             'store_id_store' => StoreModel::whereHas('user', function ($query) {
                                     $query->where('id_user', Auth::id());
                                 })->value('id_store')

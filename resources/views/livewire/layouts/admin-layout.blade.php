@@ -16,21 +16,42 @@
 
 <body>
     <nav class="navbar navbar-expand static-top shadow px-4" style="background-color:#FFFF">
-        <a class="navbar-brand mr-2" href="#"><img src="{{ asset('logo-name.png') }}" alt="" width="170"></a>
+        <a class="navbar-brand mr-2" href="/admin/dashboard"><img src="{{ asset('logo-name.png') }}" alt="" width="170"></a>
         <h3 class="m-0" style="font-weight:400">Admin</h3>
         <div class="ml-auto"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
     </nav>
     <div class="wrapper">
         <ul class="sidebar">
             <a href="/admin/dashboard">
-                <li style="margin-bottom:0px; font-size:18px"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+                <li style="margin-top:0px; font-size:18px"><i class="fa-solid fa-gauge"></i> Dashboard</li>
             </a>
             <hr class="">
-            <a href="/admin/product">
-                <li><i class="fa fa-shopping-bag mr-1" aria-hidden="true"></i> Produk</li>
+            <a data-toggle="collapse" href="#collapseProduk" role="button" aria-expanded="false" aria-controls="collapseExample">
+
+                <li class="d-flex align-items-center">
+                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
+                    <div class="mt-1">Produk</div>
+                    <i class="fa-solid fa-angle-right ml-auto align-self-center"></i>
+                </li>
+
+                <div class="collapse p-1 ml-3" id="collapseProduk">
+                    <a href="/admin/product" style="text-decoration: none">
+                        <div class="d-flex align-items-center collapse-child px-2 py-2">
+                            <h5 class="cloud-font mb-0" style="font-size:14px">Daftar Produk</h5>
+                        </div>
+                    </a>
+                    <a href="/admin/review_product" style="text-decoration: none">
+                        <div class="d-flex align-items-center mt-2 collapse-child px-2 py-2">
+                            <h5 class="cloud-font mb-0" style="font-size:14px">Verifikasi Produk</h5>
+                        </div>
+                    </a>
+                </div>
             </a>
-            <a href="/admin/transaction">
-                <li><i class="fa-solid fa-file-lines mr-1"></i> Transaksi</li>
+            <a href="/admin/verifikasi_pembayaran">
+                <li class="d-flex align-items-center">
+                    <i class="fa-solid fa-file mr-2"></i>
+                    <div class="mt-1">Verifikasi Pembayaran</div>
+                </li>
             </a>
             <a href="/admin/report">
                 <li><i class="fa-solid fa-flag mr-1"></i> Laporan User</li>
@@ -42,10 +63,11 @@
     </div>
 
     @livewireScripts
-    @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
+    @stack('scripts')
 
 </body>
 

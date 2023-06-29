@@ -34,7 +34,10 @@ class NewAnimalSeeder extends Seeder
         $array = ['kucing', 'anjing'];
         $rand = rand(0,1);
         $z = $array[$rand];
-
+        $random_status = array(
+            'aktif',
+            'dalam_persetujuan'
+        );
         if($z == 'anjing')
         {
             $animal = $this->dog->getDog();
@@ -49,10 +52,11 @@ class NewAnimalSeeder extends Seeder
             'jenis_hewan' => ucfirst($z),
             'deskripsi' => $faker->text,
             'harga'     => rand(10, 20) * 100000,
-            'status' => 'aktif',
+            'status' => $random_status[rand(0,1)],
             'stok'   => rand(1, 10),
             'store_id_store' => $id_store,
             'thumbnail' => $animal['image'][0],
+            'surat_keterangan_sehat' => '/surat_keterangan_sehat.jpg',
             'created_at' => Carbon::now()->addMinute(rand(1,60))
         ]);
 

@@ -35,6 +35,10 @@ class ListAnimal extends Model
     {
         return $this->belongsTo(StoreModel::class, 'store_id_store', 'id_store'); 
     }
+    public function animal_photo()
+    {
+        return $this->hasMany(AnimalPhoto::class, 'list_animal_id_animal', 'id_animal'); 
+    }
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class, 'list_animal_id_animal', 'id_animal');

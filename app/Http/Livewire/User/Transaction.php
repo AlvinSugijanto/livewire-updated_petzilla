@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\User;
 
+use App\Libraries\Races\Cat;
 use Livewire\Component;
 
 use App\Services\Tripay;
@@ -13,7 +14,7 @@ use App\Models\ProductReportPhoto;
 use App\Models\Rating;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class Transaction extends Component
 {
@@ -98,14 +99,21 @@ class Transaction extends Component
         ]);
 
 
-        $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
-        $data['transaction_id_transaction'] = $this->selectedTransactionId;
+        try {
+            $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
+            $data['transaction_id_transaction'] = $this->selectedTransactionId;
 
-        BuktiPembayaran::create($data);
+            BuktiPembayaran::create($data);
 
-        $this->selectedTransaction->update([
-            'status' => 'sedang_diproses'
-        ]);
+            $this->selectedTransaction->update([
+                'status' => 'review_pembayaran'
+            ]);
+
+            $this->dispatchBrowserEvent('success-modal');
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+        }
     }
     // public function create_tripay_transaction()
     // {
@@ -140,23 +148,35 @@ class Transaction extends Component
     public function submitReport()
     {
 
-        $this->selectedTransaction->update([
-            'status' => 'dalam_masalah'
+        $this->validate([
+            'komentar' => 'required',
+            'complain_photo' => 'required'
         ]);
 
-        $report = ProductReport::create([
-            'komentar' => $this->komentar,
-            'status'   => 'dalam_review',
-            'transaction_id_transaction' => $this->selectedTransaction->id_transaction
-        ]);
-        foreach ($this->complain_photo as $photo) {
-            ProductReportPhoto::create([
-                'photo' => Storage::disk('public')->put('', $photo),
-                'complain_id' => $report->id
+        try {
+
+            $report = ProductReport::create([
+                'komentar' => $this->komentar,
+                'status'   => 'dalam_review',
+                'transaction_id_transaction' => $this->selectedTransaction->id_transaction
             ]);
-        };
 
-        $this->dispatchBrowserEvent('submitted-report');
+            foreach ($this->complain_photo as $photo) {
+                ProductReportPhoto::create([
+                    'photo' => Storage::disk('public')->put('', $photo),
+                    'complain_id' => $report->id
+                ]);
+            };
+
+            $this->selectedTransaction->update([
+                'status' => 'dalam_masalah'
+            ]);
+
+            $this->dispatchBrowserEvent('submitted-report');
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+        }
     }
 
     public function ratingProduct($id)
@@ -167,17 +187,27 @@ class Transaction extends Component
     }
     public function submitRating()
     {
-        Rating::create([
-            'rating' => $this->rating,
-            'review' => $this->review,
-            'transaction_id_transaction' => $this->selectedTransactionId
+        $this->validate([
+            'rating' => 'required',
         ]);
 
-        UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
-            'status' => 'selesai'
-        ]);
+        try {
+            Rating::create([
+                'rating' => $this->rating,
+                'review' => $this->review,
+                'transaction_id_transaction' => $this->selectedTransactionId
+            ]);
 
-        $this->dispatchBrowserEvent('submitted-rating');
+            UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
+                'status' => 'selesai'
+            ]);
+
+            $this->dispatchBrowserEvent('submitted-rating');
+
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
+        }
+
     }
     public function updateType($aa)
     {

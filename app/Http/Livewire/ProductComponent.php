@@ -32,35 +32,41 @@ class ProductComponent extends Component
     {
         $this->animal = ListAnimal::where('id_animal', $id_animal)->first();
 
-        if(!$this->animal){
+        if (!$this->animal) {
             return redirect()->to('/user/error/not-found');
         }
     }
     public function render()
     {
-        
+
         $this->animal_photo = AnimalPhoto::where('list_animal_id_animal', $this->animal->id_animal)->get();
 
         $this->store = $this->animal->getStore($this->animal->store);
 
         $this->user = Auth::user();
-        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);        
+        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
 
         return view('livewire.product-component')->layout('livewire.layouts.base');
     }
     public function createTransaction()
     {
-        $transaction = Transaction::create([
-            'id_transaction' => Str::random(16),
-            'sub_total'  => $this->animal->harga * $this->current_qty,
-            'status'    => 'pengajuan_ongkir',
-            'users_id_user' => Auth::id(),
-            'store_id_store' => $this->animal->store_id_store,
-            'list_animal_id_animal' => $this->animal->id_animal,
-            'qty'           => $this->current_qty
-        ]);
-        if ($transaction) {
+        try {
+
+            Transaction::create([
+                'id_transaction' => Str::random(16),
+                'sub_total'  => $this->animal->harga * $this->current_qty,
+                'status'    => 'pengajuan_ongkir',
+                'users_id_user' => Auth::id(),
+                'store_id_store' => $this->animal->store_id_store,
+                'list_animal_id_animal' => $this->animal->id_animal,
+                'qty'           => $this->current_qty
+            ]);
+
             $this->dispatchBrowserEvent('success-modal');
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+            
         }
     }
 
@@ -74,13 +80,12 @@ class ProductComponent extends Component
                 'users_id_user' => $user->id_user,
                 'list_animal_id_animal' => $this->animal->id_animal
             ]);
-            $this->dispatchBrowserEvent('success-wishlist',[
+            $this->dispatchBrowserEvent('success-wishlist', [
                 'status'  => '200',
                 'message' => 'Hewan berhasil ditambahkan ke wishlist !'
             ]);
-
         } else {
-            $this->dispatchBrowserEvent('success-wishlist',[
+            $this->dispatchBrowserEvent('success-wishlist', [
                 'status'  => '300',
                 'message' => 'Hewan sudah berada di wishlist !'
             ]);

@@ -6,7 +6,7 @@
             <p class="lead">
                 The page you’re looking for doesn’t exist.
             </p>
-            <a href="" class="btn btn-primary" wire:click="returnBack">Go Back</a>
+            <a href="#" class="btn btn-primary" wire:click="returnBack">Go Back</a>
         </div>
     </div>
 </div>

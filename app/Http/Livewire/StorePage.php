@@ -21,7 +21,13 @@ class StorePage extends Component
 
     public function mount($id_store)
     {
+
         $this->store = StoreModel::where('id_store', $id_store)->with('listAnimal')->first();
+
+        if(!$this->store)
+        {
+            return redirect()->to('/user/error/not-found');
+        }
 
         $this->store->kecamatan = $this->store->getKecamatan($this->store->kabupaten, $this->store->kecamatan);
         $this->store->kabupaten = $this->store->getKabupaten($this->store->provinsi, $this->store->kabupaten);
@@ -32,8 +38,7 @@ class StorePage extends Component
 
         $this->total_review = Rating::whereHas('transaction', function($query) use ($id_store){
             $query->where('store_id_store',$id_store);
-        })
-            ->count();
+        })->count();
 
         $this->type = 'produk';
     }

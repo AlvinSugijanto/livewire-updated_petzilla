@@ -17,7 +17,7 @@
                   <th>INFO PRODUK</th>
                   <th>JENIS</th>
                   <th>HARGA</th>
-                  <th>STOK</th>
+                  <th class="text-center">STOK</th>
                   <th class="text-center">STATUS</th>
                   <th class="text-center">ACTION</th>
 
@@ -43,9 +43,10 @@
                   <td class="px-3">
                     @if($animal->status == "aktif")
                     <div class="table-status d-flex justify-content-center py-1" style="background-color:#B3FFA6; color:#35B620; font-size:13px">Aktif</div>
-                    @else
+                    @elseif($animal->status == "tidak_aktif")
                     <div class="table-status d-flex justify-content-center py-1" style="background-color:#FFCACA; color:#CB2D2D; font-size:13px">Tidak Aktif</div>
-
+                    @elseif($animal->status == "dalam_persetujuan")
+                    <div class="table-status d-flex justify-content-center py-1" style="background-color:#fff3cd; color:#856404; font-size:13px">Dalam Review</div>
                     @endif
                   </td>
                   <td class="text-center">

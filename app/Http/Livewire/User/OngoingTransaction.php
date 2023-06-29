@@ -40,6 +40,5 @@ class OngoingTransaction extends Component
                                     ->with('pengiriman')
                                     ->with('pembayaran')
                                     ->first();
-                                    // dd($this->selectedTransaction);
     }
 }
