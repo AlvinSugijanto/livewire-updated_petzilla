@@ -22,7 +22,8 @@ class InboxUser extends Component
     {
         $this->stores = StoreModel::whereHas('messages', function($query){
             $query->where('users_id_user',Auth::id());
-        })->with('latest_message')->get();
+        })->get();
+
         $this->stores = $this->stores->map(function ($item, $key) {
             $item->kabupaten = $item->getKabupaten($item->provinsi, $item->kabupaten);
             return $item;

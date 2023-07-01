@@ -1,5 +1,5 @@
 <div>
-  <div class="container">
+  <div class="container-fluid">
     @if($is_there_store == "false")
     <h4>Kamu belum mendaftarkan tokomu, silahkan daftar toko mu dahulu <a href="/register_store" style="text-decoration : underline; color:blue">disini</a></h4>
     @else
@@ -299,6 +299,18 @@
 
       }).then((result) => {
         window.location = "/store/profile";
+      })
+    });
+    window.addEventListener('success-modal', event => {
+      Swal.fire({
+        title: 'Success',
+        text: event.detail.message,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok',
+
+      }).then((result) => {
+        swal.close();
       })
     });
 

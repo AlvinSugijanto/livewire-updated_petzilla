@@ -17,7 +17,7 @@
                                     </div>
                                     <h5 class="card-text mt-2">Rp. {{ number_format($animal->harga,0,',','.') }}</h5>
                                     <i class="fa fa-map-marker" aria-hidden="true"></i><small class="ml-1">{{ $animal->alamat }}</small>
-                                    <h6>{{ $animal->nama_toko }}</h6>
+                                    <h6><i class="fa fa-shopping-bag"></i> {{ $animal->store->nama_toko }}</h6>
                                 </div>
                             </div>
                         </a>

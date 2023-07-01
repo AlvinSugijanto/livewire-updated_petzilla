@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Http;
 use App\Libraries\Provinsi;
 use App\Libraries\Kabupaten;
 use App\Libraries\Kecamatan;
+use App\Services\Geocode;
 
 class StoreIndex extends Component
 {
@@ -21,18 +22,15 @@ class StoreIndex extends Component
     public $edit_personal = false, $edit_address = false;
     public $provinsi, $kabupaten, $kecamatan;
     public $rekening, $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening;
-
+    public $payment;
 
     protected $listeners = ['deleteConfirmed' => 'deleteRekening'];
     public function mount()
     {
         $store = StoreModel::where('user_id_user', Auth::user()->id_user)->first();
-        if($store != NULL){
-
-            $model = new StoreModel;
+        if ($store != NULL) {
 
             // Personal Information
-            $this->is_there_store = 'true';
             $this->nama_toko = $store->nama_toko;
             $this->description = $store->description;
             $this->no_hp = $store->no_hp;
@@ -44,16 +42,16 @@ class StoreIndex extends Component
 
             // Payment Information
             $this->payment = StoreBankAccount::where('store_id_store', $store->id_store)->get();
-            
 
-        }else{
+            $this->is_there_store = 'true';
+        } else {
 
             $this->is_there_store = 'false';
         }
     }
     public function render()
     {
-        return view('livewire.store.store-index')->layout('livewire.layouts.tes-layout',['blueButton' => 'profil']);
+        return view('livewire.store.store-index')->layout('livewire.layouts.tes-layout', ['blueButton' => 'profil']);
     }
     public function openEditPersonal()
     {
@@ -72,10 +70,10 @@ class StoreIndex extends Component
         $this->edit_address = false;
     }
     public function getAddress()
-    { 
+    {
         $provObject = new Provinsi();
         $this->daftar_provinsi = $provObject->all();
-        
+
         $store = StoreModel::where('user_id_user', Auth::user()->id_user)->first();
         $this->provinsi = $store->provinsi;
         $this->updatedProvinsi();
@@ -84,7 +82,6 @@ class StoreIndex extends Component
         $this->kecamatan = $store->kecamatan;
 
         $this->alamat_lengkap = $store->alamat_lengkap;
-
     }
     public function updatedProvinsi()
     {
@@ -93,15 +90,20 @@ class StoreIndex extends Component
         $this->daftar_kabupaten = $kabObject->getKabupatenFromProvinsi($this->provinsi);
         $this->daftar_kecamatan = [];
 
+        $this->kabupaten = null;
+        $this->kecamatan = null;
     }
     public function updatedKabupaten()
     {
         $kecObject = new Kecamatan();
 
         $this->daftar_kecamatan = $kecObject->getKecamatanFromKabupaten($this->kabupaten);
+
+        $this->kecamatan = null;
+
     }
 
- 
+
 
     public function updatePersonal()
     {
@@ -110,7 +112,14 @@ class StoreIndex extends Component
             'description'    => 'required',
             'no_hp'          => 'required',
         ]);
-        StoreModel::where('user_id_user', Auth::id())->update($data);
+        try {
+            StoreModel::where('user_id_user', Auth::id())->update($data);
+            $this->dispatchBrowserEvent('success-modal', ['message' => 'Informasi Data Diri Berhasil DiUpdate !']);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
+        }
+
+        $this->cancelEditPersonal();
     }
     public function updateAddress()
     {
@@ -120,9 +129,24 @@ class StoreIndex extends Component
             'kabupaten'      => 'required',
             'kecamatan'      => 'required'
         ]);
-        $model = new StoreModel;
-        $data = $model->geocode($data);
-        StoreModel::where('user_id_user', Auth::id())->update($data);
+        try {
+            $geo_data = (new Geocode)->handle($data);
+            if($geo_data)
+            {
+                $data['latitude'] = $geo_data['lat'];
+                $data['longitude'] = $geo_data['lon'];
+
+                StoreModel::where('user_id_user', Auth::id())->update($data);
+
+                $this->dispatchBrowserEvent('success-modal', ['message' => 'Informasi Alamat Berhasil DiUpdate !']);
+            }
+
+
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
+        }
+
+        $this->cancelEditAddress();
 
     }
 
@@ -136,8 +160,7 @@ class StoreIndex extends Component
         ]);
 
         $data['store_id_store'] = StoreModel::where('user_id_user', Auth::user()->id_user)->value('id_store');
-        if(StoreBankAccount::create($data))
-        {
+        if (StoreBankAccount::create($data)) {
             $this->dispatchBrowserEvent('successTambahRekening');
         }
     }
@@ -146,8 +169,7 @@ class StoreIndex extends Component
     {
         $this->rekening = StoreBankAccount::find($id);
 
-        if($this->rekening)
-        {
+        if ($this->rekening) {
             $this->tipe_rekening = $this->rekening->tipe_rekening;
             $this->jenis_rekening = $this->rekening->jenis_rekening;
             $this->nama_rekening = $this->rekening->nama_rekening;
@@ -166,8 +188,7 @@ class StoreIndex extends Component
             'nomor_rekening'      => 'required'
         ]);
 
-        if($this->rekening->update($data))
-        {
+        if ($this->rekening->update($data)) {
             $this->dispatchBrowserEvent('successEditRekening');
         }
     }
@@ -176,8 +197,7 @@ class StoreIndex extends Component
     {
         $rekening = StoreBankAccount::find($id);
 
-        if($rekening)
-        {
+        if ($rekening) {
             $rekening->delete();
         }
     }

@@ -1,5 +1,5 @@
 <div>
-    <div class="container pb-3">
+    <div class="container-fluid pb-3">
 
         <div class="card">
             <div class="row g-0">
@@ -21,7 +21,7 @@
 
                     @if($toUser)
                         
-                        <livewire:message key="{{ now() }}" :to_id="$toUser" />
+                        <livewire:store.message key="{{ now() }}" :to_id="$toUser" />
 
                     @endif
                 </div>

@@ -27,7 +27,7 @@ class OngoingTransaction extends Component
                                                         ->with('user')
                                                         ->with('animal')
                                                         ->with('pengiriman')
-                                                        ->paginate(5);
+                                                        ->paginate(8);
 
         return view('livewire.store.ongoing-transaction',['completedTransaction' => $completedTransaction]);
     }

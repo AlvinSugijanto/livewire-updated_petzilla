@@ -10,18 +10,18 @@
         <div class="mt-2">
             <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
         </div>
-        <div class="d-flex mt-3 ">
+        <div class="d-flex mt-3 w-100">
             <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
-            <div class="d-flex flex-column ml-2" style="width:300px">
+            <div class="d-flex flex-column ml-2" style="flex:1">
                 <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
                 <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
             </div>
-            <div class="d-flex flex-column border-left" style="margin-left:50px; padding-left:50px">
+            <div class="d-flex flex-column border-left pl-4" style="flex:1">
                 <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Harga</h6>
                 <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->grand_total,0,',','.') }}</h6>
                 <i style="font-size: 12px;">*termasuk ongkir + fee</i>
             </div>
-            <div class="align-self-center" style="margin-left:100px">
+            <div class="align-self-center" style="flex:1">
                 <button class="btn btn-transaction py-2 px-4" style="opacity:0.9; font-size:13px" wire:click.prevent="openDetailTransaksiModal('{{ $transaction->id_transaction }}')" data-toggle="modal" data-target="#detailTransaksiModal"><i class="fa-solid fa-file-invoice"></i> Lihat Detail Transaksi</button>
             </div>
         </div>

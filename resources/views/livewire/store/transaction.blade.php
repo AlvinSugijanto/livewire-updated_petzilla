@@ -1,5 +1,5 @@
 <div>
-    <div class="container mb-5">
+    <div class="container-fluid mb-5">
         <h5>Daftar Transaksi</h5>
         <div class="card">
             <div class="card-body">
@@ -371,6 +371,7 @@
                     <div class="form-group">
                         <label>Upload Foto</label>
                         <input type="file" class="form-control" wire:model.defer="bukti_pengiriman">
+                        @error('bukti_pengiriman')<span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="modal-footer">

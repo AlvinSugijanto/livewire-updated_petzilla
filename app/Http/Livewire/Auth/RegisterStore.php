@@ -58,35 +58,45 @@ class RegisterStore extends Component
 
     public function registerStore()
     {
-
-
-        $store = StoreModel::create([
-            'id_store' => Str::random(10),
-            'nama_toko' => $this->nama_toko,
-            'description' => $this->description,
-            'alamat_lengkap' => $this->alamat_lengkap,
-            'no_hp'         => $this->no_hp,
-            'provinsi'      => $this->provinsi,
-            'kabupaten'     => $this->kabupaten,
-            'kecamatan'     => $this->kecamatan,
-            'user_id_user'  => Auth::id(),
-            'latitude'    => $this->geo_data['lat'],
-            'longitude'     => $this->geo_data['lon'],
-        ]);
-        StoreBankAccount::create([
-            'tipe_rekening' => $this->tipe_rekening,
-            'jenis_rekening' => $this->jenis_rekening,
-            'nama_rekening'  => $this->nama_rekening,
-            'nomor_rekening' => $this->nomor_rekening,
-            'store_id_store' => $store->id_store
+        $data_store = $this->validate([
+            'nama_toko'      => 'required|min:2|max:20',
+            'description'    => 'required|string|min:10',
+            'no_hp'          => 'required|digits_between:10,14',
+            'alamat_lengkap' => 'required|string|min:10',
+            'provinsi'       => 'required',
+            'kabupaten'      => 'required',
+            'kecamatan'      => 'required',
         ]);
 
-        $this->dispatchBrowserEvent('show-modal');
+        $data_bank = $this->validate([
+            'tipe_rekening' => 'required',
+            'jenis_rekening'       => 'required',
+            'nama_rekening'      => 'required',
+            'nomor_rekening'      => 'required'
+        ]);
+        try {
+            
+            $data_store['id_store'] = Str::random(10);
+            $data_store['latitude'] = $this->geo_data['lat'];
+            $data_store['longitude'] = $this->geo_data['lon'];
+            $data_store['user_id_user'] = Auth::id();
+
+            $store = StoreModel::create($data_store);
+
+            
+            $data_bank['store_id_store'] = $store->id_store;
+            StoreBankAccount::create($data_bank);
+
+            $this->dispatchBrowserEvent('show-modal');
+
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+        }
     }
     public function nextStep()
     {
         $this->validateForm();
-       
     }
     public function previousStep()
     {
@@ -101,9 +111,8 @@ class RegisterStore extends Component
                 'description'    => 'required|string|min:10',
                 'no_hp'          => 'required|digits_between:10,14',
             ]);
-            
-            $this->currentStep++;
 
+            $this->currentStep++;
         } else if ($this->currentStep == 2) {
 
             $data = $this->validate([

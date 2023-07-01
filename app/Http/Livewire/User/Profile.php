@@ -26,6 +26,8 @@ class Profile extends Component
         $this->email = $user->email;
         $this->phone_number = $user->phone_number;
 
+        $this->daftar_kabupaten = [];
+        $this->daftar_kecamatan = [];
         $this->getAddress();
     }
     public function render()

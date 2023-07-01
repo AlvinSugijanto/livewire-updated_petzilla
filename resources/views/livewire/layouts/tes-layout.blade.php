@@ -107,56 +107,6 @@
                     <h5 class="mb-0">Review Toko</h5>
                 </a>
             </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="/ongoing-order">
-                <i class="fas fa-fw fa-table"></i>
-                <span style="font-size:14px; font-weight:bold; color:#707070">Daftar Produk</span></a>
-            </li> -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="/ingredients">
-                <i class="fa fa-comments" aria-hidden="true"></i>
-                <span style="font-size:14px; font-weight:bold; color:#707070">Review</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-hamburger" style=""></i>
-                    <span style="font-size:14px; font-weight:bold; color:#707070">Menu</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="py-2 collapse-inner rounded" style="background-color:#CEC8C8">
-                        <a class="collapse-item" href="/menu" style="font-size:13px; font-weight:bold; color:#313131">Menu</a>
-                        <a class="collapse-item" href="/advanced-menu" style="font-size:13px; font-weight:bold; color:#313131">Advanced Menu</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Ingredients"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                     <i class="fas fa-fw fa-table"></i> -->
-            <!-- <i class="fa-solid fa-kitchen-set"></i>
-                    <span style="font-size:14px; font-weight:bold; color:#707070">Purchase</span>
-                </a>
-                <div id="Ingredients" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="py-2 collapse-inner rounded" style="background-color:#CEC8C8">
-                        <a class="collapse-item" href="/ingredients_purchase" style="font-size:13px; font-weight:bold; color:#313131">Ingredients Purchase</a>
-                        <a class="collapse-item" href="/other_purchase" style="font-size:13px; font-weight:bold; color:#313131">Other Purchase</a>
-                    </div>
-                </div>
-            </li> -->
-
-            <!-- <hr class="sidebar-divider d-none d-md-block">
-                        
-            <li class="nav-item">
-                <a class="nav-link" href="/overall-report">
-                <i class="fa-solid fa-fw fa-book-open"></i>
-                <span style="font-size:14px; font-weight:bold; color:#707070">Report</span></a>
-            </li> -->
-
-
 
         </ul>
         <!-- End of Sidebar -->
@@ -207,6 +157,21 @@
 
                 $(this).addClass('active');
             });
+        });
+        window.addEventListener('error-modal', event => {
+
+            const {
+                detail
+            } = event;
+            const message = detail && detail.message ? detail.message : 'Oops.. Ada Kesalahan. Silahkan Mencoba Kembali';
+
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            })
         });
     </script>
 

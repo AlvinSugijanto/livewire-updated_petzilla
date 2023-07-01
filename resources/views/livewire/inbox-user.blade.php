@@ -23,7 +23,7 @@
             <div class="col-md-9 border pt-2" style="background-color:#FFFCF8">
 
                 @if($toStore)
-                <livewire:message key="{{ now() }}" :to_id="$toStore" />
+                <livewire:user.message key="{{ now() }}" :to_id="$toStore" />
                 @else
                 <div class="no-chat">
                     <i class="fa fa-commenting-o fa-3x" aria-hidden="true"></i>

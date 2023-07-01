@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\ListAnimal;
 use Livewire\Component;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Wishlist as WishlistModel;
 

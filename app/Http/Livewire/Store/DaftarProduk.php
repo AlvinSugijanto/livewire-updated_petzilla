@@ -43,7 +43,6 @@ class DaftarProduk extends Component
             'animals' => $animals
         ])->layout('livewire.layouts.tes-layout', ['blueButton' => 'produk']);
 
-        // return view('livewire.store.daftar-produk')->layout('livewire.layouts.tes-layout',['blueButton' => 'produk']);
     }
     public function storeProduk()
     {

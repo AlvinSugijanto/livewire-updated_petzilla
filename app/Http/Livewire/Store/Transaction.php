@@ -12,8 +12,9 @@ use App\Models\ListAnimal;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class Transaction extends Component
 {
@@ -45,7 +46,7 @@ class Transaction extends Component
 
         $transactions = (new StoreTransaction)->getTransactionDataStore($this->currentStore);
 
-        
+
         $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
         $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
         $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
@@ -68,18 +69,27 @@ class Transaction extends Component
     }
     public function submitOngkir()
     {
-        StoreTransaction::where('id_transaction', $this->selectedTransactionId)
-            ->update([
-                'status'            => 'menunggu_pembayaran',
-                'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
-            ]);
-        InformasiPengiriman::create([
-            'biaya_pengiriman'  => $this->biaya_pengiriman,
-            'jasa_pengiriman'   => $this->jasa_pengiriman,
-            'transaction_id_transaction' => $this->selectedTransactionId
+        $this->validate([
+            'jasa_pengiriman' => 'required',
+            'biaya_pengiriman' => 'required'
         ]);
 
-        $this->dispatchBrowserEvent('success-notification');
+        try {
+            StoreTransaction::where('id_transaction', $this->selectedTransactionId)
+                ->update([
+                    'status'            => 'menunggu_pembayaran',
+                    'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
+                ]);
+            InformasiPengiriman::create([
+                'biaya_pengiriman'  => $this->biaya_pengiriman,
+                'jasa_pengiriman'   => $this->jasa_pengiriman,
+                'transaction_id_transaction' => $this->selectedTransactionId
+            ]);
+            $this->dispatchBrowserEvent('success-notification');
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+        }
     }
     public function submitBuktiPengiriman()
     {
@@ -87,23 +97,21 @@ class Transaction extends Component
             'bukti_pengiriman'  => 'required'
         ]);
 
-        $id = $this->selectedTransactionId;
+        try {
+            StoreTransaction::where('id_transaction', $this->selectedTransactionId)
+                ->update([
+                    'status'            => 'sedang_dikirim'
+                ]);
+            InformasiPengiriman::where('transaction_id_transaction', $this->selectedTransactionId)
+                ->update([
+                    'bukti_pengiriman'  => Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pengiriman)
+                ]);
+            $this->dispatchBrowserEvent('success-notification');
 
-        $animal = ListAnimal::whereHas('transaction', function ($query) use ($id) {
-            $query->where('id_transaction', $id);
-        })->first();
-
-        $path = Storage::disk('public')->put($animal->id_animal, $this->bukti_pengiriman);
-
-        StoreTransaction::where('id_transaction', $this->selectedTransactionId)
-            ->update([
-                'status'            => 'sedang_dikirim'
-            ]);
-        InformasiPengiriman::where('transaction_id_transaction', $this->selectedTransactionId)
-            ->update([
-                'bukti_pengiriman'  => $path
-            ]);
-        $this->dispatchBrowserEvent('success-notification');
+        } catch (\Exception $e) {
+            
+            $this->dispatchBrowserEvent('error-modal');
+        }
     }
 
     // public function getDataPengajuanOngkir($store)

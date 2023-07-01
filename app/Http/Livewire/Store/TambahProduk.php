@@ -35,7 +35,7 @@ class TambahProduk extends Component
     public function storeProduct()
     {
 
-        $data = $this->validate([
+        $this->validate([
             'jenis_hewan'   => 'required',
             'judul_post'    => 'required',
             'harga' => 'required|numeric|min:1',
@@ -45,36 +45,45 @@ class TambahProduk extends Component
             'thumbnail'     => 'required',
             'surat_keterangan_sehat' => 'required'
         ]);
-
-        $animal = ListAnimal::create([
-
-            'id_animal' => Str::random(10),
-            'jenis_hewan' => $this->jenis_hewan,
-            'judul_post'  => $this->judul_post,
-            'deskripsi'   => $this->deskripsi,
-            'harga'       => $this->harga,
-            'stok'        => $this->stok,
-            'warna'       => $this->warna,
-            'umur'        => $this->umur ? $this->umur : null,
-            'satuan_umur' => $this->umur ? $this->satuan_umur : null,
-            'status'      => 'menunggu_persetujuan',
-            'store_id_store' => StoreModel::whereHas('user', function ($query) {
-                                    $query->where('id_user', Auth::id());
-                                })->value('id_store')
-        ]);
-        $animal->thumbnail = Storage::disk('public')->put($animal->id_animal, $this->thumbnail);
-        $animal->surat_keterangan_sehat = Storage::disk('public')->put($animal->id_animal, $this->surat_keterangan_sehat);
         
-        if($this->sertifikat_pedigree){
-            $animal->sertifikat_pedigree = Storage::disk('public')->put($animal->id_animal, $this->sertifikat_pedigree);
+        $store = StoreModel::whereHas('user', function ($query) {
+            $query->where('id_user', Auth::id());
+        })->first();
+
+        try {
+            $animal = ListAnimal::create([
+
+                'id_animal' => Str::random(10),
+                'jenis_hewan' => $this->jenis_hewan,
+                'judul_post'  => $this->judul_post,
+                'deskripsi'   => $this->deskripsi,
+                'harga'       => $this->harga,
+                'stok'        => $this->stok,
+                'warna'       => $this->warna,
+                'umur'        => $this->umur ? $this->umur : null,
+                'satuan_umur' => $this->umur ? $this->satuan_umur : null,
+                'status'      => 'dalam_persetujuan',
+                'store_id_store' => $store->id_store,
+            ]);
+            
+            $animal->thumbnail = Storage::disk('public')->put($animal->id_animal, $this->thumbnail);
+            $animal->surat_keterangan_sehat = Storage::disk('public')->put($animal->id_animal, $this->surat_keterangan_sehat);
+
+            if ($this->sertifikat_pedigree) {
+                $animal->sertifikat_pedigree = Storage::disk('public')->put($animal->id_animal, $this->sertifikat_pedigree);
+            }
+            if (!empty($this->photos)) {
+                (new AnimalPhoto())->storePhoto($this->photos, $animal->id_animal);
+            }
+
+            if ($animal->save()) {
+                $this->dispatchBrowserEvent('success-notification');
+            }
+        } catch (\Exception $e) {
+
+            $this->dispatchBrowserEvent('error-modal');
+
         }
 
-        $model = new AnimalPhoto;
-        $model->storePhoto($this->photos, $animal->id_animal);
-
-        if($animal->save())
-        {
-            $this->dispatchBrowserEvent('success-notification');
-        }
     }
 }
