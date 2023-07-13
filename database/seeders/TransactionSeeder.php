@@ -31,9 +31,10 @@ class TransactionSeeder extends Seeder
             ->inRandomOrder()
             ->first();
     }
-    public function randomAnimal()
+    public function randomAnimal($store)
     {
         return DB::table('list_animal')
+            ->where('store_id_store', $store->id_store)
             ->inRandomOrder()
             ->first();
     }
@@ -98,30 +99,45 @@ class TransactionSeeder extends Seeder
 
             $user = $this->randomUser();
             $store = $this->randomStore();
-            $animal = $this->randomAnimal();
+            $animal = $this->randomAnimal($store);
 
             $random_qty = rand(1, 5);
             $random_status = rand(0, 7);
             $random_ongkir = rand(1, 10) * 10000;
             $id_transaction = strtoupper('TRX-' . Str::random(10, 'alnum'));
 
-            DB::table('transaction')->insert([
-                'id_transaction' => $id_transaction,
-                'qty' => $random_qty,
-                'sub_total' => $random_qty * $animal->harga,
-                'grand_total' => ($random_qty * $animal->harga) + $random_ongkir,
-                'status'      => $status[$random_status],
-                'users_id_user' => $user->id_user,
-                'store_id_store' => $store->id_store,
-                'list_animal_id_animal' => $animal->id_animal,
-                'created_at'     => Carbon::now(),
-                'completed_at' => $random_status == 5 ? Carbon::now()->addDay() : null,
-            ]);
+
             if ($random_status != 0) {
+                DB::table('transaction')->insert([
+                    'id_transaction' => $id_transaction,
+                    'qty' => $random_qty,
+                    'sub_total' => $random_qty * $animal->harga,
+                    'grand_total' => ($random_qty * $animal->harga) + $random_ongkir,
+                    'status'      => $status[$random_status],
+                    'users_id_user' => $user->id_user,
+                    'store_id_store' => $store->id_store,
+                    'list_animal_id_animal' => $animal->id_animal,
+                    'created_at'     => Carbon::now(),
+                    'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
+                ]);
                 DB::table('informasi_pengiriman')->insert([
                     'jasa_pengiriman' => $nama_pengiriman[rand(1, 7)],
                     'biaya_pengiriman' => $random_ongkir,
                     'transaction_id_transaction' => $id_transaction
+                ]);
+
+            }else
+            {
+                DB::table('transaction')->insert([
+                    'id_transaction' => $id_transaction,
+                    'qty' => $random_qty,
+                    'sub_total' => $random_qty * $animal->harga,
+                    'status'      => $status[$random_status],
+                    'users_id_user' => $user->id_user,
+                    'store_id_store' => $store->id_store,
+                    'list_animal_id_animal' => $animal->id_animal,
+                    'created_at'     => Carbon::now(),
+                    'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
                 ]);
             }
             if ($random_status == 6) {
@@ -157,7 +173,8 @@ class TransactionSeeder extends Seeder
                     'nama_rekening'  => $faker->name,
                     'nomor_rekening' => mt_rand(10000000, 99999999),
                     'bukti_pembayaran'    => '/animal_photos/bukti_pembayaran.jpg',
-                    'transaction_id_transaction' => $id_transaction
+                    'transaction_id_transaction' => $id_transaction,
+                    'created_at' => Carbon::now()->subMinute(rand(1, 60)),
                 ]);
             }
             if($random_status == 6)

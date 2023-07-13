@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class Login extends Component
 {
@@ -16,18 +17,11 @@ class Login extends Component
     }
     public function login()
     {
-        $this->validate([
+        $data = $this->validate([
             'email' => 'required',
             'password' => 'required'
         ]);
-
-        $admin = Admin::where('email',$this->email)->first();
-        if($admin == NULL)
-        {
-           return session()->flash('error', 'Incorrect credentials !');
-        }
-        // $password = decrypt($admin->password);
-        if (Hash::check($this->password, $admin->password)) {
+        if (Auth::guard('admin')->attempt($data)) {
 
             return redirect()->to('/admin/dashboard');
 

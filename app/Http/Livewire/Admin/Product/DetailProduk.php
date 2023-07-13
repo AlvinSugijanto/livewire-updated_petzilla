@@ -20,6 +20,11 @@ class DetailProduk extends Component
             ->with('animal_photo')
             ->first();
 
+        if(empty($animal))
+        {
+            return redirect()->to('/admin/error/not-found');
+        }
+
         $this->jenis_hewan = $animal->jenis_hewan;
         $this->judul_post = $animal->judul_post;
         $this->harga = $animal->harga;
@@ -34,7 +39,6 @@ class DetailProduk extends Component
         if ($animal->sertifikat_pedigree) {
             $this->sertifikat_pedigree = $animal->sertifikat_pedigree;
         }
-        // dd($animal->sertifikat_pedigree);
     }
 
     public function render()

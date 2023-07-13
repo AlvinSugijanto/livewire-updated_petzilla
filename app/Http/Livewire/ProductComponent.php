@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\StoreModel;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Str;
 
@@ -53,7 +54,7 @@ class ProductComponent extends Component
         try {
 
             Transaction::create([
-                'id_transaction' => Str::random(16),
+                'id_transaction' => strtoupper('TRX-' . Str::random(10, 'alnum')),
                 'sub_total'  => $this->animal->harga * $this->current_qty,
                 'status'    => 'pengajuan_ongkir',
                 'users_id_user' => Auth::id(),
@@ -62,11 +63,15 @@ class ProductComponent extends Component
                 'qty'           => $this->current_qty
             ]);
 
+            ListAnimal::where('id_animal', $this->animal->id_animal)
+                ->update([
+                    'stok'       => DB::raw('stok - ' . $this->current_qty)
+                ]);
+
             $this->dispatchBrowserEvent('success-modal');
         } catch (\Exception $e) {
 
             $this->dispatchBrowserEvent('error-modal');
-            
         }
     }
 
@@ -81,12 +86,10 @@ class ProductComponent extends Component
                 'list_animal_id_animal' => $this->animal->id_animal
             ]);
             $this->dispatchBrowserEvent('success-wishlist', [
-                'status'  => '200',
                 'message' => 'Hewan berhasil ditambahkan ke wishlist !'
             ]);
         } else {
             $this->dispatchBrowserEvent('success-wishlist', [
-                'status'  => '300',
                 'message' => 'Hewan sudah berada di wishlist !'
             ]);
         }

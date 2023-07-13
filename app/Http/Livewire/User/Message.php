@@ -60,7 +60,7 @@ class Message extends Component
         $this->dispatchBrowserEvent('scroll-bottom');
 
 
-        return view('livewire.message')->layout('livewire.layouts.base');
+        return view('livewire.user.message')->layout('livewire.layouts.base');
     }
 
     public function sendMessage()

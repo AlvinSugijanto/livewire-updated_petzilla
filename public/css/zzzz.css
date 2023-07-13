@@ -1179,3 +1179,11 @@ label.replace_photo{
   position: absolute;
   z-index: -1;
 }
+
+.judul-post-text {
+  display: -webkit-box;
+  max-width: auto;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

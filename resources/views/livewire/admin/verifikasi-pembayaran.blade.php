@@ -6,6 +6,7 @@
             <table class="tableProduk">
                 <thead>
                     <tr>
+                        <th width="">Tanggal</th>  
                         <th width="">ID TRANSAKSI</th>
                         <th width="">PEMBELI</th>
                         <th width="">METODE PEMBAYARAN</th>
@@ -16,9 +17,10 @@
                 <tbody>
                     @foreach($transactions as $transaction)
                     <tr>
+                        <td>{{ date('d/m/Y H:i', strtotime($transaction->created_at)) }}</td>
                         <td>{{ $transaction->id_transaction }}</td>
                         <td>{{ $transaction->user->name }}</td>
-                        <td>{{ $transaction->pembayaran->jenis_rekening }}</td>
+                        <td>{{ $transaction->jenis_rekening }}</td>
                         <td> Rp. {{ number_format($transaction->grand_total,0,',','.') }}</td>
                         <td class="text-center">
                             <a href="#" wire:click.prevent="openDetailModal('{{ $transaction->id_transaction }}')" data-toggle="modal" data-target="#detailPembayaranModal"><i class="fa-solid fa-eye"></i></a>

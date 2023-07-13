@@ -21,8 +21,8 @@ class Transaction extends Component
 
     use WithFileUploads;
 
-    protected $queryString = ['type'];
-    public $type;
+    protected $queryString = ['type','status'];
+    public $type, $status;
 
     public $pengajuan_ongkir, $pengajuan_ongkir_count;
     public $menunggu_pembayaran, $menunggu_pembayaran_count;
@@ -41,17 +41,18 @@ class Transaction extends Component
     public function mount()
     {
         $this->type = 'ongoing';
+        $this->status = 'pengajuan_ongkir';
 
-        $this->currentStore = User::find(Auth::id())->store;
+        // $this->currentStore = User::find(Auth::id())->store;
 
-        $transactions = (new StoreTransaction)->getTransactionDataStore($this->currentStore);
+        // $transactions = (new StoreTransaction)->getTransactionDataStore($this->currentStore);
 
 
-        $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
-        $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
-        $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
-        $this->sedang_dikirim = $transactions->has('sedang_dikirim') ? $transactions['sedang_dikirim'] : collect();
-        $this->sampai_tujuan = $transactions->has('sampai_tujuan') ? $transactions['sampai_tujuan'] : collect();
+        // $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
+        // $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
+        // $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
+        // $this->sedang_dikirim = $transactions->has('sedang_dikirim') ? $transactions['sedang_dikirim'] : collect();
+        // $this->sampai_tujuan = $transactions->has('sampai_tujuan') ? $transactions['sampai_tujuan'] : collect();
 
         // $this->pengajuan_ongkir = $transactions['pengajuan_ongkir'];
         // $this->menunggu_pembayaran = $transactions['menunggu_pembayaran'];
@@ -63,56 +64,56 @@ class Transaction extends Component
     {
         return view('livewire.store.transaction')->layout('livewire.layouts.tes-layout', ['blueButton' => 'transaksi']);
     }
-    public function openModal($id)
-    {
-        $this->selectedTransactionId = $id;
-    }
-    public function submitOngkir()
-    {
-        $this->validate([
-            'jasa_pengiriman' => 'required',
-            'biaya_pengiriman' => 'required'
-        ]);
+    // public function openModal($id)
+    // {
+    //     $this->selectedTransactionId = $id;
+    // }
+    // public function submitOngkir()
+    // {
+    //     $this->validate([
+    //         'jasa_pengiriman' => 'required',
+    //         'biaya_pengiriman' => 'required'
+    //     ]);
 
-        try {
-            StoreTransaction::where('id_transaction', $this->selectedTransactionId)
-                ->update([
-                    'status'            => 'menunggu_pembayaran',
-                    'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
-                ]);
-            InformasiPengiriman::create([
-                'biaya_pengiriman'  => $this->biaya_pengiriman,
-                'jasa_pengiriman'   => $this->jasa_pengiriman,
-                'transaction_id_transaction' => $this->selectedTransactionId
-            ]);
-            $this->dispatchBrowserEvent('success-notification');
-        } catch (\Exception $e) {
+    //     try {
+    //         StoreTransaction::where('id_transaction', $this->selectedTransactionId)
+    //             ->update([
+    //                 'status'            => 'menunggu_pembayaran',
+    //                 'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
+    //             ]);
+    //         InformasiPengiriman::create([
+    //             'biaya_pengiriman'  => $this->biaya_pengiriman,
+    //             'jasa_pengiriman'   => $this->jasa_pengiriman,
+    //             'transaction_id_transaction' => $this->selectedTransactionId
+    //         ]);
+    //         $this->dispatchBrowserEvent('success-notification');
+    //     } catch (\Exception $e) {
 
-            $this->dispatchBrowserEvent('error-modal');
-        }
-    }
-    public function submitBuktiPengiriman()
-    {
-        $this->validate([
-            'bukti_pengiriman'  => 'required'
-        ]);
+    //         $this->dispatchBrowserEvent('error-modal');
+    //     }
+    // }
+    // public function submitBuktiPengiriman()
+    // {
+    //     $this->validate([
+    //         'bukti_pengiriman'  => 'required'
+    //     ]);
 
-        try {
-            StoreTransaction::where('id_transaction', $this->selectedTransactionId)
-                ->update([
-                    'status'            => 'sedang_dikirim'
-                ]);
-            InformasiPengiriman::where('transaction_id_transaction', $this->selectedTransactionId)
-                ->update([
-                    'bukti_pengiriman'  => Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pengiriman)
-                ]);
-            $this->dispatchBrowserEvent('success-notification');
+    //     try {
+    //         StoreTransaction::where('id_transaction', $this->selectedTransactionId)
+    //             ->update([
+    //                 'status'            => 'sedang_dikirim'
+    //             ]);
+    //         InformasiPengiriman::where('transaction_id_transaction', $this->selectedTransactionId)
+    //             ->update([
+    //                 'bukti_pengiriman'  => Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pengiriman)
+    //             ]);
+    //         $this->dispatchBrowserEvent('success-notification');
 
-        } catch (\Exception $e) {
+    //     } catch (\Exception $e) {
             
-            $this->dispatchBrowserEvent('error-modal');
-        }
-    }
+    //         $this->dispatchBrowserEvent('error-modal');
+    //     }
+    // }
 
     // public function getDataPengajuanOngkir($store)
     // {
@@ -174,8 +175,12 @@ class Transaction extends Component
     //     });
     //     $this->sedang_dikirim_count = count($this->sedang_dikirim);
     // }
-    public function updateType($aa)
+    public function updateType($type)
     {
-        $this->type = $aa;
+        $this->type = $type;
+    }
+    public function updateStatus($status)
+    {
+        $this->status = $status;
     }
 }

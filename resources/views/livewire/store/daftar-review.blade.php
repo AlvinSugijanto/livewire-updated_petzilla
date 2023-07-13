@@ -1,18 +1,24 @@
 <div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h5 class="mb-0">Daftar Review</h5>
+                <h5 class="mb-0">Ulasan</h5>
 
                 <div class="card mt-3 shadow-sm">
-                    <div class="card-body py-1">
+                    <div class="p-4">
+                        <h5>Rata-rata rating produk</h5>
+
+                        <h2 class="mt-3 mb-0"><i class="fa fa-star text-warning"></i> {{ round($avg_rating,1) }}<span class="text-muted" style="font-size:16px"> / 5.0</span></h2>
+                    </div>
+                    <div class="p-2">
                         <table class="tableProduk">
                             <thead>
-                                <tr>
+                                <tr class="border-top">
+                                    
                                     <th width="40%">INFO PRODUK</th>
-                                    <th class="text-center" width="20%">DARI</th>
-                                    <th width="15%" class="text-center">RATING</th>
-                                    <th width="25%" class="text-center">REVIEW</th>
+                                    <th class="" width="20%">DARI</th>
+                                    <th width="15%">RATING</th>
+                                    <th width="25%">REVIEW</th>
 
                                 </tr>
                             </thead>
@@ -30,16 +36,20 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $data->transaction->user->name }}</td>
-                                    <td class="text-center">{{ $data->rating }}</td>
-                                    <td class="text-center">{{ $data->review }}</td>
+                                    <td>{{ $data->transaction->user->name }}</td>
+                                    <td><i class="fa fa-star text-warning"></i> {{ $data->rating }}</td>
+                                    <td>
+                                        <div class="judul-post-text">
+                                            {{ $data->review }}
+                                        </div>
+                                    </td>
 
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-center">{{ $rating->links() }}</div>
                     </div>
+                    <div class="d-flex justify-content-center">{{ $rating->links() }}</div>
                 </div>
 
             </div>

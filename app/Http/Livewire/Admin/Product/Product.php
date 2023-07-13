@@ -12,9 +12,30 @@ class Product extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    protected $queryString = ['type'];
+    public $searchTerm ="";
+    public $type;
+
+    public function mount()
+    {
+        $this->type = 'aktif';
+    }
     public function render()
     {
-        $animal = ListAnimal::with('store')->paginate(10);
-        return view('livewire.admin.product.product',['animals' => $animal])->layout('livewire.layouts.admin-layout');
+        if (!empty($this->searchTerm)) {
+
+            $animal = ListAnimal::with('store')
+                                ->where('judul_post', 'like', "%" . $this->searchTerm . "%")
+                                ->where('status', $this->type)
+                                ->paginate(10);
+
+        } else {
+            $animal = ListAnimal::where('status', $this->type)->with('store')->paginate(10);
+        }
+        return view('livewire.admin.product.product', ['animals' => $animal])->layout('livewire.layouts.admin-layout');
+    }
+    public function updateType($type)
+    {
+        $this->type = $type;
     }
 }

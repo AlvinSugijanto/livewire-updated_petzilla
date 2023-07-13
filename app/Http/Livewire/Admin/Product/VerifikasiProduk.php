@@ -23,6 +23,8 @@ class VerifikasiProduk extends Component
     public function updateStatusAnimal($id)
     {
         $animal = ListAnimal::find($id);
+
+        
         $animal->status = 'aktif';
         $animal->save();
     }

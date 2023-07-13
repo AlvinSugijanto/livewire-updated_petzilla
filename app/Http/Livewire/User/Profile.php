@@ -110,25 +110,20 @@ class Profile extends Component
         try {
             $geo_data = (new Geocode)->handle($data);
 
-            if($geo_data)
-            {
+            if ($geo_data) {
                 $data['latitude'] = $geo_data['lat'];
                 $data['longitude'] = $geo_data['lon'];
-    
+
                 User::where('id_user', Auth::id())->update($data);
-    
+
                 $this->dispatchBrowserEvent('success-notification');
+            } else {
+                $this->dispatchBrowserEvent('error-modal', ['message' => 'Kami tidak dapat menemukan koordinat lokasimu']);
             }
-
-            $this->dispatchBrowserEvent('error-modal',['message' => 'Kami tidak dapat menemukan koordinat lokasimu']);
-
-            
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('error-modal');
         }
 
         $this->cancelEditAddress();
-
-
     }
 }

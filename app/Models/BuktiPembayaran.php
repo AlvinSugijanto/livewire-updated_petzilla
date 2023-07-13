@@ -9,7 +9,6 @@ class BuktiPembayaran extends Model
 {
     protected $table = 'bukti_pembayaran';
 
-    public $timestamps = false;
 
     protected $fillable = [
         'tipe_rekening',

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ListAnimal;
 use App\Models\StoreModel;
 use App\Models\InformasiPengiriman;
+use Illuminate\Support\Facades\Auth;
 
 class Transaction extends Model
 {
@@ -88,5 +89,115 @@ class Transaction extends Model
         });
 
         return $transaction;
+    }
+    public function getPengajuanOngkir()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','pengajuan_ongkir')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getMenungguPembayaran()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','menunggu_pembayaran')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getReviewPembayaran()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','review_pembayaran')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSedangDiProses()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','sedang_diproses')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSedangDiKirim()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','sedang_dikirim')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSampaiTujuan()
+    {
+        return Transaction::where('users_id_user', Auth::id())
+                                    ->where('status','sampai_tujuan')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getPengajuanOngkirStore()
+    {
+        return Transaction::where('store_id_store', Auth::user()->store->id_store)
+                                    ->where('status','pengajuan_ongkir')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getMenungguPembayaranStore()
+    {
+        return Transaction::where('store_id_store', Auth::user()->store->id_store)
+                                    ->where('status','menunggu_pembayaran')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSedangDiProsesStore()
+    {
+        return Transaction::where('store_id_store', Auth::user()->store->id_store)
+                                    ->where('status','sedang_diproses')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSedangDiKirimStore()
+    {
+        return Transaction::where('store_id_store', Auth::user()->store->id_store)
+                                    ->where('status','sedang_dikirim')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
+    }
+    public function getSampaiTujuanStore()
+    {
+        return Transaction::where('store_id_store', Auth::user()->store->id_store)
+                                    ->where('status','sampai_tujuan')
+                                    ->with('user')
+                                    ->with('animal')
+                                    ->orderBy('created_at','desc')
+                                    ->paginate(5);
+
     }
 }

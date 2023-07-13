@@ -9,7 +9,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 
-class OngoingTransaction extends Component
+class CompletedTransaction extends Component
 {
     use WithPagination;
     
@@ -29,7 +29,7 @@ class OngoingTransaction extends Component
                                                         ->with('pengiriman')
                                                         ->paginate(8);
 
-        return view('livewire.store.ongoing-transaction',['completedTransaction' => $completedTransaction]);
+        return view('livewire.store.completed-transaction',['completedTransaction' => $completedTransaction]);
     }
     public function openDetailTransaksiModal($id)
     {

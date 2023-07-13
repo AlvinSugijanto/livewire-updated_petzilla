@@ -14,18 +14,30 @@ class DaftarReview extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $avg_rating;
+    public $currentStore;
+
+    public function mount()
+    {
+        $this->currentStore = StoreModel::where('user_id_user', Auth::id())->first();
+
+        $this->avg_rating = Rating::with('transaction.store', 'transaction.user','transaction.animal')
+        ->whereHas('transaction', function ($query) {
+            $query->where('store_id_store', $this->currentStore->id_store);
+        })
+        ->avg('rating');
+    }
     public function render()
     {
-        $currentStore = StoreModel::where('user_id_user', Auth::id())->first();
-
         $rating = Rating::with('transaction.store', 'transaction.user','transaction.animal')
-            ->whereHas('transaction', function ($query) use ($currentStore) {
-                $query->where('store_id_store', $currentStore->id_store);
+            ->whereHas('transaction', function ($query) {
+                $query->where('store_id_store', $this->currentStore->id_store);
             })
+            ->orderBy('created_at','desc')
             ->paginate(10);
 
-        // dd($rating[0]->transaction);
-
-        return view('livewire.store.daftar-review', ['rating' => $rating])->layout('livewire.layouts.tes-layout', ['blueButton' => 'review']);
+        return view('livewire.store.daftar-review', [
+            'rating' => $rating
+            ])->layout('livewire.layouts.tes-layout',['blueButton' => 'review']);
     }
 }

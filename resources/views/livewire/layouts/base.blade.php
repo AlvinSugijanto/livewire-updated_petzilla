@@ -33,13 +33,17 @@
                 <div class="row align-items-center">
                     <div class="element-top">
                         <i class="fa fa-shopping-bag" style="color:#ffff" aria-hidden="true"></i>
-                        <a href="/store/profile">My Store</a>
+                        <a href="/store/profile">Toko Saya</a>
                     </div>
                     <div class="vl"></div>
 
                     <div class="element-top">
                         <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
-                        <a href="/user/profile">Account</a>
+                        <a onclick="toggleProfileDropdown()">Hi, {{ Auth::user()->name }}</a>
+                        <div class="profile-dropdown bg-white py-2 px-4 border rounded">
+                            <a href="/user/profile"><div class="inter-font profile-child " style="font-size: 14px;"><i class="fa fa-user"></i> Profil Saya</div></a>
+                            <div class="profile-child inter-font mt-2" style="font-size: 14px;" wire:click="$emit('logout')" role="button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
+                        </div>
                     </div>
 
                 </div>
@@ -123,10 +127,15 @@
     <script>
         function toggleCategoriesDropdown() {
             var dropdown = document.querySelector('.categories-dropdown');
-            var dropdown2 = document.querySelector('.categories');
 
             dropdown.classList.toggle('active');
-            dropdown2.classList.toggle('active');
+
+        }
+
+        function toggleProfileDropdown() {
+            var profile = document.querySelector('.profile-dropdown');
+
+            profile.classList.toggle('active');
 
         }
 
@@ -149,7 +158,9 @@
         });
         window.addEventListener('error-modal', event => {
 
-            const { detail } = event;
+            const {
+                detail
+            } = event;
             const message = detail && detail.message ? detail.message : 'Oops.. Ada Kesalahan. Silahkan Mencoba Kembali';
 
             Swal.fire({

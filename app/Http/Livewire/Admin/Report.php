@@ -21,10 +21,11 @@ class Report extends Component
             ->with('transaction')
             ->with('transaction.animal')
             ->with('transaction.user')
+            ->orderBy('created_at','desc')
             ->paginate(10);
 
-        // dd($complain);
-        return view('livewire.admin.report', ['complains' => $complain])->layout('livewire.layouts.admin-layout');
+        return view('livewire.admin.report', ['complains' => $complain])
+            ->layout('livewire.layouts.admin-layout');
     }
     public function openDetailModal($id)
     {

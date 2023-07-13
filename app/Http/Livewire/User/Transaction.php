@@ -21,8 +21,8 @@ class Transaction extends Component
 
     use WithFileUploads;
 
-    protected $queryString = ['type'];
-    public $type;
+    protected $queryString = ['type','status'];
+    public $type, $status;
 
     public $pengajuan_ongkir, $menunggu_pembayaran, $sedang_diproses, $sedang_dikirim, $sampai_tujuan;
 
@@ -37,7 +37,6 @@ class Transaction extends Component
 
     public $currentUser;
 
-    protected $listeners = ['modalConfirmed' => 'updateSedangDiKirim'];
 
 
     public function mount()
@@ -47,74 +46,67 @@ class Transaction extends Component
     }
     public function render()
     {
-        $this->currentUser = Auth::user();
-        $this->currentUser->alamat = $this->currentUser->getAddress($this->currentUser->provinsi, $this->currentUser->kabupaten, $this->currentUser->kecamatan);
+        // $this->currentUser = Auth::user();
+        // $this->currentUser->alamat = $this->currentUser->getAddress($this->currentUser->provinsi, $this->currentUser->kabupaten, $this->currentUser->kecamatan);
 
-        $transactions = (new UserTransaction)->getTransactionData($this->currentUser);
+        // $transactions = (new UserTransaction)->getTransactionData($this->currentUser);
 
-        // $this->pengajuan_ongkir = $transactions['pengajuan_ongkir'];
-        // $this->menunggu_pembayaran = $transactions['menunggu_pembayaran'];
-        // $this->sedang_diproses = $transactions['sedang_diproses'];
-        // $this->sedang_dikirim = $transactions['sedang_dikirim'];
-        // $this->sampai_tujuan = $transactions['sampai_tujuan'];
+        // $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
+        // $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
+        // $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
+        // $this->sedang_dikirim = $transactions->has('sedang_dikirim') ? $transactions['sedang_dikirim'] : collect();
+        // $this->sampai_tujuan = $transactions->has('sampai_tujuan') ? $transactions['sampai_tujuan'] : collect();
 
-        $this->pengajuan_ongkir = $transactions->has('pengajuan_ongkir') ? $transactions['pengajuan_ongkir'] : collect();
-        $this->menunggu_pembayaran = $transactions->has('menunggu_pembayaran') ? $transactions['menunggu_pembayaran'] : collect();
-        $this->sedang_diproses = $transactions->has('sedang_diproses') ? $transactions['sedang_diproses'] : collect();
-        $this->sedang_dikirim = $transactions->has('sedang_dikirim') ? $transactions['sedang_dikirim'] : collect();
-        $this->sampai_tujuan = $transactions->has('sampai_tujuan') ? $transactions['sampai_tujuan'] : collect();
-
-        // dd($transactions);
-
+        
         return view('livewire.user.transaction')->layout('livewire.layouts.base');
     }
 
-    public function openPembayaranModal($id)
-    {
-        $this->selectedTransactionId = $id;
-        $this->selectedTransaction = $this->menunggu_pembayaran->where('id_transaction', $id)->first();
-        $this->currentModalStep = 1;
+    // public function openPembayaranModal($id)
+    // {
+    //     $this->selectedTransactionId = $id;
+    //     $this->selectedTransaction = $this->menunggu_pembayaran->where('id_transaction', $id)->first();
+    //     $this->currentModalStep = 1;
 
-        // $payment = new Tripay();
-        // $this->payment_channels = $payment->get_payment_channels();
-        // dd($this->payment_channels);
-    }
-    public function nextStepModal()
-    {
-        $this->currentModalStep++;
-    }
-    public function previousStepModal()
-    {
-        $this->currentModalStep--;
-    }
+    //     $payment = new Tripay();
+    //     $this->payment_channels = $payment->get_payment_channels();
+    //     dd($this->payment_channels);
+    // }
+    // public function nextStepModal()
+    // {
+    //     $this->currentModalStep++;
+    // }
+    // public function previousStepModal()
+    // {
+    //     $this->currentModalStep--;
+    // }
 
-    public function submitPembayaran()
-    {
-        $data = $this->validate([
-            'tipe_rekening' => 'required',
-            'jenis_rekening' => 'required',
-            'nama_rekening'  => 'required',
-            'nomor_rekening' => 'required',
-            'bukti_pembayaran' => 'required'
-        ]);
+    // public function submitPembayaran()
+    // {
+    //     $data = $this->validate([
+    //         'tipe_rekening' => 'required',
+    //         'jenis_rekening' => 'required',
+    //         'nama_rekening'  => 'required',
+    //         'nomor_rekening' => 'required',
+    //         'bukti_pembayaran' => 'required'
+    //     ]);
 
 
-        try {
-            $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
-            $data['transaction_id_transaction'] = $this->selectedTransactionId;
+    //     try {
+    //         $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
+    //         $data['transaction_id_transaction'] = $this->selectedTransactionId;
 
-            BuktiPembayaran::create($data);
+    //         BuktiPembayaran::create($data);
 
-            $this->selectedTransaction->update([
-                'status' => 'review_pembayaran'
-            ]);
+    //         $this->selectedTransaction->update([
+    //             'status' => 'review_pembayaran'
+    //         ]);
 
-            $this->dispatchBrowserEvent('success-modal');
-        } catch (\Exception $e) {
+    //         $this->dispatchBrowserEvent('success-modal');
+    //     } catch (\Exception $e) {
 
-            $this->dispatchBrowserEvent('error-modal');
-        }
-    }
+    //         $this->dispatchBrowserEvent('error-modal');
+    //     }
+    // }
     // public function create_tripay_transaction()
     // {
     //     $data = $this->menunggu_pembayaran->where('id_transaction', $this->selectedTransactionId)->first();
@@ -131,86 +123,90 @@ class Transaction extends Component
     //     }
     // }
 
-    public function updateSedangDiKirim($id)
+    // public function updateSedangDiKirim($id)
+    // {
+    //     UserTransaction::where('id_transaction', $id)->update([
+    //         'status' => 'sampai_tujuan'
+    //     ]);
+    // }
+
+    // public function reportProduct($id)
+    // {
+    //     $this->selectedTransactionId = $id;
+    //     $this->selectedTransaction = $this->sampai_tujuan->where('id_transaction', $id)->first();
+    //     $this->currentReportModal = 1;
+    // }
+
+    // public function submitReport()
+    // {
+
+    //     $this->validate([
+    //         'komentar' => 'required',
+    //         'complain_photo' => 'required'
+    //     ]);
+
+    //     try {
+
+    //         $report = ProductReport::create([
+    //             'komentar' => $this->komentar,
+    //             'status'   => 'dalam_review',
+    //             'transaction_id_transaction' => $this->selectedTransaction->id_transaction
+    //         ]);
+
+    //         foreach ($this->complain_photo as $photo) {
+    //             ProductReportPhoto::create([
+    //                 'photo' => Storage::disk('public')->put('', $photo),
+    //                 'complain_id' => $report->id
+    //             ]);
+    //         };
+
+    //         $this->selectedTransaction->update([
+    //             'status' => 'dalam_masalah'
+    //         ]);
+
+    //         $this->dispatchBrowserEvent('submitted-report');
+    //     } catch (\Exception $e) {
+
+    //         $this->dispatchBrowserEvent('error-modal');
+    //     }
+    // }
+
+    // public function ratingProduct($id)
+    // {
+    //     $this->selectedTransactionId = $id;
+    //     $this->selectedTransaction = $this->sampai_tujuan->where('id_transaction', $id)->first();
+    //     $this->currentRatingModal = 1;
+    // }
+    // public function submitRating()
+    // {
+    //     $this->validate([
+    //         'rating' => 'required',
+    //     ]);
+
+    //     try {
+    //         Rating::create([
+    //             'rating' => $this->rating,
+    //             'review' => $this->review,
+    //             'transaction_id_transaction' => $this->selectedTransactionId
+    //         ]);
+
+    //         UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
+    //             'status' => 'selesai'
+    //         ]);
+
+    //         $this->dispatchBrowserEvent('submitted-rating');
+
+    //     } catch (\Exception $e) {
+    //         $this->dispatchBrowserEvent('error-modal');
+    //     }
+
+    // }
+    public function updateType($type)
     {
-        UserTransaction::where('id_transaction', $id)->update([
-            'status' => 'sampai_tujuan'
-        ]);
+        $this->type = $type;
     }
-
-    public function reportProduct($id)
+    public function updateStatus($status)
     {
-        $this->selectedTransactionId = $id;
-        $this->selectedTransaction = $this->sampai_tujuan->where('id_transaction', $id)->first();
-        $this->currentReportModal = 1;
-    }
-
-    public function submitReport()
-    {
-
-        $this->validate([
-            'komentar' => 'required',
-            'complain_photo' => 'required'
-        ]);
-
-        try {
-
-            $report = ProductReport::create([
-                'komentar' => $this->komentar,
-                'status'   => 'dalam_review',
-                'transaction_id_transaction' => $this->selectedTransaction->id_transaction
-            ]);
-
-            foreach ($this->complain_photo as $photo) {
-                ProductReportPhoto::create([
-                    'photo' => Storage::disk('public')->put('', $photo),
-                    'complain_id' => $report->id
-                ]);
-            };
-
-            $this->selectedTransaction->update([
-                'status' => 'dalam_masalah'
-            ]);
-
-            $this->dispatchBrowserEvent('submitted-report');
-        } catch (\Exception $e) {
-
-            $this->dispatchBrowserEvent('error-modal');
-        }
-    }
-
-    public function ratingProduct($id)
-    {
-        $this->selectedTransactionId = $id;
-        $this->selectedTransaction = $this->sampai_tujuan->where('id_transaction', $id)->first();
-        $this->currentRatingModal = 1;
-    }
-    public function submitRating()
-    {
-        $this->validate([
-            'rating' => 'required',
-        ]);
-
-        try {
-            Rating::create([
-                'rating' => $this->rating,
-                'review' => $this->review,
-                'transaction_id_transaction' => $this->selectedTransactionId
-            ]);
-
-            UserTransaction::where('id_transaction', $this->selectedTransactionId)->update([
-                'status' => 'selesai'
-            ]);
-
-            $this->dispatchBrowserEvent('submitted-rating');
-
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('error-modal');
-        }
-
-    }
-    public function updateType($aa)
-    {
-        $this->type = $aa;
+        $this->status = $status;
     }
 }

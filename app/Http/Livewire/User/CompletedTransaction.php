@@ -8,7 +8,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 
-class OngoingTransaction extends Component
+class CompletedTransaction extends Component
 {
     use WithPagination;
 
@@ -29,7 +29,7 @@ class OngoingTransaction extends Component
 
         $this->currentUser = Auth::user();
         
-        return view('livewire.user.ongoing-transaction', ['completedTransaction' => $completedTransaction]);
+        return view('livewire.user.completed-transaction', ['completedTransaction' => $completedTransaction]);
     }
     public function openDetailTransaksiModal($id)
     {
