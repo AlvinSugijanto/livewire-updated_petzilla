@@ -56,7 +56,9 @@
                     <div class="ml-2">
                         <p style="font-size:14px" class="m-0">Hi,</p>
                         <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                            <h5 style="font-size:14px" class="mb-0">{{ Auth::user()->store->nama_toko }}</h5>
+                            @if(isset(Auth::user()->store->nama_toko))
+                                <h5 style="font-size: 14px" class="mb-0">{{ Auth::user()->store->nama_toko }}</h5>
+                            @endif
                         </div>
                     </div>
                 </div>

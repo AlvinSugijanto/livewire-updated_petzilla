@@ -383,7 +383,7 @@ img.default_store_logo {
   position: absolute;
   top: 100%;
   /* Adjust as needed */
-  left: 80%;
+  left: 83%;
   z-index: 9999;
   /* Adjust the value to make it appear on top */
 }
