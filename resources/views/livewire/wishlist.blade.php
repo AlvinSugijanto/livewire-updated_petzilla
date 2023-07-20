@@ -1,5 +1,5 @@
 <div>
-    <div class="container">
+    <div class="container-fluid">
         <h5 class="ml-2"><i class="fa fa-bookmark" aria-hidden="true"></i> My Wishlist</h5>
         <div class="card">
             <div class="card-body">
@@ -9,7 +9,7 @@
                     <div class="col-md-3 mt-3">
                         <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
                             <div class="card product-card">
-                                <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:200px">
+                                <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:200px; object-fit:cover">
 
                                 <div class="card-body">
                                     <div class="text-title-card" style="overflow: hidden; text-overflow: ellipsis">

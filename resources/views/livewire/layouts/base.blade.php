@@ -41,7 +41,9 @@
                         <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
                         <a onclick="toggleProfileDropdown()">Hi, {{ Auth::user()->name }}</a>
                         <div class="profile-dropdown bg-white py-2 px-4 border rounded">
-                            <a href="/user/profile"><div class="inter-font profile-child " style="font-size: 14px;"><i class="fa fa-user"></i> Profil Saya</div></a>
+                            <a href="/user/profile">
+                                <div class="inter-font profile-child " style="font-size: 14px;"><i class="fa fa-user"></i> Profil Saya</div>
+                            </a>
                             <div class="profile-child inter-font mt-2" style="font-size: 14px;" wire:click="$emit('logout')" role="button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
                         </div>
                     </div>
@@ -52,7 +54,7 @@
 
         </nav>
         <div class="header_mid">
-            <div class="container px-2 py-1 shadow-sm" style="background-color:white">
+            <div class="container-fluid px-2 py-1 shadow-sm" style="background-color:white">
                 <div class="row d-flex align-items-center">
                     <div class="col-md-3 text-center">
                         <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="200"></a>
@@ -107,7 +109,10 @@
     </header>
     <livewire:notifications />
 
-    {{ $slot }}
+    <div class="mt-3">
+        {{ $slot }}
+
+    </div>
 
 
 

@@ -40,7 +40,7 @@
                 </li>
             </a>
             <a href="/admin/report">
-                <li><i class="fa-solid fa-flag mr-1"></i> Laporan User</li>
+                <li><i class="fa-solid fa-flag mr-1"></i> Laporan Transaksi</li>
             </a>
         </ul>
         <div class="content w-100">

@@ -1,5 +1,5 @@
 <div>
-    <div class="container pb-4">
+    <div class="container-fluid pb-4">
 
         <div class="row px-4">
 

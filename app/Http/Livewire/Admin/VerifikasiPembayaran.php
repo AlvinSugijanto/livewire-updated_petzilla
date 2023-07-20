@@ -16,7 +16,10 @@ class VerifikasiPembayaran extends Component
     public $currentDetailPembayaranModal;
     public $selectedTransaction;
 
-    protected $listeners = ['modalConfirmed' => 'updateStatusTransaksi'];
+    protected $listeners = [
+                            'modalConfirmed' => 'updateStatusTransaksi',
+                            'tolakConfirmed' => 'tolakPembayaran'
+                            ];
 
     public function render()
     {
@@ -57,6 +60,16 @@ class VerifikasiPembayaran extends Component
         try {
             $transaction = Transaction::find($id);
             $transaction->status = 'sedang_diproses';
+            $transaction->save();
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('error-modal');
+        }
+    }
+    public function tolakPembayaran($id)
+    {
+        try {
+            $transaction = Transaction::find($id);
+            $transaction->status = 'gagal';
             $transaction->save();
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('error-modal');

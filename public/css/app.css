@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.cdnfonts.com/css/nexa-bold');
 
 
 .element-top {
@@ -63,10 +64,7 @@ a:hover {
 }
 
 .header_mid {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
 }
 
 h6.card-title {
@@ -84,7 +82,15 @@ h6.card-title {
   list-style-type: none
 }
 
-.list-group-item.active {
+.list-menu-user a:hover {
+  color: #8A5E3E;
+}
+
+.list-menu-user a.active {
+  color: #8A5E3E;
+}
+
+/* .list-group-item.active {
   color: white;
   background-color: #A9907E;
   border: 1px solid #A9907E;
@@ -101,7 +107,7 @@ h6.card-title {
 .list-group-item:hover h6,
 .list-group-item:hover small {
   color: #ffffff;
-}
+} */
 
 .btn-transaction {
   color: #6d400ff7;
@@ -119,6 +125,7 @@ h6.card-title {
   opacity: 0.7;
 
 }
+
 .btn-transaction:hover {
   color: white;
   background-color: #6d400ff7;
@@ -126,6 +133,32 @@ h6.card-title {
   opacity: 0.9;
 
 }
+
+.btn-transaction2 {
+  color: #6d400ff7;
+  background-color: white;
+  border: 2px solid #A9907E;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+
+.btn-transaction2.active {
+  color: #523825;
+  border: 2px solid #A9907E;
+  background-color: #faeae2;
+  opacity: 0.9;
+
+}
+
+.btn-transaction2:hover {
+  color: #523825;
+  border: 2px solid #A9907E;
+  background-color: #faeae2;
+  opacity: 1;
+
+}
+
 .btn-cart {
   color: white;
   background-color: #6d400ff7;
@@ -181,6 +214,16 @@ h5.text-title {
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 1px;
+}
+.collapse.collapse-filter .collapse-item{
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+.collapse.collapse-filter .collapse-item:hover{
+  cursor: pointer;
+  background-color: #A9907E;
+  color: white;
+  
 }
 
 img.default_store_logo {
@@ -255,6 +298,10 @@ img.default_store_logo {
   font-weight: 500;
   color: #231f1e;
 }
+.next-font{
+  font-family: 'Nexa', sans-serif;
+                                                
+}
 
 .no-chat {
   display: flex;
@@ -325,6 +372,7 @@ img.default_store_logo {
   z-index: 9999;
   /* Adjust the value to make it appear on top */
 }
+
 .profile-dropdown {
   display: none;
 }
@@ -339,10 +387,12 @@ img.default_store_logo {
   z-index: 9999;
   /* Adjust the value to make it appear on top */
 }
-.profile-dropdown .profile-child:hover{
+
+.profile-dropdown .profile-child:hover {
 
   color: #A9907E;
 }
+
 .judul-post-text {
   display: -webkit-box;
   max-width: 200px;
@@ -391,8 +441,9 @@ img.default_store_logo {
   color: #c59b08;
 }
 
-.image-avatar{
-  width: 40px; /* Adjust the width and height to your desired size */
+.image-avatar {
+  width: 40px;
+  /* Adjust the width and height to your desired size */
   height: 40px;
   border-radius: 50%;
   background-color: #F0F0F0;

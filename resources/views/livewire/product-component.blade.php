@@ -10,7 +10,7 @@
                         <div class="col-md-4 mt-2 p-1">
                             <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="other-preview img-thumbnail" style="width:100%; height:120px; object-fit:cover">
                         </div>
-                        @foreach($animal_photo as $photo)
+                        @foreach($animal->animal_photo as $photo)
                         <div class="col-md-4 mt-2 p-1">
                             <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="width:100%; height:120px; object-fit:cover">
                         </div>

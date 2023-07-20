@@ -31,7 +31,9 @@ class ProductComponent extends Component
 
     public function mount($id_animal)
     {
-        $this->animal = ListAnimal::where('id_animal', $id_animal)->first();
+        $this->animal = ListAnimal::where('id_animal', $id_animal)
+                                    ->with('animal_photo')
+                                    ->first();
 
         if (!$this->animal) {
             return redirect()->to('/user/error/not-found');
@@ -40,7 +42,6 @@ class ProductComponent extends Component
     public function render()
     {
 
-        $this->animal_photo = AnimalPhoto::where('list_animal_id_animal', $this->animal->id_animal)->get();
 
         $this->store = $this->animal->getStore($this->animal->store);
 

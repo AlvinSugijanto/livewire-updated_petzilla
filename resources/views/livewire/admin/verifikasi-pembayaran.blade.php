@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" >Tolak Pembayaran</button>
+                    <button type="button" class="btn btn-danger" onclick="tolakConfirmation('{{ $selectedTransaction->id_transaction }}')">Tolak Pembayaran</button>
 
                     <button type="button" class="btn btn-primary" onclick="modalConfirmation('{{ $selectedTransaction->id_transaction }}')">Setujui Pembayaran</button>
                 </div>
@@ -153,6 +153,30 @@
                 if (result.isConfirmed) {
 
                     Livewire.emit('modalConfirmed', element);
+
+                    Swal.fire(
+                        'Succeed!',
+                        'Transaksi berhasil diupdate',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "/admin/verifikasi_pembayaran";
+                    });
+                }
+            })
+        }
+        function tolakConfirmation(element) {
+            Swal.fire({
+                title: 'Apakah anda yakin menolak pembayaran?',
+                text: "Menyetujui pembayaran ini akan mengupdate status transaksi",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Saya Setuju'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Livewire.emit('tolakConfirmed', element);
 
                     Swal.fire(
                         'Succeed!',
