@@ -14,8 +14,8 @@ Petzilla includes a real-time chat system powered by Pusher that allows seamless
 To prevent any fraud or irresponsible seller. Petzilla requires sellers to provide documentation certifying the health and well-being of the pets they wish to sell. This feature ensures that only healthy and properly cared-for pets are made available on the platform, fostering trust and confidence among potential buyers.
 
 ## Technologies Used 
-Fullstack Framework : Laravel v8 + Livewire v2
-Database: MySQL
-Libraries / 3rd party API : Pusher , MapMaker, https://github.com/emsifa/api-wilayah-indonesia, https://thecatapi.com/
+-Fullstack Framework : Laravel v8 + Livewire v2<br>
+-Database: MySQL<br>
+-Libraries / 3rd party API : Pusher , MapMaker, https://github.com/emsifa/api-wilayah-indonesia, https://thecatapi.com/ 
 
 
