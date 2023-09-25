@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Livewire\User\DetailPembayaran;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::get('/register_store', Livewire\Auth\RegisterStore::class);
 
 Route::middleware(['auth', 'is_email_verified'])->group(function () {
 
-    Route::get('home', Livewire\HomepageComponent::class);
+    Route::get('/home', Livewire\HomepageComponent::class);
     Route::get('/chat/{to_id}', Livewire\Message::class)->name('chat');
     Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
 
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'is_email_verified'])->group(function () {
     Route::get('/store/inbox', Livewire\InboxStore::class)->name('store-inbox');
     Route::get('/store/review', Livewire\Store\DaftarReview::class);
     Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
+
+    Route::get('/logout', Livewire\Auth\Logout::class);
 });
 
 Route::get('/user/error/not-found', Livewire\Error\UserNotFound::class);
@@ -65,5 +68,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/product/{id_animal}', Livewire\Admin\Product\DetailProduk::class)->name('detail-product');
 
     Route::get('/admin/verifikasi_pembayaran', Livewire\Admin\VerifikasiPembayaran::class);
-    Route::get('/admin/report', Livewire\Admin\Report::class);
+    Route::get('/admin/report', Livewire\Admin\Transaction\Report::class);
+    Route::get('/admin/report/{id_transaction}', Livewire\Admin\Transaction\DetailReport::class)->name('detail-report');
+
+
 });

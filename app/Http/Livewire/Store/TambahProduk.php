@@ -18,7 +18,7 @@ class TambahProduk extends Component
 {
     use WithFileUploads;
 
-    public $jenis_hewan, $judul_post, $harga, $stok, $warna, $umur, $satuan_umur, $deskripsi;
+    public $jenis_hewan, $judul_post, $harga, $stok, $warna, $umur, $deskripsi;
     public $thumbnail, $photos = [];
     public $sertifikat_pedigree, $surat_keterangan_sehat;
 
@@ -41,7 +41,6 @@ class TambahProduk extends Component
             'harga' => 'required|numeric|min:1',
             'stok' => 'required|integer|min:1',
             'deskripsi'     => 'required',
-            'umur'          => 'nullable|numeric|min:1',
             'thumbnail'     => 'required',
             'surat_keterangan_sehat' => 'required'
         ]);
@@ -61,7 +60,6 @@ class TambahProduk extends Component
                 'stok'        => $this->stok,
                 'warna'       => $this->warna,
                 'umur'        => $this->umur ? $this->umur : null,
-                'satuan_umur' => $this->umur ? $this->satuan_umur : null,
                 'status'      => 'dalam_persetujuan',
                 'store_id_store' => $store->id_store,
             ]);

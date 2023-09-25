@@ -62,6 +62,7 @@ class SedangDiProses extends Component
     public function openDetailTransaksiModal($id)
     {
         $this->selectedTransaction = Transaction::where('id_transaction', $id)->first();
+        $this->selectedTransaction->alamat = $this->selectedTransaction->user->getAddress($this->selectedTransaction->user->provinsi, $this->selectedTransaction->user->kabupaten, $this->selectedTransaction->user->kecamatan);
         $this->currentDetailTransaksiModal = 1;
 
     }

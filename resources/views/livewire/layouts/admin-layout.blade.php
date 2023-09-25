@@ -26,22 +26,45 @@
                 <li style="margin-top:0px; font-size:18px"><i class="fa-solid fa-gauge"></i> Dashboard</li>
             </a>
             <hr class="">
-            <a href="/admin/product">
+            <a data-toggle="collapse" href="#collapseProduk" role="button" aria-expanded="false" aria-controls="collapseExample" class="collapseParent">
                 <li class="d-flex align-items-center">
-                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
-                    <div class="mt-1">Produk</div>
+                    <i class="fa-solid fa-paw mr-2"></i>
+                    <div class="mt-1">Daftar Hewan</div>
+                    <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    <i class="fa-solid fa-chevron-down ml-auto"></i>
                 </li>
             </a>
 
-            <a href="/admin/verifikasi_pembayaran">
+            <div class="collapse mt-2" id="collapseProduk">
+                <a href="/admin/product/?type=aktif" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Aktif</div>
+                </a>
+                <a href="/admin/product/?type=dalam_persetujuan" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Menunggu Konfirmasi</div>
+                </a>
+            </div>
+
+            <a data-toggle="collapse" href="#collapseTransaksi" role="button" aria-expanded="false" aria-controls="collapseExample" class="collapseParent">
                 <li class="d-flex align-items-center">
                     <i class="fa-solid fa-file mr-2"></i>
-                    <div class="mt-1">Verifikasi Pembayaran</div>
+                    <div class="mt-1">Daftar Transaksi</div>
+                    <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    <i class="fa-solid fa-chevron-down ml-auto"></i>
                 </li>
             </a>
-            <a href="/admin/report">
-                <li><i class="fa-solid fa-flag mr-1"></i> Laporan Transaksi</li>
-            </a>
+
+            <div class="collapse mt-2" id="collapseTransaksi">
+                <a href="#" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Berhasil</div>
+                </a>
+                <a href="/admin/report" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Bermasalah</div>
+                </a>
+                <a href="/admin/verifikasi_pembayaran" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Verifikasi Pembayaran</div>
+                </a>
+            </div>
+
         </ul>
         <div class="content w-100">
             {{ $slot }}
@@ -54,6 +77,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
     @stack('scripts')
+    <script>
+        function toggleDropDownLogo(x) {
+            const logo = document.querySelector('.wrapper-profile-dropdown');
+
+            console.log(x.class);
+        }
+    </script>
 
 </body>
 

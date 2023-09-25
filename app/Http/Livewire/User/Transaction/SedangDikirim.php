@@ -31,7 +31,8 @@ class SedangDikirim extends Component
     public function openDetailTransaksiModal($id)
     {
         $this->selectedTransaction = Transaction::where('id_transaction', $id)->first();
+        $this->selectedTransaction->alamat = $this->selectedTransaction->user->getAddress($this->selectedTransaction->user->provinsi, $this->selectedTransaction->user->kabupaten, $this->selectedTransaction->user->kecamatan);
+        // dd($this->selectedTransaction->pengiriman->bukti_pengiriman);
         $this->currentDetailTransaksiModal = 1;
-
     }
 }

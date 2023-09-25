@@ -1,10 +1,10 @@
 <div>
     <div class="container-fluid">
-        <h5 class="ml-2"><i class="fa fa-bookmark" aria-hidden="true"></i> My Wishlist</h5>
-        <div class="card">
+        <h5 class="ml-2"><i class="fa fa-bookmark" aria-hidden="true"></i> Wishlist Saya</h5>
+        <div class="card" style="min-height: 300px;">
             <div class="card-body">
+                @if(count($animals) > 0)
                 <div class="row">
-
                     @foreach($animals as $animal)
                     <div class="col-md-3 mt-3">
                         <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
@@ -24,6 +24,12 @@
                     </div>
                     @endforeach
                 </div>
+                @else
+                <div class="d-flex justify-content-center align-items-center flex-column mt-5">
+                    <img src="/empty.png" alt="" width="100" height="100">
+                    <div class="ml-3 mt-2 cloud-font-bold">Oops.. Wishlist Kamu Kosong</div>
+                </div>
+                @endif
             </div>
         </div>
     </div>

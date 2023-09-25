@@ -3,93 +3,24 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                <div class="card list-menu-user">
-                    <div class="card-body">
-                        <h5 class="text-center font-weight-bold" style="color:#8A5E3E">Hi, Alvin Sugijanto</h5>
-
-                        <a href="/user/profile">
-                            <div class="d-flex align-items-center border-top p-3 mt-3">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <h6 class="mb-0 ml-3">Profil Saya</h6>
-                                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-                            </div>
-                        </a>
-
-                        <a href="/user/transaction" class="active">
-                            <div class="d-flex align-items-center border-top p-3">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <h6 class="mb-0 ml-3">Daftar Transaksi</h6>
-                                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-                            </div>
-                        </a>
-
-                        <a href="/user/inbox">
-                            <div class="d-flex align-items-center border-top p-3">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <h6 class="mb-0 ml-3">Chat</h6>
-                                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-                            </div>
-                        </a>
-
-                        <a href="/user/wishlist">
-                            <div class="d-flex align-items-center border-top p-3">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <h6 class="mb-0 ml-3">Wishlist</h6>
-                                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-                            </div>
-                        </a>
-
-                    </div>
-
-                    <!-- <ul class="list-group list-group-flush">
-
-            <a href="/user/profile">
-              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap active">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0">Profil Saya</h6>
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </li>
-            </a>
-
-            <a href="/user/transaction">
-              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0">Daftar Transaksi</h6>
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </li>
-            </a>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-              <i class="fa fa-comments" aria-hidden="true"></i>
-              <h6 class="mb-0">Chat</h6>
-              <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <h6 class="mb-0">Review</h6>
-              <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </li>
-
-          </ul> -->
-                </div>
+                <livewire:user.layout.user-profile-layout :type="'transaction'" />
             </div>
             <div class="col-md-9 pb-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-start align-items-start">
-                            <button class="btn btn-transaction2 @if($type == 'ongoing') active @endif" wire:click="updateType('ongoing')">Berlangsung</button>
-                            <button class="btn btn-transaction2 ml-2 @if($type == 'completed') active @endif" wire:click="updateType('completed')">Berhasil</button>
+                            <button class="btn btn-transaction @if($type == 'ongoing') active @endif" wire:click="updateType('ongoing')">Berlangsung</button>
+                            <button class="btn btn-transaction ml-2 @if($type == 'completed') active @endif" wire:click="updateType('completed')">Berhasil</button>
                         </div>
 
                         @if($type == 'ongoing')
                         <div class="d-flex flex-wrap justify-content-start align-items-start">
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'pengajuan_ongkir') active @endif" wire:click="updateStatus('pengajuan_ongkir')">Pengajuan Ongkir</button>
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'menunggu_pembayaran') active @endif" wire:click="updateStatus('menunggu_pembayaran')">Menunggu Pembayaran</button>
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'review_pembayaran') active @endif" wire:click="updateStatus('review_pembayaran')">Review Pembayaran</button>
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'sedang_diproses') active @endif" wire:click="updateStatus('sedang_diproses')">Sedang Diproses</button>
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'sedang_dikirim') active @endif" wire:click="updateStatus('sedang_dikirim')">Sedang Dikirim</button>
-                            <button class="btn btn-transaction2 mt-2 mr-2 @if($status == 'sampai_tujuan') active @endif" wire:click="updateStatus('sampai_tujuan')">Sampai Tujuan</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'pengajuan_ongkir') active @endif" wire:click="updateStatus('pengajuan_ongkir')">Pengajuan Ongkir</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'menunggu_pembayaran') active @endif" wire:click="updateStatus('menunggu_pembayaran')">Menunggu Pembayaran</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'review_pembayaran') active @endif" wire:click="updateStatus('review_pembayaran')">Review Pembayaran</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'sedang_diproses') active @endif" wire:click="updateStatus('sedang_diproses')">Sedang Diproses</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'sedang_dikirim') active @endif" wire:click="updateStatus('sedang_dikirim')">Sedang Dikirim</button>
+                            <button class="btn btn-transaction mt-2 mr-2 @if($status == 'sampai_tujuan') active @endif" wire:click="updateStatus('sampai_tujuan')">Sampai Tujuan</button>
 
                         </div>
                         @if($status == 'pengajuan_ongkir')
@@ -111,8 +42,6 @@
                             <livewire:user.completed-transaction />
                         </div>
 
-
-
                         @endif
                     </div>
                 </div>
@@ -121,26 +50,41 @@
             </div>
         </div>
     </div>
+    <div id="image-viewer">
+        <span class="download" onclick="downloadImage()"><i class="fa fa-download"></i></span>
+        <span class="close"><i class="fa fa-xmark" onclick="closeImageViewer()"></i></span>
 
-
-
-    <div wire:loading.delay class="loader-wrapper">
-        <div class="text-center">
-            <div class="la-ball-spin la-2x">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-
+        <img class="modal-content" id="full-image">
     </div>
+
     @push('scripts')
     <script>
+        function openImageViewer() {
+            var surat = $('#buktiPengiriman').text();
+            var imagePath = "{{ asset('/animal_photos/') }}" + '/' + surat;
+            $("#full-image").attr("src", imagePath);
+            $('#image-viewer').show();
+        }
+
+        function closeImageViewer() {
+            $('#image-viewer').hide();
+        }
+
+        function downloadImage() {
+            var src = document.getElementById("full-image").src;
+            fetch(src)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'image';
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+        }
+
+
         function toggleCardClass(element) {
             var cards = document.querySelectorAll('.payment-card .card');
 
@@ -164,6 +108,7 @@
         });
 
         function modalConfirmation(element) {
+            console.log('test');
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 text: "Anda tidak dapat mengubah aksi ini",

@@ -33,12 +33,11 @@ class MenungguPembayaran extends Component
     }
     public function openPembayaranModal($id)
     {
-        $this->selectedTransactionId = $id;
+        
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                                 ->with('user')
                                                 ->with('animal')
                                                 ->first();
-
         $this->currentModalStep = 1;
     }
     public function nextStepModal()
@@ -61,7 +60,8 @@ class MenungguPembayaran extends Component
 
 
         try {
-            $data['bukti_pembayaran'] = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
+            $path = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
+            $data['bukti_pembayaran'] = 'animal_photos/'.$path;
             $data['transaction_id_transaction'] = $this->selectedTransactionId;
 
             BuktiPembayaran::create($data);
@@ -79,6 +79,8 @@ class MenungguPembayaran extends Component
     public function openDetailTransaksiModal($id)
     {
         $this->selectedTransaction = Transaction::where('id_transaction', $id)->first();
+        $this->selectedTransaction->alamat = $this->selectedTransaction->user->getAddress($this->selectedTransaction->user->provinsi, $this->selectedTransaction->user->kabupaten, $this->selectedTransaction->user->kecamatan);
+
         $this->currentDetailTransaksiModal = 1;
         
     }

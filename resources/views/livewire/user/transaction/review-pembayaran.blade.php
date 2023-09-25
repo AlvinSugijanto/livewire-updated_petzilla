@@ -32,6 +32,8 @@
     </div>
     @endforeach
     <div class="d-flex justify-content-center mt-3">{{ $transactions->links() }}</div>
+
+
     <div wire:ignore.self class="modal fade" id="detailTransaksiModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modalId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -82,15 +84,33 @@
                                 <div class="d-flex align-items-center" style="width:100%">
                                     <div style="color:#6D7588; width:20%">Jasa Pengiriman</div>
                                     <div style="color:#6D7588; width:5%">:</div>
+                                    <div>{{ $selectedTransaction->pengiriman->jasa_pengiriman }}</div>
+                                </div>
+                                <div class="d-flex align-items-center" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">Biaya Pengiriman</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>{{ number_format($selectedTransaction->pengiriman->biaya_pengiriman,0,',','.') }}</div>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">Pembeli</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
+                                        <div class="font-weight-bold">{{ $selectedTransaction->user->name }}</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">No HP</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
+                                        <div>{{ $selectedTransaction->user->phone_number }}</div>
+                                    </div>
                                 </div>
                                 <div class="d-flex" style="width:100%">
                                     <div style="color:#6D7588; width:20%">Alamat</div>
                                     <div style="color:#6D7588; width:5%">:</div>
                                     <div>
-                                        <div class="font-weight-bold">{{ $selectedTransaction->user->name }}</div>
-                                        <div>{{ $selectedTransaction->user->phone_number }}</div>
                                         <div>{{ $selectedTransaction->user->alamat_lengkap }}</div>
-
+                                        <div>{{ $selectedTransaction->alamat }}</div>
                                     </div>
                                 </div>
                             </div>

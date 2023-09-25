@@ -2,77 +2,8 @@
   <div class="container-fluid mt-3">
     <div class="row">
       <div class="col-md-3 mb-3">
-        <div class="card list-menu-user">
-          <div class="card-body">
-            <h5 class="text-center font-weight-bold" style="color:#8A5E3E">Hi, Alvin Sugijanto</h5>
-
-            <a href="/user/profile" class="active">
-              <div class="d-flex align-items-center border-top p-3 mt-3">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0 ml-3">Profil Saya</h6>
-                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-              </div>
-            </a>
-
-            <a href="/user/transaction">
-              <div class="d-flex align-items-center border-top p-3">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0 ml-3">Daftar Transaksi</h6>
-                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-              </div>
-            </a>
-
-            <a href="/user/inbox">
-              <div class="d-flex align-items-center border-top p-3">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0 ml-3">Chat</h6>
-                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-              </div>
-            </a>
-
-            <a href="/user/wishlist">
-              <div class="d-flex align-items-center border-top p-3">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0 ml-3">Wishlist</h6>
-                <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
-              </div>
-            </a>
-
-          </div>
-
-          <!-- <ul class="list-group list-group-flush">
-
-            <a href="/user/profile">
-              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap active">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0">Profil Saya</h6>
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </li>
-            </a>
-
-            <a href="/user/transaction">
-              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                <h6 class="mb-0">Daftar Transaksi</h6>
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </li>
-            </a>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-              <i class="fa fa-comments" aria-hidden="true"></i>
-              <h6 class="mb-0">Chat</h6>
-              <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-              <i class="fa fa-star" aria-hidden="true"></i>
-              <h6 class="mb-0">Review</h6>
-              <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </li>
-
-          </ul> -->
-        </div>
-      </div>
+          <livewire:user.layout.user-profile-layout :type="'profile'"/>
+      </div> 
       <div class="col-md-9">
 
         <!-- Personal Information -->

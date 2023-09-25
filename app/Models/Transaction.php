@@ -57,6 +57,10 @@ class Transaction extends Model
     {
         return $this->hasOne(Rating::class, 'transaction_id_transaction', 'id_transaction');
     }
+    public function complain()
+    {
+        return $this->hasOne(Complain::class, 'transaction_id_transaction', 'id_transaction');
+    }
     public function getTransactionData($user)
     {
         $transaction = Transaction::where('users_id_user', $user->id_user)

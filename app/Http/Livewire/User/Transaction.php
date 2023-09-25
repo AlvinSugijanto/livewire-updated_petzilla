@@ -43,6 +43,7 @@ class Transaction extends Component
     {
 
         $this->type = 'ongoing';
+        $this->status = 'pengajuan_ongkir';
     }
     public function render()
     {

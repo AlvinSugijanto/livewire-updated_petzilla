@@ -2,20 +2,23 @@
 @import url('https://fonts.cdnfonts.com/css/cloud-2');
 @import url('https://fonts.cdnfonts.com/css/gotham');
 
-.login-container{
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #EBEBEB;
 }
-.login-container .card{
+
+.login-container .card {
   padding: 25px 40px;
 }
-.login-container input{
+
+.login-container input {
   height: 50px;
 }
-.login-container button{
+
+.login-container button {
   background-color: #373737;
   border: 1px solid #373737;
   border-radius: 20px;
@@ -24,10 +27,12 @@
   color: white;
   font-weight: 400;
 }
-.login-container button:hover{
+
+.login-container button:hover {
   background-color: #202020;
 
 }
+
 a:hover {
   text-decoration: none;
 }
@@ -45,7 +50,7 @@ ul {
 
 .sidebar {
   min-height: 100vh;
-  width: 220px;
+  width: 280px;
   background-color: #6479FF;
   padding: 30px 10px;
 }
@@ -73,22 +78,32 @@ ul {
   border-radius: 5px;
   color: #6479FF;
 }
-.sidebar .collapse-child{
-  color:white;
-  border-radius: 5px;
-  border: 1px solid transparent;
 
+.sidebar .collapse-child {
+  font-family: 'Cloud', sans-serif;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: white;
+  border: 1px solid transparent;
+  padding: 7px 10px;
+  margin-left: 20px;
 }
+
 .sidebar .collapse-child:hover {
   cursor: pointer;
   background-color: white;
   border: 1px solid white;
   border-radius: 5px;
-}
-.sidebar .collapse-child:hover h5 {
   color: #6479FF;
-
 }
+
+a.collapseParent[aria-expanded="true"] .fa-chevron-right{
+  display: none;
+}
+a.collapseParent[aria-expanded="false"] .fa-chevron-down{
+  display: none;
+}
+
 .content {
   padding: 30px 30px;
 }
@@ -171,15 +186,7 @@ ul {
   background-color: rgb(0, 0, 0.9);
 }
 
-#image-viewer .nav-top {
-  position:sticky;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding: 5px 40px;
-  background-color: rgb(255, 255, 255);
-  opacity: 0.9;
-}
+
 
 #image-viewer .modal-content {
   margin: 40px auto;
@@ -198,6 +205,7 @@ ul {
   opacity: 1;
   transition: 0.3s;
 }
+
 #image-viewer .close:hover,
 #image-viewer .close:focus {
   color: #bbb;
@@ -215,29 +223,35 @@ ul {
   opacity: 1;
   transition: 0.3s;
 }
+
 #image-viewer .download:hover,
 #image-viewer .download:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
 }
-#detailPembayaranModal hr{
-  margin-top : 0.5rem;
+
+#detailPembayaranModal hr {
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-#detailComplainModal hr{
-  margin-top : 0.5rem;
+
+#detailComplainModal hr {
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.gotham{
+
+.gotham {
   font-family: 'Jost', sans-serif;
   font-weight: 500;
 }
-#buktiPembayaran:hover{
+
+#buktiPembayaran:hover {
   opacity: 0.8;
   cursor: pointer;
 }
-#fotoLaporan:hover{
+
+#fotoLaporan:hover {
   opacity: 0.8;
   cursor: pointer;
 }

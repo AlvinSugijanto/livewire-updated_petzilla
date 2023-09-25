@@ -1,6 +1,7 @@
 <div>
     <div class="container-fluid mb-5">
-        <h5>Detail Produk</h5>
+        <button class="btn btn-primary btn-sm" wire:click="goBack()">&#60; Kembali</button>
+        <h5 class="mt-2">Detail Produk</h5>
         <div class="card">
             <div class="card-body">
                 <h6>Informasi Produk</h6>
@@ -15,9 +16,7 @@
                 <div class="form-group row align-items-center">
                     <label for="name" class="col-3">Judul Post <span style="color:red">*<span></label>
                     <div class="col-9">
-                        <!-- <input type="text" id="name" class="form-control" readonly> -->
                         <div class="form-control">{{ $judul_post }}</div>
-
                     </div>
                 </div>
 
@@ -137,6 +136,13 @@
 
             </div>
         </div>
+        @if($animal->status != 'aktif')
+        <div class="d-flex justify-content-end mt-3">
+            <a href="javascript:void(0)" onclick="tolakProdukConfirmation('{{ $animal->id_animal }}')"><button class="btn btn-danger">Tolak Produk</button></a>
+            <a href="javascript:void(0)" onclick="setujuiProdukConfirmation('{{ $animal->id_animal }}')"><button class="btn btn-primary ml-2">Setujui Produk</button></a>
+
+        </div>
+        @endif
 
     </div>
     <div id="image-viewer">
@@ -148,6 +154,7 @@
     @push('scripts')
     <script>
         $(".surat_keterangan_file").click(function() {
+            console.log('test');
             var surat = $('#suratKeteranganSehat').text();
             var imagePath = "{{ asset('/animal_photos/') }}" + '/' + surat;
 
@@ -177,6 +184,54 @@
                     link.click();
                     URL.revokeObjectURL(url);
                 });
+        }
+        function setujuiProdukConfirmation(element) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Update status hewan menjadi Aktif",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Saya akan setujui'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Livewire.emit('modalConfirmed', element);
+                    Swal.fire(
+                        'Succeed!',
+                        'Transaksi berhasil diupdate',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "/admin/product";
+                    });
+
+                }
+            })
+        }
+        function tolakProdukConfirmation(element) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Menolak listing hewan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Saya akan tolak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Livewire.emit('modalRejected', element);
+                    Swal.fire(
+                        'Succeed!',
+                        'Hewan berhasil diupdate',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "/admin/product";
+                    });
+
+                }
+            })
         }
     </script>
     @endpush

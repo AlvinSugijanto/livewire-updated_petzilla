@@ -17,7 +17,7 @@ class EditProduk extends Component
 
     public $animalId;
 
-    public $jenis_hewan, $judul_post, $harga, $stok, $warna, $umur, $satuan_umur, $deskripsi;
+    public $jenis_hewan, $judul_post, $harga, $stok, $warna, $umur, $deskripsi;
     public $thumbnail, $photos = [];
     public $display_photo, $display_photos = [];
     public $sertifikat_pedigree, $surat_keterangan_sehat;
@@ -34,7 +34,6 @@ class EditProduk extends Component
         $this->stok = $animal->stok;
         $this->warna = $animal->warna;
         $this->umur = $animal->umur;
-        $this->satuan_umur = $animal->satuan_umur;
         $this->deskripsi = $animal->deskripsi;
         $this->display_photo = $animal->thumbnail;
         $this->display_photos = AnimalPhoto::where('list_animal_id_animal', $animalId)->get();
@@ -63,7 +62,6 @@ class EditProduk extends Component
         $array_data = [
             'warna' => $this->warna,
             'umur'  => $this->umur,
-            'satuan_umur' => $this->satuan_umur
         ];
         $data = array_merge($data,$array_data);
         $animal = ListAnimal::where('id_animal', $this->animalId)->first();

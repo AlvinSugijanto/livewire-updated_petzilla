@@ -57,7 +57,7 @@
                         <p style="font-size:14px" class="m-0">Hi,</p>
                         <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
                             @if(isset(Auth::user()->store->nama_toko))
-                                <h5 style="font-size: 14px" class="mb-0">{{ Auth::user()->store->nama_toko }}</h5>
+                            <h5 style="font-size: 14px" class="mb-0">{{ Auth::user()->store->nama_toko }}</h5>
                             @endif
                         </div>
                     </div>
@@ -90,17 +90,18 @@
                         <div class="d-flex align-items-center collapse-child p-1">
                             <h5 class="cloud-font mb-0 text-light ml-2" style="font-size:14px">Tambah Produk</h5>
                         </div>
-                        <a href="/store/products" style="text-decoration: none">
-                            <div class="d-flex align-items-center mt-2 collapse-child p-1">
-                                <h5 class="cloud-font mb-0 text-light ml-2" style="font-size:14px">Daftar Produk</h5>
-                            </div>
-                        </a>
+                    </a>
+                    <a href="/store/products" style="text-decoration: none">
+                        <div class="d-flex align-items-center mt-2 collapse-child p-1">
+                            <h5 class="cloud-font mb-0 text-light ml-2" style="font-size:14px">Daftar Produk</h5>
+                        </div>
+                    </a>
                 </div>
             </li>
             <li class="nav-item px-3 mt-3">
                 <a href="/store/transaction" class="d-flex btn nav-child align-items-center @if($blueButton == 'transaksi') active @endif">
                     <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
-                    <h5 class="mb-0">Transaction</h5>
+                    <h5 class="mb-0">Transaksi</h5>
                 </a>
             </li>
             <li class="nav-item px-3 mt-3">

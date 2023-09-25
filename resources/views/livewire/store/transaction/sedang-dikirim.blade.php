@@ -90,14 +90,34 @@
                                     <div style="color:#6D7588; width:5%">:</div>
                                     <div>{{ number_format($selectedTransaction->pengiriman->biaya_pengiriman,0,',','.') }}</div>
                                 </div>
+                                <div class="d-flex align-items-center">
+                                    <div style="color:#6D7588; width:20%">Bukti Pengiriman</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div class="form-control pr-4" id="buktiPengiriman" readonly style="width:200px">asd</div>
+                                    <a href="#" onclick="openImageViewer()" class="bukti_pengiriman_file">
+                                        <div class="mb-0 ml-1 text-primary"><i class="fa fa-eye text-primary ml-2"></i> Lihat</div>
+                                    </a>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">Pembeli</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
+                                        <div class="font-weight-bold">{{ $selectedTransaction->user->name }}</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">No HP</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
+                                        <div>{{ $selectedTransaction->user->phone_number }}</div>
+                                    </div>
+                                </div>
                                 <div class="d-flex" style="width:100%">
                                     <div style="color:#6D7588; width:20%">Alamat</div>
                                     <div style="color:#6D7588; width:5%">:</div>
                                     <div>
-                                        <div class="font-weight-bold">{{ $selectedTransaction->user->name }}</div>
-                                        <div>{{ $selectedTransaction->user->phone_number }}</div>
                                         <div>{{ $selectedTransaction->user->alamat_lengkap }}</div>
-
+                                        <div>{{ $selectedTransaction->alamat }}</div>
                                     </div>
                                 </div>
                             </div>

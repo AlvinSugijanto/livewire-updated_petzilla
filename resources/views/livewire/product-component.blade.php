@@ -21,7 +21,7 @@
                 <div class="col-md-7">
                     <div class="container">
                         <h3>{{ $animal->judul_post }}</h3>
-                        <div class="text-description" style="text-align: justify; text-justify: inter-word;">{!! nl2br($animal->deskripsi) !!}</div>
+                        <div class="text-description mt-3" style="text-align: justify; text-justify: inter-word;">{!! nl2br($animal->deskripsi) !!}</div>
                         <div class="d-flex flex-column">
                             <h6 class="mb-0 mt-2"><i class="fa fa-check-circle-o" aria-hidden="true" style="color:green"></i> Hewan dalam keadaan sehat</h6>
                             @if($animal->sertifikat_pedigree)
@@ -30,13 +30,13 @@
                             <h6 class="mb-0 mt-2"><i class="fa fa-times-circle" aria-hidden="true" style="color:red"></i> Hewan tidak bersertifikat</h6>
                             @endif
                         </div>
-                        <h6 class="mb-0 mt-2 font-weight-normal font-italic">Warna : @if($animal->warna == 'lainnya' || $animal->warna == NULL) - @else {{$animal->warna}} @endif</h6>
+                        <h6 class="mb-0 mt-3 font-weight-normal font-italic">Warna : @if($animal->warna == 'lainnya' || $animal->warna == NULL) - @else {{$animal->warna}} @endif</h6>
                         <h6 class="mb-0 font-weight-normal font-italic">Umur : @if($animal->umur){{$animal->umur}} {{ $animal->satuan_umur }} @else - @endif</h6>
 
-                        <h3 class="mt-2">Rp: {{ number_format($animal->harga,0,',','.') }}</h4>
+                        <h3 class="mt-3">Rp: {{ number_format($animal->harga,0,',','.') }}</h4>
 
-                            <h6 class="mb-0 mt-2"></h6>
-                            <h6 class="mb-0">Total Stok : {{ $animal->stok }}</h6>
+                            
+                            <h6 class="mb-0 mt-3">Total Stok : {{ $animal->stok }}</h6>
                             <div class="d-flex align-items-center mt-2">
                                 <div class="stok-qty border border-secondary py-2">
                                     <i class="fa fa-minus" aria-hidden="true" wire:click.prevent="$emitSelf('dec_qty')"></i>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <hr class="mb-0">
-                            <div class="store-profile">
+                            <div class="store-profile my-3">
                                 <div class="d-flex align-items-center py-2">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Store photo" class="rounded-circle border" width="80px">
                                     <div class="d-flex flex-column px-4">

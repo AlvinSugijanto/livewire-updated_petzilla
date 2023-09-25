@@ -9,7 +9,7 @@
 
 
     {{-- Bootstrap Styles --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
 
 
     <!-- Plugins CSS -->
@@ -27,7 +27,7 @@
 </head>
 
 <body style="background-color:#F8F8F8">
-    <header>
+    <header class="sticky-top">
         <nav class="navbar navbar-expand-lg p-2" style="height:35px; background-color:#A9907E">
             <div class="container justify-content-end ">
                 <div class="row align-items-center">
@@ -37,14 +37,50 @@
                     </div>
                     <div class="vl"></div>
 
-                    <div class="element-top">
+                    <div class="element-top" onmouseover="hoveredProfile()" onmouseout="unHoveredProfile()">
                         <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
-                        <a onclick="toggleProfileDropdown()">Hi, {{ Auth::user()->name }}</a>
-                        <div class="profile-dropdown bg-white py-2 px-4 border rounded">
-                            <a href="/user/profile">
-                                <div class="inter-font profile-child " style="font-size: 14px;"><i class="fa fa-user"></i> Profil Saya</div>
-                            </a>
-                            <div class="profile-child inter-font mt-2" style="font-size: 14px;" wire:click="$emit('logout')" role="button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
+                        <a> {{ strtok(Auth::user()->name, " ") }}</a>
+                        <div class="wrapper-profile-dropdown">
+                            <div class="profile-dropdown bg-white pt-2 pb-4 px-4 border rounded">
+                                <a href="/user/transaction">
+                                    <div class="profile-child d-flex align-items-center mt-2 text-muted inter-font" style="font-size: 16px;">
+                                        <i class="fa fa-shopping-bag" style="color:rgb(0,0,0,.8)" aria-hidden="true"></i>
+                                        <div class="ml-2">Transaksi</div>
+                                        <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
+
+                                    </div>
+                                </a>
+                                <a href="/user/profile">
+                                    <div class="profile-child d-flex align-items-center mt-2 text-muted inter-font" style="font-size: 16px;">
+                                        <i class="fa fa-user" style="color:rgb(0,0,0,.8)" aria-hidden="true"></i>
+                                        <div class="ml-2">Profil</div>
+                                        <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
+
+                                    </div>
+                                </a>
+                                <a href="/user/inbox">
+                                    <div class="profile-child d-flex align-items-center mt-2 text-muted inter-font" style="font-size: 16px;">
+                                        <i class="fa fa-envelope" style="color:rgb(0,0,0,.8)" aria-hidden="true"></i>
+                                        <div class="ml-2">Inbox</div>
+                                        <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                                <a href="/user/wishlist">
+                                    <div class="profile-child d-flex align-items-center mt-2 text-muted inter-font" style="font-size: 16px;">
+                                        <i class="fa fa-bookmark" style="color:rgb(0,0,0,.8)" aria-hidden="true"></i>
+                                        <div class="ml-2">Wishlist</div>
+                                        <i class="fa fa-angle-right ml-auto" aria-hidden="true"></i>
+
+                                    </div>
+                                </a>
+                                <hr class="m-1">
+                                <a href="/logout">
+                                    <div class="profile-child d-flex align-items-center mt-2 text-muted inter-font" style="font-size: 16px;">
+                                        <i class="fa fa-right-from-bracket" style="color:rgb(0,0,0,.8)" aria-hidden="true"></i>
+                                        <div class="ml-2">Logout</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -53,63 +89,10 @@
 
 
         </nav>
-        <div class="header_mid">
-            <div class="container-fluid px-2 py-1 shadow-sm" style="background-color:white">
-                <div class="row d-flex align-items-center">
-                    <div class="col-md-3 text-center">
-                        <a href="/home"><img src="{{ asset('logo-name.png') }}" alt="" width="200"></a>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="d-flex align-items-center">
-                            <div class="categories d-flex align-items-center py-3" onclick="toggleCategoriesDropdown()">
-                                <i class="fa-solid fa-list"></i>
-                                <h5 class="mb-0 inter-font ml-2">Categories</h5>
-                                <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
-                                    <g class="nc-icon-wrapper" fill="currentColor">
-                                        <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" fill="currentColor"></path>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="categories-dropdown">
-                                <div class="container">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h6>Popular Categories</h6>
-                                            <hr>
-                                            <div class="d-flex align-items-center">
-                                                <div class="d-flex justify-content-between border rounded px-5 py-2" style="background-color:#DCDBDB">
-                                                    <i class="fa-solid fa-cat"></i>
-                                                    <h6 class="mb-0 ml-3">Kucing</h6>
-                                                </div>
-                                                <div class="d-flex justify-content-between border rounded px-5 py-2 ml-3" style="background-color:#DCDBDB">
-                                                    <i class="fa-solid fa-dog"></i>
-                                                    <h6 class="mb-0 ml-3">Anjing</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group ml-5" style="width:400px">
-                                <input type="text" class="search-input" placeholder="Cari disini...">
-                                <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <a href="/user/inbox"><i class="fa fa-envelope" aria-hidden="true" style="color:#4D4D4C; font-size:32px"></i></a>
-                        <a href="/user/wishlist"><i class="fa fa-bookmark ml-4" aria-hidden="true" style="color:#4D4D4C; font-size:30px"></i></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <livewire:navbar-component />
     </header>
-    <livewire:notifications />
 
-    <div class="mt-3">
+    <div class="mt-5">
         {{ $slot }}
 
     </div>
@@ -124,12 +107,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
-
     <script src="{{ asset('../js/app.js') }}"></script>
     <!-- <script src="{{ asset('https://bb17-114-142-169-10.ngrok-free.app/js/app.js') }}"></script> -->
 
 
     <script>
+        function hoveredProfile() {
+            var profile = document.querySelector('.wrapper-profile-dropdown');
+
+            profile.classList.toggle('active');
+        }
+
+        function unHoveredProfile() {
+            var profile = document.querySelector('.wrapper-profile-dropdown');
+
+            profile.classList.toggle('active');
+        }
+
         function toggleCategoriesDropdown() {
             var dropdown = document.querySelector('.categories-dropdown');
 

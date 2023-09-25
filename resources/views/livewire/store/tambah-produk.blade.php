@@ -84,13 +84,12 @@
 
                 <div class="form-group row">
                     <label for="phone" class="col-3">Umur </label>
-                    <div class="col-2">
-                        <input type="number" class="form-control" wire:model.defer="umur">
-                    </div>
                     <div class="col-3">
-                        <select class="form-control" wire:model.defer="satuan_umur">
-                            <option value="bulan">Bulan</option>
-                            <option value="tahun">Tahun</option>
+                        <select class="form-control" wire:model.defer="umur">
+                            <option selected hidden>-Pilih Group Umur-</option>
+                            <option value="bayi">Bayi (Kurang dari 3 bulan)</option>
+                            <option value="remaja">Remaja (3 bulan - 1 tahun)</option>
+                            <option value="dewasa">Dewasa (Lebih dari 1 tahun)</option>
                         </select>
                     </div>
                     @error('umur')

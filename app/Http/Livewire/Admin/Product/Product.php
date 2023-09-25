@@ -20,7 +20,10 @@ class Product extends Component
 
     public function mount()
     {
-        $this->type = 'aktif';
+        if (!isset($this->type)) {
+            $this->type='aktif';
+        }
+
     }
     public function render()
     {
@@ -32,7 +35,8 @@ class Product extends Component
                                 ->paginate(10);
 
         } else {
-            $animal = ListAnimal::where('status', $this->type)->with('store')->paginate(10);
+            $animal = ListAnimal::where('status', $this->type)->with('store')->orderBy('updated_at','desc')->paginate(10);
+            
         }
         return view('livewire.admin.product.product', ['animals' => $animal])->layout('livewire.layouts.admin-layout');
     }

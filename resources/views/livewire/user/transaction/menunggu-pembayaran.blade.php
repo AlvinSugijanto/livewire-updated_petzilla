@@ -186,7 +186,14 @@
                             <label for="">Upload Bukti Pembayaran</label>
                             <input type="file" class="form-control" wire:model.defer="bukti_pembayaran">
                             <span class="text-danger">@error('bukti_pembayaran'){{ $message }}@enderror</span>
-
+                            <div wire:loading>
+                                <div class="d-flex">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <p class="m-0 ml-2">Uploading...</p>
+                                </div>
+                            </div>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between mt-3 mr-2">
@@ -257,13 +264,25 @@
                                     <div>{{ number_format($selectedTransaction->pengiriman->biaya_pengiriman,0,',','.') }}</div>
                                 </div>
                                 <div class="d-flex" style="width:100%">
-                                    <div style="color:#6D7588; width:20%">Alamat</div>
+                                    <div style="color:#6D7588; width:20%">Pembeli</div>
                                     <div style="color:#6D7588; width:5%">:</div>
                                     <div>
                                         <div class="font-weight-bold">{{ $selectedTransaction->user->name }}</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">No HP</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
                                         <div>{{ $selectedTransaction->user->phone_number }}</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex" style="width:100%">
+                                    <div style="color:#6D7588; width:20%">Alamat</div>
+                                    <div style="color:#6D7588; width:5%">:</div>
+                                    <div>
                                         <div>{{ $selectedTransaction->user->alamat_lengkap }}</div>
-
+                                        <div>{{ $selectedTransaction->alamat }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -274,9 +293,4 @@
             </div>
         </div>
     </div>
-    @push('scripts')
-    <script>
-
-    </script>
-    @endpush
 </div>
