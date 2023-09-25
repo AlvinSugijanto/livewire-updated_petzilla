@@ -255,6 +255,10 @@ a.collapseParent[aria-expanded="false"] .fa-chevron-down{
   opacity: 0.8;
   cursor: pointer;
 }
+#buktiPengiriman:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
 
 /* .daftar_produk button:hover{
   background-color: #CDE5FF;

@@ -109,7 +109,7 @@
                         <hr>
                         <div class="d-flex justify-content-between">
                             <div>Foto Bukti Pembayaran</div>
-                            <img src="{{ asset($selectedTransaction->pembayaran->bukti_pembayaran) }}" id="buktiPembayaran" class="card-img-top" style="max-height:200px; width:auto" onclick="openImage()">
+                            <img src="{{ asset('animal_photos/'. $selectedTransaction->pembayaran->bukti_pembayaran) }}" id="buktiPembayaran" class="card-img-top" style="max-height:200px; width:auto" onclick="openImage()">
 
                         </div>
 

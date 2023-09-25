@@ -60,8 +60,8 @@
     @push('scripts')
     <script>
         function openImageViewer() {
-            var surat = $('#buktiPengiriman').text();
-            var imagePath = "{{ asset('/animal_photos/') }}" + '/' + surat;
+            var imagePath = $('#buktiPengiriman').text();
+
             $("#full-image").attr("src", imagePath);
             $('#image-viewer').show();
         }

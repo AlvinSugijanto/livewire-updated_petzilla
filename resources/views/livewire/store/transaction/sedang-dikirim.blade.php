@@ -93,7 +93,7 @@
                                 <div class="d-flex align-items-center">
                                     <div style="color:#6D7588; width:20%">Bukti Pengiriman</div>
                                     <div style="color:#6D7588; width:5%">:</div>
-                                    <div class="form-control pr-4" id="buktiPengiriman" readonly style="width:200px">asd</div>
+                                    <div class="form-control pr-4" id="buktiPengiriman" readonly style="width:auto; max-width:100%">{{ $selectedTransaction->pengiriman->bukti_pengiriman }}</div>
                                     <a href="#" onclick="openImageViewer()" class="bukti_pengiriman_file">
                                         <div class="mb-0 ml-1 text-primary"><i class="fa fa-eye text-primary ml-2"></i> Lihat</div>
                                     </a>

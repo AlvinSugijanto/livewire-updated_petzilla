@@ -17,7 +17,7 @@ class MenungguPembayaran extends Component
     protected $paginationTheme = 'bootstrap';
     
     public $currentModalStep, $currentUser, $currentDetailTransaksiModal;
-    public $selectedTransaction, $selectedTransactionId;
+    public $selectedTransaction;
     public $tipe_rekening, $jenis_rekening, $nama_rekening, $nomor_rekening, $bukti_pembayaran;
 
     protected $listeners = ['cancelTransactionConfirmed' => 'cancelTransaction'];
@@ -58,11 +58,10 @@ class MenungguPembayaran extends Component
             'bukti_pembayaran' => 'required'
         ]);
 
-
         try {
-            $path = Storage::disk('public')->put($this->selectedTransactionId, $this->bukti_pembayaran);
-            $data['bukti_pembayaran'] = 'animal_photos/'.$path;
-            $data['transaction_id_transaction'] = $this->selectedTransactionId;
+            $path = Storage::disk('public')->put($this->selectedTransaction->id_transaction, $this->bukti_pembayaran);
+            $data['bukti_pembayaran'] = $path;
+            $data['transaction_id_transaction'] = $this->selectedTransaction->id_transaction;
 
             BuktiPembayaran::create($data);
 

@@ -6,6 +6,8 @@ use Livewire\Component;
 
 class InformasiHewan extends Component
 {
+    public $transaction;
+    
     public function render()
     {
         return view('livewire.admin.transaction.transaction-component.informasi-hewan');

@@ -9,19 +9,46 @@
             </div>
 
             @if($type == 'laporan')
-            <livewire:admin.transaction.transaction-component.informasi-laporan :transaction="$transaction"/>
+            <livewire:admin.transaction.transaction-component.informasi-laporan :transaction="$transaction" />
             @elseif($type == 'transaksi')
-            <livewire:admin.transaction.transaction-component.informasi-transaksi :transaction="$transaction"/>
+            <livewire:admin.transaction.transaction-component.informasi-transaksi :transaction="$transaction" />
             @elseif($type == 'hewan')
-            <livewire:admin.transaction.transaction-component.informasi-hewan :transaction="$transaction"/>
+            <livewire:admin.transaction.transaction-component.informasi-hewan :transaction="$transaction" />
             @endif
         </div>
     </div>
     <div id="image-viewer">
-        <span class="close"><i class="fa fa-xmark" data-dismiss="modal"></i></span>
+        <span class="close" onclick="closeImageViewer()"><i class="fa fa-xmark" data-dismiss="modal"></i></span>
         <img class="modal-content" id="full-image">
     </div>
 
     @push('scripts')
+    <script>
+        function openImage(element) {
+            var src = element.src;
+            $("#full-image").attr("src", src);
+            $('#image-viewer').show();
+        }
+        
+        function openSuratKeteranganSehat() {
+            var surat = $('#suratKeteranganSehat').text();
+            var imagePath = "{{ asset('/animal_photos/') }}" + '/' + surat;
+
+            $("#full-image").attr("src", imagePath);
+            $('#image-viewer').show();
+        }
+
+        function openSertifikatPedigree() {
+            var surat = $('#sertifikatPedigree').text();
+            var imagePath = "{{ asset('/animal_photos/') }}" + '/' + surat;
+
+            $("#full-image").attr("src", imagePath);
+            $('#image-viewer').show();
+        }
+        function closeImageViewer(){
+            $('#image-viewer').hide();
+        }
+
+    </script>
     @endpush
 </div>
