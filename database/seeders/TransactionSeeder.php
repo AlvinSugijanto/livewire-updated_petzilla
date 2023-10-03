@@ -101,45 +101,70 @@ class TransactionSeeder extends Seeder
             $store = $this->randomStore();
             $animal = $this->randomAnimal($store);
 
-            $random_qty = rand(1, 5);
             $random_status = rand(0, 7);
             $random_ongkir = rand(1, 10) * 10000;
             $id_transaction = strtoupper('TRX-' . Str::random(10, 'alnum'));
 
-
             if ($random_status != 0) {
                 DB::table('transaction')->insert([
                     'id_transaction' => $id_transaction,
-                    'qty' => $random_qty,
-                    'sub_total' => $random_qty * $animal->harga,
-                    'grand_total' => ($random_qty * $animal->harga) + $random_ongkir,
+                    'grand_total' => 0,
                     'status'      => $status[$random_status],
                     'users_id_user' => $user->id_user,
                     'store_id_store' => $store->id_store,
-                    'list_animal_id_animal' => $animal->id_animal,
                     'created_at'     => Carbon::now(),
                     'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
                 ]);
+
                 DB::table('informasi_pengiriman')->insert([
                     'jasa_pengiriman' => $nama_pengiriman[rand(1, 7)],
                     'biaya_pengiriman' => $random_ongkir,
                     'transaction_id_transaction' => $id_transaction
                 ]);
 
-            }else
-            {
+                for ($i = 0; $i < rand(3, 5); $i++) {
+
+                    $store = $this->randomStore();
+                    $animal = $this->randomAnimal($store);
+
+                    $random_qty = rand(1, 5);
+
+                    DB::table('transaction_detail')->insert([
+                        'subtotal' => $random_qty * $animal->harga,
+                        'qty'      => $random_qty,
+                        'transaction_id_transaction' => $id_transaction,
+                        'list_animal_id_animal' => $animal->id_animal,
+                    ]);
+                }
+            } else {
+
                 DB::table('transaction')->insert([
                     'id_transaction' => $id_transaction,
-                    'qty' => $random_qty,
-                    'sub_total' => $random_qty * $animal->harga,
+                    'grand_total' => 0,
                     'status'      => $status[$random_status],
                     'users_id_user' => $user->id_user,
                     'store_id_store' => $store->id_store,
-                    'list_animal_id_animal' => $animal->id_animal,
                     'created_at'     => Carbon::now(),
                     'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
                 ]);
+                
+                for ($i = 0; $i < rand(3, 5); $i++) {
+
+                    $store = $this->randomStore();
+                    $animal = $this->randomAnimal($store);
+
+                    $random_qty = rand(1, 5);
+
+                    DB::table('transaction_detail')->insert([
+                        'subtotal' => $random_qty * $animal->harga,
+                        'qty'      => $random_qty,
+                        'transaction_id_transaction' => $id_transaction,
+                        'list_animal_id_animal' => $animal->id_animal,
+                    ]);
+                }
             }
+
+
             if ($random_status == 6) {
 
                 $should_review = rand(0, 1);
@@ -161,10 +186,9 @@ class TransactionSeeder extends Seeder
                 if ($random_tipe_pembayaran == 0) {
                     $pembayaran = array('bca', 'bni', 'bri', 'mandiri');
                     $random_pembayaran = array_rand($pembayaran, 1);
-                }else{
+                } else {
                     $pembayaran = array('ovo', 'gopay', 'shopeepay', 'dana');
                     $random_pembayaran = array_rand($pembayaran, 1);
-
                 }
 
                 DB::table('bukti_pembayaran')->insert([
@@ -177,18 +201,17 @@ class TransactionSeeder extends Seeder
                     'created_at' => Carbon::now()->subMinute(rand(1, 60)),
                 ]);
             }
-            if($random_status == 6)
-            {
-               
+            if ($random_status == 6) {
+
                 $complain = DB::table('complain')->insertGetId([
                     'komentar' => 'produk saya dalam masalah',
                     'status' => 'dalam_review',
                     'created_at' => Carbon::now()->addMinute(rand(1, 60)),
                     'transaction_id_transaction' => $id_transaction
                 ]);
-                
+
                 $assign = DB::table('complain')->where('id', $complain)->first();
-                
+
                 for ($i = 1; $i < 3; $i++) {
                     DB::table('complain_photo')->insert([
                         'photo' => '/buktifoto' . $i . '.jpg',

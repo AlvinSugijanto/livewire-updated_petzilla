@@ -3,7 +3,7 @@ namespace App\Libraries;
 
 class Provinsi
 {
-    private $jsonData;
+    public $jsonData;
 
     public function __construct()
     {

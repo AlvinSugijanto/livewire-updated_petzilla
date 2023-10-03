@@ -3,7 +3,7 @@ namespace App\Libraries;
 
 class Kecamatan
 {
-    private $jsonData;
+    public $jsonData;
 
     public function __construct()
     {

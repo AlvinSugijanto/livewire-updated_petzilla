@@ -3,7 +3,7 @@ namespace App\Libraries;
 
 class Kabupaten
 {
-    private $jsonData;
+    public $jsonData;
 
     public function __construct()
     {
@@ -25,4 +25,5 @@ class Kabupaten
             }
         }
     }
+    
 }

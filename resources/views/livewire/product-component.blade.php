@@ -35,7 +35,7 @@
 
                         <h3 class="mt-3">Rp: {{ number_format($animal->harga,0,',','.') }}</h4>
 
-                            
+
                             <h6 class="mb-0 mt-3">Total Stok : {{ $animal->stok }}</h6>
                             <div class="d-flex align-items-center mt-2">
                                 <div class="stok-qty border border-secondary py-2">
@@ -44,8 +44,10 @@
                                     <i class="fa fa-plus" aria-hidden="true" wire:click.prevent="$emitSelf('inc_qty')"></i>
                                 </div>
                                 <div class="button-list ml-3">
-                                    <button class="btn btn-cart" data-toggle="modal" data-target="#addTransactionModal"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Buy Now</button>
-                                    <button class="btn btn-transaction ml-2" wire:click.prevent="add_to_wishlist"><i class="fa fa-bookmark" aria-hidden="true"></i> Add to wishlist</button>
+                                    <button class="btn btn-cart" data-toggle="modal" data-target="#addTransactionModal" wire:click="checkIfAuthenticated()"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Beli Sekarang</button>
+                                    <button class="btn btn-transaction ml-2" wire:click.prevent="add_to_cart"><i class="fa fa-plus" aria-hidden="true"></i> Tambah ke Keranjang</button>
+                                    <button class="btn btn-transaction ml-2" wire:click.prevent="add_to_wishlist"><i class="fa fa-bookmark" aria-hidden="true"></i> Simpan</button>
+
                                 </div>
                             </div>
                             <hr class="mb-0">
@@ -67,11 +69,11 @@
             </div>
         </div>
     </div>
+    @if(Auth::check())
     <div wire:ignore.self class="modal fade" id="addTransactionModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body mb-4">
-
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0">Informasi Pembeli</h6>
                         <button type="button" class="close mr-2" data-dismiss="modal" aria-label="Close">&times</button>
@@ -117,6 +119,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 <div id="toast" class="position-fixed top-0 right-0 m-3" style="z-index: 9999;"></div>
 
@@ -139,18 +142,22 @@
     });
     window.addEventListener('success-wishlist', function(e) {
 
-        var icons;
-
-        if (e.detail.status == 200) {
-            icons = 'success'
-        } else {
-            icons = 'warning'
-        }
 
         Swal.fire({
             title: 'Success',
             text: e.detail.message,
-            icon: icons,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+
+        })
+    });
+    window.addEventListener('unauthenticatedUser', function() {
+
+        Swal.fire({
+            title: 'Kamu belum login',
+            text: 'Silahkan melakukan login untuk melanjutkan aksi ini',
+            icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'Ok',
 

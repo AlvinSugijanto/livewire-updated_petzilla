@@ -35,15 +35,23 @@
             <div class="col-md-3 d-none d-md-block">
                 <div class="d-flex justify-content-center">
                     <div class="position-relative">
+                        @if(Auth::check())
                         <a href="/user/inbox">
                             <i class="fa fa-envelope fa-xl" aria-hidden="true" style="color:rgb(0,0,0,.8); font-size:30px; margin-top:13px"></i>
                         </a>
+                        @else
+                            <button class="btn-login">Login</button>
+                        @endif
                     </div>
                     <div class="position-relative">
-                        <a href="/user/transaction">
-                            <i class="fa-solid fa-bag-shopping ml-4 fa-xl" style="color:rgb(0,0,0,.8); font-size:30px"></i>
+                        @if(Auth::check())
+                        <a href="/user/cart">
+                            <i class="fa-solid fa-cart-shopping ml-4 fa-md" style="color:rgb(0,0,0,.8); font-size:30px"></i>
                             <div class="countNotification">5</div>
                         </a>
+                        @else
+                            <button class="btn-register">Register</button>
+                        @endif
                     </div>
                 </div>
             </div>

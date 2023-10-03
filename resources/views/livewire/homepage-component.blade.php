@@ -119,11 +119,12 @@
                     </div>
                     @endif
                     <div class="badge text-wrap p-2 ml-auto" style="background-color:white">
-                        <i class="fa-solid fa-truck"></i> Dikirim ke {{ $user->alamat }}
+                        <i class="fa-solid fa-location-dot"></i> {{ $address }}
                     </div>
                     
                 </div>
                 <div class="row mt-2">
+                    @if($isSetCoordinate)
                     @foreach($animals as $animal)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-3" @if ($loop->last) id="last_record" @endif>
                         <a href="{{ route('detail-animal', ['id_animal' => $animal->id_animal]) }}">
@@ -144,6 +145,7 @@
                         </a>
                     </div>
                     @endforeach
+                    @endif
                 </div>
             </div>
 
@@ -154,30 +156,111 @@
         <div class="spinner-border" role="status">
         </div>
     </div>
+    <div wire:ignore.self class="modal fade" id="welcomeModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modalId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex flex-column align-items-center justify-items-center">
+                        <h4 class="text-center">Halo 👋, Selamat datang di PetZilla </h4>
+                        <p class="m-0 mt-3 text-center">Sekarang Kamu tinggal dimana ? </p>
+                        <div class="position-relative">
+                            <input type="text" class="search-input" wire:model.debounce.500ms="searchCity" style="width: 600px; margin-bottom:0px; border-radius:5px" placeholder="Cari tempat tinggal mu saat ini.. cth : (Kabupaten XXX, Kecamatan XXX)">
+                            @if(!empty($searchResult))
+                                <div class="resultBox">
+                                    @foreach($searchResult as $result)
+                                        <div class="child" wire:click="handleClickedCity('{{ $result }}')">{{ $result }}</div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                        <p class="text-center font-weight-bold mt-2">atau</p>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-outline-primary" onclick="getLocation()"><i class="fa-solid fa-location-crosshairs"></i> Gunakan Lokasi Saya Saat Ini</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @push('scripts')
     <script>
-        
-        const lastRecord = document.getElementById('last_record');
-        const options = {
-            root: null,
-            threshold: 1,
-            rootMargin: '0px'
-        }
-        const observer = new IntersectionObserver((entries, observer, options) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    @this.loadMore()
+        window.addEventListener('able-to-scroll',function(){
+            const lastRecord = document.getElementById('last_record');
+            if(lastRecord)
+            {
+                const options = {
+                    root: null,
+                    threshold: 1,
+                    rootMargin: '0px'
                 }
-            });
+                const observer = new IntersectionObserver((entries, observer, options) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            @this.loadMore()
+                        }
+                    });
+                });
+                observer.observe(lastRecord);
+            }
         });
-        observer.observe(lastRecord);
+      
 
     </script>
     <script>
+
         function toggleFilterDropdown(data) {
             const filter = document.getElementsByClassName("dropdown-filter");
             filter[data].classList.toggle('active');
         }
+        window.addEventListener('close-modal',function(){
+            $("#welcomeModal").modal('hide');
+        });
+        $(document).ready(function(){
+            if(!'{!!$isSetCoordinate!!}')
+            {
+                $("#welcomeModal").modal('show');
+            } else {
+                const lastRecord = document.getElementById('last_record');
+                if(lastRecord)
+                {
+                    const options = {
+                        root: null,
+                        threshold: 1,
+                        rootMargin: '0px'
+                    }
+                    const observer = new IntersectionObserver((entries, observer, options) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                @this.loadMore()
+                            }
+                        });
+                    });
+                    observer.observe(lastRecord);
+                }  
+            }
+        });
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+            } else { 
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+        function successFunction(position) {
+            console.log(position.coords);
+            const coordinate = {
+                latitude : position.coords.latitude,
+                longitude : position.coords.longitude
+            }
+            @this.locationFounded(coordinate)
+        }
+
+        function errorFunction() {
+            console.log("Unable to retrieve your location.");
+        }
+
     </script>
     @endpush
 </div>

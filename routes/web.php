@@ -24,12 +24,13 @@ Route::get('login', Livewire\Auth\Login::class);
 Route::get('/user/verify/{token}', Livewire\Auth\EmailVerify::class);
 Route::get('/register_store', Livewire\Auth\RegisterStore::class);
 
+Route::get('/home', Livewire\HomepageComponent::class);
+Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
+Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 
 Route::middleware(['auth', 'is_email_verified'])->group(function () {
 
-    Route::get('/home', Livewire\HomepageComponent::class);
     Route::get('/chat/{to_id}', Livewire\Message::class)->name('chat');
-    Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
 
 
     // User Routes
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'is_email_verified'])->group(function () {
     Route::get('/user/wishlist', Livewire\Wishlist::class);
     Route::get('/user/inbox', Livewire\InboxUser::class)->name('user-inbox');
     Route::get('/user/detail_pembayaran/{referenceId}', Livewire\User\DetailPembayaran::class);
+    Route::get('/user/cart', Livewire\User\Cart::class);
 
 
     // Store Routes
@@ -48,7 +50,6 @@ Route::middleware(['auth', 'is_email_verified'])->group(function () {
     Route::get('/store/transaction', Livewire\Store\Transaction::class);
     Route::get('/store/inbox', Livewire\InboxStore::class)->name('store-inbox');
     Route::get('/store/review', Livewire\Store\DaftarReview::class);
-    Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 
     Route::get('/logout', Livewire\Auth\Logout::class);
 });

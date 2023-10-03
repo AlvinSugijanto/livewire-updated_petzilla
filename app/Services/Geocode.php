@@ -45,4 +45,17 @@ class Geocode{
 
     }
 
+    public function geocode_from_string($string)
+    {
+        $data = explode(",", $string);
+        $getLatLng = Http::get('https://geocode.maps.co/search?q=' . $data[0])->json();
+        
+
+        if(empty($getLatLng))
+        {
+            return false;
+        }
+        return $getLatLng[0];
+    }
+
 }

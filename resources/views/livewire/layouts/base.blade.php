@@ -10,6 +10,7 @@
 
     {{-- Bootstrap Styles --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <!-- Plugins CSS -->
@@ -32,14 +33,18 @@
             <div class="container justify-content-end ">
                 <div class="row align-items-center">
                     <div class="element-top">
-                        <i class="fa fa-shopping-bag" style="color:#ffff" aria-hidden="true"></i>
-                        <a href="/store/profile">Toko Saya</a>
+                        @if(Auth::check())
+                            <i class="fa fa-shopping-bag" style="color:#ffff" aria-hidden="true"></i>
+                            <a href="/store/profile">Toko Saya</a>
+                        @endif
                     </div>
                     <div class="vl"></div>
 
                     <div class="element-top" onmouseover="hoveredProfile()" onmouseout="unHoveredProfile()">
-                        <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
-                        <a> {{ strtok(Auth::user()->name, " ") }}</a>
+                        @if(Auth::check())
+                            <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
+                            <a> {{  strtok(Auth::user()->name, " ") }}</a>
+                        @endif
                         <div class="wrapper-profile-dropdown">
                             <div class="profile-dropdown bg-white pt-2 pb-4 px-4 border rounded">
                                 <a href="/user/transaction">
@@ -104,7 +109,6 @@
     @stack('scripts')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('../js/app.js') }}"></script>

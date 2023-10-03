@@ -22,25 +22,19 @@ class Transaction extends Model
 
     protected $fillable = [
         'id_transaction',
-        'qty',
-        'status',
         'sub_total',
         'grand_total',
         'created_at',
         'updated_at',
         'users_id_user',
         'store_id_store',
-        'list_animal_id_animal',
         'payment_reference'
     ];
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id_user', 'id_user');
     }
-    public function animal()
-    {
-        return $this->belongsTo(ListAnimal::class, 'list_animal_id_animal', 'id_animal');
-    }
+
     public function store()
     {
         return $this->belongsTo(StoreModel::class, 'store_id_store', 'id_store');
@@ -99,7 +93,6 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','pengajuan_ongkir')
                                     ->with('user')
-                                    ->with('animal')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -154,6 +147,8 @@ class Transaction extends Model
                                     ->paginate(5);
 
     }
+
+    // Store
     public function getPengajuanOngkirStore()
     {
         return Transaction::where('store_id_store', Auth::user()->store->id_store)

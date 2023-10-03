@@ -11,10 +11,7 @@
             <h5 class="mb-0 transaction"><i class="fa fa-user"></i> {{ $transaction->store->nama_toko }}</h5>
         </div>
         <div class="d-flex w-100 mt-3">
-            <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:90px; object-fit:cover">
             <div class="ml-2">
-                <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
-                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
             </div>
             <div class="border-left pl-4 mr-5 ml-auto">
                 <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Belanja</h6>
@@ -62,10 +59,7 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
                                     <div class="d-flex flex-column ml-2 w-50">
-                                        <h5 class="mb-0">{{ $selectedTransaction->animal->judul_post }}</h5>
-                                        <span style="color:rgba(49,53,59,0.68)">{{ $selectedTransaction->qty }} x Rp. {{ number_format($selectedTransaction->animal->harga,0,',','.') }}</span>
 
                                     </div>
                                     <div class="ml-auto text-right align-self-center">

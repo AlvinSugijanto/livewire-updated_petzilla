@@ -6,6 +6,9 @@ use Livewire\Component;
 
 use App\Models\ListAnimal;
 use App\Models\AnimalPhoto;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\CartModel;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\StoreModel;
@@ -32,8 +35,8 @@ class ProductComponent extends Component
     public function mount($id_animal)
     {
         $this->animal = ListAnimal::where('id_animal', $id_animal)
-                                    ->with('animal_photo')
-                                    ->first();
+            ->with('animal_photo')
+            ->first();
 
         if (!$this->animal) {
             return redirect()->to('/user/error/not-found');
@@ -45,8 +48,10 @@ class ProductComponent extends Component
 
         $this->store = $this->animal->getStore($this->animal->store);
 
-        $this->user = Auth::user();
-        $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
+        if (Auth::check()) {
+            $this->user = Auth::user();
+            $this->user->alamat = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
+        }
 
         return view('livewire.product-component')->layout('livewire.layouts.base');
     }
@@ -78,21 +83,52 @@ class ProductComponent extends Component
 
     public function add_to_wishlist()
     {
-        $user = Auth::user();
-        $wishlist = Wishlist::where('users_id_user', $user->id_user)->where('list_animal_id_animal', $this->animal->id_animal)->first();
+        if (Auth::check()) {
+            $user = Auth::user();
+            $wishlist = Wishlist::where('users_id_user', $user->id_user)->where('list_animal_id_animal', $this->animal->id_animal)->first();
 
-        if ($wishlist == NULL) {
-            Wishlist::create([
-                'users_id_user' => $user->id_user,
-                'list_animal_id_animal' => $this->animal->id_animal
-            ]);
-            $this->dispatchBrowserEvent('success-wishlist', [
-                'message' => 'Hewan berhasil ditambahkan ke wishlist !'
-            ]);
+            if ($wishlist == NULL) {
+                Wishlist::create([
+                    'users_id_user' => $user->id_user,
+                    'list_animal_id_animal' => $this->animal->id_animal
+                ]);
+                $this->dispatchBrowserEvent('success-wishlist', [
+                    'message' => 'Hewan berhasil ditambahkan ke wishlist !'
+                ]);
+            } else {
+                $this->dispatchBrowserEvent('success-wishlist', [
+                    'message' => 'Hewan sudah berada di wishlist !'
+                ]);
+            }
         } else {
-            $this->dispatchBrowserEvent('success-wishlist', [
-                'message' => 'Hewan sudah berada di wishlist !'
-            ]);
+            $this->dispatchBrowserEvent('unauthenticatedUser');
+        }
+    }
+    public function add_to_cart()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $checkCart = CartModel::where('users_id_users', $user->id_user)->where('store_id_store', $this->store->id_store)->first();
+
+            if ($checkCart) {
+                CartDetail::create([
+                    'cart_id' => $checkCart->id_cart,
+                    'qty'     => $this->current_qty,
+                    'list_animal_id_animal' => $this->animal->id_animal
+                ]);
+            } else {
+                $cart = CartModel::create([
+                    'users_id_users' => $user->id_user,
+                    'store_id_store' => $this->store->id_store
+                ]);
+                CartDetail::create([
+                    'cart_id' => $cart->id_cart,
+                    'qty'     => $this->current_qty,
+                    'list_animal_id_animal' => $this->animal->id_animal
+                ]);
+            }
+        } else {
+            $this->dispatchBrowserEvent('unauthenticatedUser');
         }
     }
     public function increment_qty()
@@ -105,6 +141,13 @@ class ProductComponent extends Component
     {
         if ($this->current_qty > 1) {
             $this->current_qty--;
+        }
+    }
+
+    public function checkIfAuthenticated()
+    {
+        if (!Auth::check()) {
+            $this->dispatchBrowserEvent('unauthenticatedUser');
         }
     }
 }

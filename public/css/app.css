@@ -586,3 +586,56 @@ img.default_store_logo {
   text-decoration: none;
   cursor: pointer;
 }
+
+.resultBox {
+  position: absolute;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: scroll;
+  border-radius: 5px;
+  border : 1px solid rgb(202, 202, 202);
+}
+.resultBox .child{
+  color: black;
+  border-bottom: 1px solid rgb(202, 202, 202);
+  background-color: white;
+  padding: 10px;
+
+}
+.resultBox .child:hover{
+
+  cursor: pointer;
+  background-color: rgb(209, 209, 209);
+}
+
+.btn-login{
+  border : 1px solid #A9907E;
+  border-radius: 5px;
+  padding: 5px 12px;
+  background-color: white;
+  color: #A9907E;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.btn-login:hover{
+  background-color: #A9907E;
+  color: white;
+}
+
+.btn-register{
+  border : 1px solid #A9907E;
+  border-radius: 5px;
+  padding: 5px 12px;
+  background-color: #A9907E;
+  color: white;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 20px;
+}
+
+.btn-register:hover{
+  background-color: #917c6d;
+}
+
