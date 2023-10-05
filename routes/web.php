@@ -24,9 +24,6 @@ Route::get('login', Livewire\Auth\Login::class);
 Route::get('/user/verify/{token}', Livewire\Auth\EmailVerify::class);
 Route::get('/register_store', Livewire\Auth\RegisterStore::class);
 
-Route::get('/home', Livewire\HomepageComponent::class);
-Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
-Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 
 Route::middleware(['auth', 'is_email_verified'])->group(function () {
 
@@ -53,7 +50,9 @@ Route::middleware(['auth', 'is_email_verified'])->group(function () {
 
     Route::get('/logout', Livewire\Auth\Logout::class);
 });
-
+Route::get('/home', Livewire\HomepageComponent::class);
+Route::get('/detail-animal/{id_animal}', Livewire\ProductComponent::class)->name('detail-animal');
+Route::get('/store/{id_store}', Livewire\StorePage::class)->name('storePage');
 Route::get('/user/error/not-found', Livewire\Error\UserNotFound::class);
 Route::post('/user/callbackTransaction', [Controllers\CallbackTransactionController::class, 'handle']);
 
@@ -71,6 +70,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/verifikasi_pembayaran', Livewire\Admin\VerifikasiPembayaran::class);
     Route::get('/admin/report', Livewire\Admin\Transaction\Report::class);
     Route::get('/admin/report/{id_transaction}', Livewire\Admin\Transaction\DetailReport::class)->name('detail-report');
+
+    Route::get('/admin/laporan', Livewire\Admin\Laporan::class);
 
 
 });

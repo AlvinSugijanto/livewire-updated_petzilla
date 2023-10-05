@@ -34,16 +34,16 @@
                 <div class="row align-items-center">
                     <div class="element-top">
                         @if(Auth::check())
-                            <i class="fa fa-shopping-bag" style="color:#ffff" aria-hidden="true"></i>
-                            <a href="/store/profile">Toko Saya</a>
+                        <i class="fa fa-shopping-bag" style="color:#ffff" aria-hidden="true"></i>
+                        <a href="/store/profile">Toko Saya</a>
                         @endif
                     </div>
                     <div class="vl"></div>
 
                     <div class="element-top" onmouseover="hoveredProfile()" onmouseout="unHoveredProfile()">
                         @if(Auth::check())
-                            <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
-                            <a> {{  strtok(Auth::user()->name, " ") }}</a>
+                        <i class="fa fa-user" aria-hidden="true" style="color:#ffff"></i>
+                        <a> {{ strtok(Auth::user()->name, " ") }}</a>
                         @endif
                         <div class="wrapper-profile-dropdown">
                             <div class="profile-dropdown bg-white pt-2 pb-4 px-4 border rounded">
@@ -147,16 +147,38 @@
             elem.scrollTop = elem.scrollHeight;
         }
         $(document).ready(function() {
-            var $otherPreviews = $('.other-preview');
+            var otherPreviews = $('.other-preview');
 
-            $otherPreviews.click(function() {
-                var src = $(this).attr('src');
+            otherPreviews.click(function(e) {
+                // var src = $(this).tagName;
 
-                $('.main-preview').attr('src', src);
+                if (e.target.tagName.toLocaleLowerCase() == 'img') {
+                    var src = $(this).attr('src');
 
-                $otherPreviews.removeClass('active');
+                    const image = document.getElementById('main-preview');
+                    const video = document.getElementById('video-thumbnail');
 
-                $(this).addClass('active');
+                    image.removeAttribute('hidden');
+                    image.setAttribute('src', src);
+
+                    video.setAttribute('hidden', true);
+
+
+                    otherPreviews.removeClass('active');
+
+                    $(this).addClass('active');
+                    
+                } else {
+                    const image = document.getElementById('main-preview');
+                    const video = document.getElementById('video-thumbnail');
+
+                    image.setAttribute('hidden','true');
+                    video.removeAttribute('hidden');
+
+                    // $('.main-preview').setAttribute('hidden','true');
+                    // $('.video-thumbnail').setAttribute('hidden','false');
+
+                }
             });
         });
         window.addEventListener('error-modal', event => {

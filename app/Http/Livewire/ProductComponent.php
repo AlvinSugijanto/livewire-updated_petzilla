@@ -12,6 +12,7 @@ use App\Models\CartModel;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\StoreModel;
+use App\Models\TransactionDetail;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,6 @@ class ProductComponent extends Component
     }
     public function render()
     {
-
-
         $this->store = $this->animal->getStore($this->animal->store);
 
         if (Auth::check()) {
@@ -59,14 +58,22 @@ class ProductComponent extends Component
     {
         try {
 
-            Transaction::create([
+            $transaction = Transaction::create([
                 'id_transaction' => strtoupper('TRX-' . Str::random(10, 'alnum')),
-                'sub_total'  => $this->animal->harga * $this->current_qty,
+                // 'sub_total'  => $this->animal->harga * $this->current_qty,
                 'status'    => 'pengajuan_ongkir',
+                'grand_total' => $this->animal->harga * $this->current_qty,
                 'users_id_user' => Auth::id(),
                 'store_id_store' => $this->animal->store_id_store,
+                // 'list_animal_id_animal' => $this->animal->id_animal,
+                // 'qty'           => $this->current_qty
+            ]);
+
+            TransactionDetail::create([
+                'subtotal' => $this->animal->harga * $this->current_qty,
+                'qty'      => $this->current_qty,
+                'transaction_id_transaction' => $transaction->id_transaction,
                 'list_animal_id_animal' => $this->animal->id_animal,
-                'qty'           => $this->current_qty
             ]);
 
             ListAnimal::where('id_animal', $this->animal->id_animal)
@@ -108,17 +115,33 @@ class ProductComponent extends Component
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $checkCart = CartModel::where('users_id_users', $user->id_user)->where('store_id_store', $this->store->id_store)->first();
+            $checkCart = CartModel::where('users_id_user', $user->id_user)->where('store_id_store', $this->store->id_store)->first();
 
             if ($checkCart) {
-                CartDetail::create([
-                    'cart_id' => $checkCart->id_cart,
-                    'qty'     => $this->current_qty,
-                    'list_animal_id_animal' => $this->animal->id_animal
-                ]);
+                $checkDetail = CartDetail::where('cart_id', $checkCart->id_cart)->where('list_animal_id_animal', $this->animal->id_animal)->first();
+                if (!$checkDetail) {
+                    CartDetail::create([
+                        'cart_id' => $checkCart->id_cart,
+                        'qty'     => $this->current_qty,
+                        'list_animal_id_animal' => $this->animal->id_animal
+                    ]);
+
+                    $this->dispatchBrowserEvent('success-wishlist', [
+                        'message' => 'Item berhasil ditambahkan ke cart !'
+                    ]);
+
+                } else {
+                    $checkDetail->qty += $this->current_qty;
+                    $checkDetail->save();
+
+                    $this->dispatchBrowserEvent('success-wishlist', [
+                        'message' => 'Hewan sudah berada di cart !'
+                    ]);
+                }
             } else {
+
                 $cart = CartModel::create([
-                    'users_id_users' => $user->id_user,
+                    'users_id_user' => $user->id_user,
                     'store_id_store' => $this->store->id_store
                 ]);
                 CartDetail::create([
@@ -126,6 +149,11 @@ class ProductComponent extends Component
                     'qty'     => $this->current_qty,
                     'list_animal_id_animal' => $this->animal->id_animal
                 ]);
+
+                $this->dispatchBrowserEvent('success-wishlist', [
+                    'message' => 'Item berhasil ditambahkan ke cart !'
+                ]);
+                
             }
         } else {
             $this->dispatchBrowserEvent('unauthenticatedUser');

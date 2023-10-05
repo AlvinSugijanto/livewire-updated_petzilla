@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\User;
 
 use App\Models\CartDetail;
+use App\Models\Transaction;
 use Livewire\Component;
 use App\Models\CartModel;
 use App\Models\ListAnimal;
+use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Cart extends Component
 {
@@ -26,7 +29,7 @@ class Cart extends Component
     }
     public function render()
     {
-        $carts = CartModel::where('users_id_users', Auth::id())->with('store')->with('cartDetail')->get();
+        $carts = CartModel::where('users_id_user', Auth::id())->with('store')->with('cartDetail')->get();
         
         return view('livewire.user.cart', ['carts' => $carts])->layout('livewire.layouts.base');
     }
@@ -73,6 +76,40 @@ class Cart extends Component
         
     }
 
+    public function createTransaction()
+    {
+        // Create Parent Transaction
+        $transaction = Transaction::create([
+            'id_transaction' => strtoupper('TRX-' . Str::random(10, 'alnum')),
+            'status'    => 'pengajuan_ongkir',
+            // 'grand_total' => $this->animal->harga * $this->current_qty,
+            'users_id_user' => Auth::id(),
+            'store_id_store' => $this->cartz->store->id_store,
+        ]);
+
+        // Create Transaction Detail
+        $grand_total = 0;
+        foreach($this->cartz->cartDetail as $detail)
+        {
+            $subtotal = $detail->qty * $detail->animal->harga;
+            $grand_total += $subtotal;
+            TransactionDetail::create([
+                'subtotal' => $subtotal,
+                'qty' => $detail->qty,
+                'transaction_id_transaction' => $transaction->id_transaction,
+                'list_animal_id_animal' => $detail->list_animal_id_animal
+            ]);
+        }
+
+        // Update Transaction Total
+        $transaction->update([
+            'grand_total' => $grand_total
+        ]);
+        $transaction->save();
+        // Delete Cart & Detail Cart
+        CartDetail::where('cart_id', $this->cartz->id_cart)->delete();
+        $this->cartz->delete();
+    }
     public function incrementQty($id_cart_detail)
     {
         $cart_detail = CartDetail::where('id_cart_detail', $id_cart_detail)->first();
@@ -88,8 +125,5 @@ class Cart extends Component
         $this->updatedCheckBoxChild();
     }
 
-    public function openTransactionModal()
-    {
-        
-    }
+
 }

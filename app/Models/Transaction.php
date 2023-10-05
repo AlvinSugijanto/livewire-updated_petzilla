@@ -22,7 +22,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'id_transaction',
-        'sub_total',
+        'status',
         'grand_total',
         'created_at',
         'updated_at',
@@ -34,10 +34,13 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'users_id_user', 'id_user');
     }
-
     public function store()
     {
         return $this->belongsTo(StoreModel::class, 'store_id_store', 'id_store');
+    }
+    public function detailTransaction()
+    {
+        return $this->hasMany(TransactionDetail::class, 'transaction_id_transaction', 'id_transaction');
     }
     public function pengiriman()
     {
@@ -93,6 +96,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','pengajuan_ongkir')
                                     ->with('user')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -102,7 +106,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','menunggu_pembayaran')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -112,7 +116,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','review_pembayaran')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -122,7 +126,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','sedang_diproses')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -132,7 +136,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','sedang_dikirim')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -142,7 +146,7 @@ class Transaction extends Model
         return Transaction::where('users_id_user', Auth::id())
                                     ->where('status','sampai_tujuan')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -154,7 +158,7 @@ class Transaction extends Model
         return Transaction::where('store_id_store', Auth::user()->store->id_store)
                                     ->where('status','pengajuan_ongkir')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -164,7 +168,7 @@ class Transaction extends Model
         return Transaction::where('store_id_store', Auth::user()->store->id_store)
                                     ->where('status','menunggu_pembayaran')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -174,7 +178,7 @@ class Transaction extends Model
         return Transaction::where('store_id_store', Auth::user()->store->id_store)
                                     ->where('status','sedang_diproses')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -184,7 +188,7 @@ class Transaction extends Model
         return Transaction::where('store_id_store', Auth::user()->store->id_store)
                                     ->where('status','sedang_dikirim')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 
@@ -194,7 +198,7 @@ class Transaction extends Model
         return Transaction::where('store_id_store', Auth::user()->store->id_store)
                                     ->where('status','sampai_tujuan')
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->orderBy('created_at','desc')
                                     ->paginate(5);
 

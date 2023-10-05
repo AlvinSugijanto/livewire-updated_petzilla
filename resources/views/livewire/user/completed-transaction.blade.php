@@ -12,10 +12,11 @@
             <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
         </div>
         <div class="d-flex mt-3 ">
-            <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
-            <div class="d-flex flex-column ml-2" style="width:250px">
-                <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
-                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
+            <img src="{{ asset('/animal_photos/'.$transaction->detailTransaction[0]->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+            <div class="d-flex flex-column ml-2" >
+                <h5 class="mb-0">{{ $transaction->detailTransaction[0]->animal->judul_post }}</h5>
+                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->detailTransaction[0]->qty }} x Rp. {{ number_format($transaction->detailTransaction[0]->animal->harga,0,',','.') }}</span>
+                <div class="text-muted mt-2">+{{ count($transaction->detailTransaction)-1 }} item lainnya</div>
             </div>
             <div class="d-flex flex-column border-left" style="margin-left:50px; padding-left:50px">
                 <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Harga</h6>
@@ -61,17 +62,21 @@
                         </div>
                         <div class="card mt-2">
                             <div class="card-body">
+                                @foreach($selectedTransaction->detailTransaction as $detail)
                                 <div class="d-flex">
-                                    <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
-                                    <div class="d-flex flex-column ml-2" style="width:250px">
-                                        <h5 class="mb-0">{{ $selectedTransaction->animal->judul_post }}</h5>
-                                        <span style="color:rgba(49,53,59,0.68)">{{ $selectedTransaction->qty }} x Rp. {{ number_format($selectedTransaction->animal->harga,0,',','.') }}</span>
+                                    <img src="{{ asset('/animal_photos/'.$detail->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+                                    <div class="d-flex flex-column ml-2 w-50">
+                                        <h6 class="mb-0">{{ $detail->animal->judul_post }}</h6>
+                                        <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">{{ $detail->qty }} x Rp. {{ number_format($detail->animal->harga,0,',','.') }}</h5>
+                                        <small class="mt-2 text-muted">Warna : {{$detail->animal->warna ? $detail->animal->warna : '-'}} Umur : {{$detail->animal->umur}} {{$detail->animal->satuan_umur}} </small>
                                     </div>
                                     <div class="ml-auto text-right align-self-center">
-                                        <div>Total Harga</div>
-                                        <div class="font-weight-bold">Rp. {{ number_format($selectedTransaction->sub_total,0,',','.') }}</div>
+                                        <div>Subtotal</div>
+                                        <div class="font-weight-bold">Rp. {{ number_format($detail->subtotal,0,',','.') }}</div>
                                     </div>
                                 </div>
+                                <hr class="mb-3">
+                                @endforeach
                             </div>
                         </div>
                         <h5 class="modal-title mb-0 mt-2">Info Pengiriman</h5>

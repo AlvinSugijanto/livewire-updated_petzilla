@@ -20,6 +20,7 @@ class TambahProduk extends Component
 
     public $jenis_hewan, $judul_post, $harga, $stok, $warna, $umur, $deskripsi;
     public $thumbnail, $photos = [];
+    public $video;
     public $sertifikat_pedigree, $surat_keterangan_sehat;
 
     public function mount()
@@ -51,8 +52,7 @@ class TambahProduk extends Component
 
         try {
             $animal = ListAnimal::create([
-
-                'id_animal' => Str::random(10),
+                'id_animal' => 'ANM-'.Str::random(10),
                 'jenis_hewan' => $this->jenis_hewan,
                 'judul_post'  => $this->judul_post,
                 'deskripsi'   => $this->deskripsi,
@@ -69,6 +69,10 @@ class TambahProduk extends Component
 
             if ($this->sertifikat_pedigree) {
                 $animal->sertifikat_pedigree = Storage::disk('public')->put($animal->id_animal, $this->sertifikat_pedigree);
+            }
+            if($this->video)
+            {
+                $animal->video = Storage::disk('public')->put($animal->id_animal, $this->video);
             }
             if (!empty($this->photos)) {
                 (new AnimalPhoto())->storePhoto($this->photos, $animal->id_animal);

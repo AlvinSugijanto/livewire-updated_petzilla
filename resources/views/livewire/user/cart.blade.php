@@ -26,7 +26,8 @@
                                     <img src="{{ asset('/animal_photos/'.$cartDetail->animal->thumbnail) }}" class="ml-2 card-img-top border-rounded" style="width:80px; height:80px;  object-fit:cover">
                                     <div class="ml-3">
                                         <h6 class="text-title m-0">{{ $cartDetail->animal->judul_post }}</h6>
-                                        <h5 class="cloud-font-bold mt-3" style="letter-spacing: 0.4px;">Rp. {{ number_format($cartDetail->animal->harga,0,',','.') }}</h5>
+                                        <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">Rp. {{ number_format($cartDetail->animal->harga,0,',','.') }}</h5>
+                                        <small class="text-muted">Warna: Merah, Umur : -</small>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center">
@@ -48,10 +49,10 @@
                             <h6>Rangkuman Belanja</h6>
                             <hr>
                             <div class="d-flex">
-                                <h6 class="text-muted">Total Harga (25 Barang)</h6>
+                                <h6 class="text-muted">Total Harga </h6>
                                 <h6 class="ml-auto text-right">Rp. {{ number_format($totalHarga,0,',','.') }}</h6>
                             </div>
-                            <button class="btn btn-primary w-100 mt-3" data-toggle="modal" data-target="#addTransactionModal">Ajukan Pengiriman</button>
+                            <button class="btn btn-primary w-100 mt-3 @if(empty($checkBoxChild)) disabled @endif" data-toggle="modal" data-target="#addTransactionModal">Ajukan Pengiriman</button>
 
                         </div>
                     </div>
@@ -85,26 +86,27 @@
                         <div class="text-right">{{ $user->alamat_lengkap }}</div>
                     </div>
                     <hr>
-                    <h6 class="mb-0 mt-3">Rangkuman Pembelian</h6>
+                    <h6 class="mb-0 mt-3 mb-3">Rangkuman Pembelian</h6>
                     @foreach($cartz->cartDetail as $item)
-                    <div class="d-flex justify-content-between align-items-center px-3 mt-2">
+                    <div class="d-flex justify-content-between align-items-center px-2 mt-2">
                         <div class="d-flex align-items-center">
-                            <span class="font-weight-bold">{{ $item->qty }}x</span>
-                            <img src="{{ asset('/animal_photos/'.$item->animal->thumbnail) }}" class="card-img-top ml-3" style="height:90px; width:80px; object-fit:cover">
+                            <img src="{{ asset('/animal_photos/'.$item->animal->thumbnail) }}" class="card-img-top" style="height:90px; width:80px; object-fit:cover">
                             <div class="px-2">
                                 <h6 class="mb-0">{{$item->animal->judul_post}}</h6>
-                                <small>Warna : {{$item->animal->warna}}</small>
-                                <p class="m-0"></p>
+                                <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">{{ $item->qty }} x Rp. {{ number_format($item->animal->harga,0,',','.') }}</h5>
+                                <small>Warna : {{$item->animal->warna ? $item->animal->warna : '-'}} </small>
                                 <small>Umur : {{$item->animal->umur}} {{$item->animal->satuan_umur}}</small>
                             </div>
                         </div>
                         <div class="mr-3">
-                            <div>Total</div>
+                            <div>Subtotal</div>
+                            <div class="font-weight-bold">Rp. {{ number_format($item->qty * $item->animal->harga,0,',','.') }}</div>
                         </div>
                     </div>
+                    <hr>
                     @endforeach
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" wire:click.prevent="createTransaction">Ajukan Biaya Pengiriman</button>
+                        <button class="btn btn-primary" wire:click.prevent="createTransaction" >Ajukan Biaya Pengiriman</button>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@ class CompletedTransaction extends Component
         $completedTransaction = Transaction::where('store_id_store', $store->id_store)
                                                         ->where('status', 'selesai')
                                                         ->with('user')
-                                                        ->with('animal')
+                                                        ->with('detailTransaction')
                                                         ->with('pengiriman')
                                                         ->paginate(8);
 
@@ -35,7 +35,7 @@ class CompletedTransaction extends Component
     {
         $this->currentDetailTransaksiModal = 1;
         $this->selectedTransaction = Transaction::where('id_transaction',$id)
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->with('user')
                                     ->with('pengiriman')
                                     ->with('pembayaran')

@@ -32,7 +32,7 @@ class SedangDiProses extends Component
         $this->selectedTransactionId = $id;
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                                 ->with('user')
-                                                ->with('animal')
+                                                ->with('detailTransaction')
                                                 ->first();
         $this->currentProsesModal = 1;
 

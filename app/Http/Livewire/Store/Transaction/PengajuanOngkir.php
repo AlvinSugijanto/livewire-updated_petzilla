@@ -32,7 +32,7 @@ class PengajuanOngkir extends Component
         $this->selectedTransactionId = $id;
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                                 ->with('user')
-                                                ->with('animal')
+                                                ->with('detailTransaction')
                                                 ->first();
         $this->currentOngkirModal = 1;
         
@@ -48,7 +48,7 @@ class PengajuanOngkir extends Component
             Transaction::where('id_transaction', $this->selectedTransactionId)
                 ->update([
                     'status'            => 'menunggu_pembayaran',
-                    'grand_total'       => DB::raw('sub_total + ' . $this->biaya_pengiriman)
+                    'grand_total'       => DB::raw('grand_total +' . $this->biaya_pengiriman)
                 ]);
             InformasiPengiriman::create([
                 'biaya_pengiriman'  => $this->biaya_pengiriman,

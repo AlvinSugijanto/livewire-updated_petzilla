@@ -122,13 +122,14 @@ class TransactionSeeder extends Seeder
                     'transaction_id_transaction' => $id_transaction
                 ]);
 
+                $grand_total = 0;
                 for ($i = 0; $i < rand(3, 5); $i++) {
 
                     $store = $this->randomStore();
                     $animal = $this->randomAnimal($store);
 
                     $random_qty = rand(1, 5);
-
+                    $grand_total += $random_qty * $animal->harga;
                     DB::table('transaction_detail')->insert([
                         'subtotal' => $random_qty * $animal->harga,
                         'qty'      => $random_qty,
@@ -136,6 +137,9 @@ class TransactionSeeder extends Seeder
                         'list_animal_id_animal' => $animal->id_animal,
                     ]);
                 }
+                DB::table('transaction')
+                    ->where('id_transaction', $id_transaction)
+                    ->update(['grand_total' => $grand_total + $random_ongkir]);
             } else {
 
                 DB::table('transaction')->insert([
@@ -147,13 +151,17 @@ class TransactionSeeder extends Seeder
                     'created_at'     => Carbon::now(),
                     'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
                 ]);
-                
+
+                $grand_total = 0;
+
                 for ($i = 0; $i < rand(3, 5); $i++) {
 
                     $store = $this->randomStore();
                     $animal = $this->randomAnimal($store);
 
                     $random_qty = rand(1, 5);
+
+                    $grand_total += $random_qty * $animal->harga;
 
                     DB::table('transaction_detail')->insert([
                         'subtotal' => $random_qty * $animal->harga,
@@ -162,6 +170,9 @@ class TransactionSeeder extends Seeder
                         'list_animal_id_animal' => $animal->id_animal,
                     ]);
                 }
+                DB::table('transaction')
+                ->where('id_transaction', $id_transaction)
+                ->update(['grand_total' => $grand_total]);
             }
 
 

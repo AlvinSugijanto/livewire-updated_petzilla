@@ -23,7 +23,7 @@ class CompletedTransaction extends Component
         $completedTransaction = Transaction::where('users_id_user', Auth::id())
             ->where('status', 'selesai')
             ->with('store')
-            ->with('animal')
+            ->with('detailTransaction')
             ->with('pengiriman')
             ->paginate(5);
 
@@ -36,7 +36,7 @@ class CompletedTransaction extends Component
         $this->currentDetailTransaksiModal = 1;
         $this->selectedTransaction = Transaction::where('id_transaction',$id)
                                     ->with('store')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->with('pengiriman')
                                     ->with('pembayaran')
                                     ->first();

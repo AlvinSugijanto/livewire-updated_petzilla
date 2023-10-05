@@ -25,6 +25,7 @@ class StoreIndex extends Component
     public $payment;
 
     protected $listeners = ['deleteConfirmed' => 'deleteRekening'];
+
     public function mount()
     {
         $store = StoreModel::where('user_id_user', Auth::user()->id_user)->first();

@@ -24,6 +24,7 @@ class ListAnimal extends Model
         'surat_keterangan_sehat',
         'sertifikat_pedigree',
         'thumbnail',
+        'video',
         'status',
         'stok',
         'warna',

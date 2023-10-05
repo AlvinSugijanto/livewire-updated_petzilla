@@ -36,7 +36,7 @@ class MenungguPembayaran extends Component
         
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                                 ->with('user')
-                                                ->with('animal')
+                                                ->with('detailTransaction')
                                                 ->first();
         $this->currentModalStep = 1;
     }
@@ -68,6 +68,7 @@ class MenungguPembayaran extends Component
             $this->selectedTransaction->update([
                 'status' => 'review_pembayaran'
             ]);
+            $this->selectedTransaction->save();
 
             $this->dispatchBrowserEvent('submitted-pembayaran');
         } catch (\Exception $e) {

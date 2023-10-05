@@ -64,6 +64,12 @@
                     <div class="collapse-child">&#x2022; Verifikasi Pembayaran</div>
                 </a>
             </div>
+            <a href="/admin/laporan">
+                <li class="d-flex align-items-center">
+                    <i class="fa-solid fa-book mr-2"></i>
+                    <div class="mt-1">Laporan Transaksi</div>
+                </li>
+            </a>
 
         </ul>
         <div class="content w-100">

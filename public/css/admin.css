@@ -245,6 +245,10 @@ a.collapseParent[aria-expanded="false"] .fa-chevron-down{
   font-family: 'Jost', sans-serif;
   font-weight: 500;
 }
+.cloud-font{
+  font-family: 'Cloud', sans-serif;
+  letter-spacing: 0.2px;
+}
 
 #buktiPembayaran:hover {
   opacity: 0.8;

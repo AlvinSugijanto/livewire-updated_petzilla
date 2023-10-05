@@ -11,16 +11,15 @@
             <h5 class="mb-0 transaction"><i class="fa fa-shopping-bag"></i> {{ $transaction->store->nama_toko }}</h5>
         </div>
         <div class="d-flex w-100 mt-3">
-            <img src="{{ asset('/animal_photos/'.$transaction->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:90px; object-fit:cover">
+            <img src="{{ asset('/animal_photos/'.$transaction->detailTransaction[0]->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:90px; object-fit:cover">
             <div class="ml-2">
-                <h5 class="mb-0">{{ $transaction->animal->judul_post }}</h5>
-                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->qty }} x Rp. {{ number_format($transaction->animal->harga,0,',','.') }}</span>
+                <h5 class="mb-0">{{ $transaction->detailTransaction[0]->animal->judul_post }}</h5>
+                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->detailTransaction[0]->qty }} x Rp. {{ number_format($transaction->detailTransaction[0]->animal->harga,0,',','.') }}</span>
             </div>
             <div class="border-left pl-4 mr-5 ml-auto">
                 <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Belanja</h6>
-                <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->sub_total,0,',','.') }}</h6>
+                <h6 class="mb-0 mt-1" style="font-weight:bolder">Rp. {{ number_format($transaction->grand_total,0,',','.') }}</h6>
             </div>
-
         </div>
         <div class="d-flex justify-content-end align-items-center mt-2">
             <button class="btn btn-outline-danger btn-sm" wire:click.prevent="reportProduct('{{ $transaction->id_transaction }}')" data-toggle="modal" data-target="#reportModal"><i class="fa-solid fa-flag"></i> Laporkan Produk</button>

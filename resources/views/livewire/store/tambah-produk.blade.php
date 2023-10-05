@@ -142,6 +142,20 @@
                         </div>
                     </div>
                 </div>
+                <small style="color:#FF6843" class="">file type: mp4</small>
+
+                <div class="form-group row mt-2">
+                    <label for="myfile" class="col-3">Video</label>
+                    <div class="col-6">
+                        <input type="file" class="form-control" name="myVideo" wire:model="video">
+                        @error('video')
+                        <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
+                        @enderror
+                        <!-- @if($video)
+                        <img src="{{ $video->temporaryUrl() }}" class="mt-2 img-thumbnail" style="max-width:200px;">
+                        @endif -->
+                    </div>
+                </div>
             </div>
         </div>
 

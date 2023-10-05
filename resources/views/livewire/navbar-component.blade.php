@@ -40,7 +40,7 @@
                             <i class="fa fa-envelope fa-xl" aria-hidden="true" style="color:rgb(0,0,0,.8); font-size:30px; margin-top:13px"></i>
                         </a>
                         @else
-                            <button class="btn-login">Login</button>
+                            <a href="/login"><button class="btn-login">Login</button></a>
                         @endif
                     </div>
                     <div class="position-relative">
@@ -50,7 +50,7 @@
                             <div class="countNotification">5</div>
                         </a>
                         @else
-                            <button class="btn-register">Register</button>
+                            <a href="/register"><button class="btn-register">Register</button></a>
                         @endif
                     </div>
                 </div>

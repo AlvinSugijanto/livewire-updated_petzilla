@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class CartModel extends Authenticatable
+class CartModel extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class CartModel extends Authenticatable
     
     protected $fillable = [
         'total',
-        'users_id_users',
+        'users_id_user',
         'store_id_store'
     ];
 

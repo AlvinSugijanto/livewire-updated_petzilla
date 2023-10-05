@@ -4,7 +4,12 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="image-class text-center">
-                        <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="img-thumbnail img-fluid main-preview" style="max-height: 230px;">
+                        <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="img-thumbnail img-fluid main-preview" id="main-preview" style="max-height: 230px;">
+                        @if($animal->video)
+                        <video width="320" height="240"  id="video-thumbnail" controls hidden>
+                            <source src="{{ asset('/animal_photos/'.$animal->video) }}" type="video/mp4">
+                        </video>
+                        @endif
                     </div>
                     <div class="row px-3">
                         <div class="col-md-4 mt-2 p-1">
@@ -15,6 +20,12 @@
                             <img src="{{ asset('/animal_photos/'.$photo->photo) }}" class="other-preview img-thumbnail" style="width:100%; height:120px; object-fit:cover">
                         </div>
                         @endforeach
+                        @if($animal->video)
+
+                        <video class="col-md-4 mt-2 p-1 other-preview" style="width:100%; height:120px; object-fit:cover">
+                            <source src="{{ asset('/animal_photos/'.$animal->video) }}" type="video/mp4">
+                        </video>
+                        @endif
                     </div>
 
                 </div>
@@ -152,6 +163,7 @@
 
         })
     });
+
     window.addEventListener('unauthenticatedUser', function() {
 
         Swal.fire({
