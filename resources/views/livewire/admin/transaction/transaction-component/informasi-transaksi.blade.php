@@ -6,8 +6,10 @@
     </div>
     <hr>
     <div class="d-flex justify-content-between align-items-center">
-        <div>Jumlah Pembelian</div>
-        <div class="font-weight-bold">{{ $transaction->qty }} x Rp.{{ number_format($transaction->animal->harga,0,',','.') }}</div>
+        <div>Nilai Pembelian</div>
+        <div class="font-weight-bold">
+            Rp.{{ number_format($transaction->grand_total - $transaction->pengiriman->biaya_pengiriman, 0, ',', '.') }}
+        </div>
     </div>
     <hr>
     <div class="d-flex justify-content-between align-items-center">
@@ -43,7 +45,7 @@
     </div>
     <hr>
 
-    
+
     <h5 class="mt-4">Informasi Pembayaran</h5>
     <div class="d-flex justify-content-between align-items-center mt-3">
         <div>Tipe Pembayaran</div>

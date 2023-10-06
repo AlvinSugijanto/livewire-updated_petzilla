@@ -264,6 +264,12 @@ a.collapseParent[aria-expanded="false"] .fa-chevron-down{
   cursor: pointer;
 }
 
+.ranges li{
+  color: black;
+}
+table .total td{
+  border-top: 1px solid rgb(129, 129, 129, 0.4);
+}
 /* .daftar_produk button:hover{
   background-color: #CDE5FF;
   border : 1px solid #007BFF;

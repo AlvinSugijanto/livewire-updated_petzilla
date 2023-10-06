@@ -19,7 +19,7 @@ class Report extends Component
     {
         $complain = Complain::with('photo')
             ->with('transaction')
-            ->with('transaction.animal')
+            ->with('transaction.detailTransaction')
             ->with('transaction.user')
             ->orderBy('created_at','desc')
             ->paginate(10);
@@ -32,11 +32,10 @@ class Report extends Component
         $this->currentDetailComplainModal = 1;
         $this->selectedTransaction = Complain::where('id', $id)
                                             ->with('transaction')
-                                            ->with('transaction.animal')
+                                            ->with('transaction.detailTransaction')
                                             ->with('transaction.user')
                                             ->with('photo')
                                             ->first();
         
-        // dd($this->selectedTransaction);
     }
 }

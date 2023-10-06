@@ -71,7 +71,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/report', Livewire\Admin\Transaction\Report::class);
     Route::get('/admin/report/{id_transaction}', Livewire\Admin\Transaction\DetailReport::class)->name('detail-report');
 
-    Route::get('/admin/laporan', Livewire\Admin\Laporan::class);
+    Route::get('/admin/laporan_keseluruhan', Livewire\Admin\Laporan\LaporanKeseluruhan::class);
+    Route::get('/admin/by_hewan', Livewire\Admin\Laporan\ByHewan::class);
 
 
 });

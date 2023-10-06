@@ -30,7 +30,7 @@
                             <div class="font-weight-bold gotham mt-2" style="color:#5A5C69">Rp. {{ number_format($transaction_value,0,',','.') }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x" style="color:#dddfeb;"></i>
+                            <i class="fas fa-dollar-sign fa-2x" style="color:#dddfeb;"></i>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                             <div class="font-weight-bold gotham mt-2" style="color:#5A5C69">$40,000</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x" style="color:#dddfeb;"></i>
+                            <i class="fas fa-dollar-sign fa-2x" style="color:#dddfeb;"></i>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             <div class="font-weight-bold gotham mt-2" style="color:#5A5C69">{{ $new_users }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x" style="color:#dddfeb;"></i>
+                            <i class="fas fa-user fa-2x" style="color:#dddfeb;"></i>
                         </div>
                     </div>
                 </div>

@@ -19,9 +19,11 @@
                         <td>{{ $complain->transaction->id_transaction }}</td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('/animal_photos/'.$complain->transaction->animal->thumbnail) }}" class="card-img-top" style="height:60px; width:50px; object-fit:cover">
+                                <img src="{{ asset('/animal_photos/'.$complain->transaction->detailTransaction[0]->animal->thumbnail) }}" class="card-img-top" style="height:60px; width:50px; object-fit:cover">
                                 <div class="px-2">
-                                    <div>{{$complain->transaction->animal->judul_post}}</div>
+                                    <div>{{$complain->transaction->detailTransaction[0]->animal->judul_post}}</div>
+                                    <small class="text-muted mt-2">+{{ count($complain->transaction->detailTransaction)-1 }} item lainnya</small>
+
                                 </div>
                             </div>
                         </td>

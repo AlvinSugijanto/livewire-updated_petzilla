@@ -64,12 +64,24 @@
                     <div class="collapse-child">&#x2022; Verifikasi Pembayaran</div>
                 </a>
             </div>
-            <a href="/admin/laporan">
+
+            <a data-toggle="collapse" href="#collapseLaporan" role="button" aria-expanded="false" aria-controls="collapseExample" class="collapseParent">
                 <li class="d-flex align-items-center">
                     <i class="fa-solid fa-book mr-2"></i>
                     <div class="mt-1">Laporan Transaksi</div>
+                    <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    <i class="fa-solid fa-chevron-down ml-auto"></i>
                 </li>
             </a>
+
+            <div class="collapse mt-2" id="collapseLaporan">
+                <a href="/admin/laporan_keseluruhan" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Keseluruhan</div>
+                </a>
+                <a href="/admin/by_hewan" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; By Hewan</div>
+                </a>
+            </div>
 
         </ul>
         <div class="content w-100">
@@ -82,6 +94,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a4c037e7cb.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     @stack('scripts')
     <script>
         function toggleDropDownLogo(x) {
