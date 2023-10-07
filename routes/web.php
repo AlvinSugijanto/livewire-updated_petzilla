@@ -47,6 +47,8 @@ Route::middleware(['auth', 'is_email_verified'])->group(function () {
     Route::get('/store/transaction', Livewire\Store\Transaction::class);
     Route::get('/store/inbox', Livewire\InboxStore::class)->name('store-inbox');
     Route::get('/store/review', Livewire\Store\DaftarReview::class);
+    Route::get('/store/wallet', Livewire\Store\Dompet::class);
+
 
     Route::get('/logout', Livewire\Auth\Logout::class);
 });

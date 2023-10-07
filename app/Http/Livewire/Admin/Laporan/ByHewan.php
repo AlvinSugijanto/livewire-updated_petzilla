@@ -35,6 +35,7 @@ class ByHewan extends Component
             ->get();
         
 
+        
         // $this->total_transaksi = $this->jenis_hewan[0] + $this->jenis_hewan[1];
 
         $this->grand_total = Transaction::where('status', 'selesai')

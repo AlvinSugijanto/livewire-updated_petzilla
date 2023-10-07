@@ -79,7 +79,7 @@
                     <div class="collapse-child">&#x2022; Keseluruhan</div>
                 </a>
                 <a href="/admin/by_hewan" style="text-decoration: none">
-                    <div class="collapse-child">&#x2022; By Hewan</div>
+                    <div class="collapse-child">&#x2022; By Jenis Hewan</div>
                 </a>
             </div>
 

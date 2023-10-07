@@ -70,7 +70,7 @@
 
             <li class="nav-item px-3">
                 <a href="/store/profile" class="d-flex align-items-center btn @if($blueButton == 'profil') active @endif">
-                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    <i class="fa-solid fa-store"></i>
                     <h5 class="mb-0 ml-2">Profil Toko</h5>
                 </a>
             </li>
@@ -100,14 +100,20 @@
             </li>
             <li class="nav-item px-3 mt-3">
                 <a href="/store/transaction" class="d-flex btn nav-child align-items-center @if($blueButton == 'transaksi') active @endif">
-                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
+                    <i class="fa-solid fa-file-invoice mb-1 mr-2"></i>
                     <h5 class="mb-0">Transaksi</h5>
                 </a>
             </li>
             <li class="nav-item px-3 mt-3">
                 <a href="/store/review" class="d-flex btn nav-child align-items-center @if($blueButton == 'review') active @endif">
-                    <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>
+                    <i class="fa fa-shopping-bag mb-1 mr-2" aria-hidden="true"></i>
                     <h5 class="mb-0">Review Toko</h5>
+                </a>
+            </li>
+            <li class="nav-item px-3 mt-3">
+                <a href="/store/wallet" class="d-flex btn nav-child align-items-center @if($blueButton == 'wallet') active @endif">
+                    <i class="fa-solid fa-wallet mb-1 mr-2"></i>
+                    <h5 class="mb-0">Dompet</h5>
                 </a>
             </li>
 
