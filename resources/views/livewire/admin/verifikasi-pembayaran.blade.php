@@ -53,16 +53,8 @@
                             <div>Tanggal Transaksi Dibuat</div>
                             <div>{{ date('d F Y, H:i \W\I\B', strtotime($selectedTransaction->created_at)) }}</div>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>Nama Produk</div>
-                            <div>{{ $selectedTransaction->animal->judul_post }}</div>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>Jumlah Pembelian</div>
-                            <div>{{ $selectedTransaction->qty }}x Rp.{{ number_format($selectedTransaction->animal->harga,0,',','.') }}</div>
-                        </div>
+
+
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
                             <div>Jasa Pengiriman</div>
@@ -72,7 +64,7 @@
                             <div class="border rounded bg-light py-2 px-3" style="width:60%">
                                 <div class="d-flex justify-content-between">
                                     <div class="gotham">Subtotal</div>
-                                    <div class="font-weight-bold">Rp.{{ number_format($selectedTransaction->sub_total,0,',','.') }}</div>
+                                    <div class="font-weight-bold">Rp.{{ number_format($selectedTransaction->grand_total - $selectedTransaction->pengiriman->biaya_pengiriman ,0,',','.') }}</div>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between">
@@ -82,7 +74,7 @@
                                 <hr>
                                 <div class="d-flex justify-content-between">
                                     <div class="gotham">Total Harga</div>
-                                    <div class="font-weight-bold">Rp.{{ number_format($selectedTransaction->sub_total,0,',','.') }}</div>
+                                    <div class="font-weight-bold">Rp.{{ number_format($selectedTransaction->grand_total,0,',','.') }}</div>
                                 </div>
                             </div>
                         </div>

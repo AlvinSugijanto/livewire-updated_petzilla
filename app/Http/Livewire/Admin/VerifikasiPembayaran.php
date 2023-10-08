@@ -41,7 +41,7 @@ class VerifikasiPembayaran extends Component
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
             ->where('status', 'review_pembayaran')
             ->with('pembayaran')
-            ->with('animal')
+            ->with('detailTransaction')
             ->first();
 
         // dd($this->selectedTransaction);

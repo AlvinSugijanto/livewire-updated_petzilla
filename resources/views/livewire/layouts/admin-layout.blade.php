@@ -81,6 +81,12 @@
                 <a href="/admin/by_hewan" style="text-decoration: none">
                     <div class="collapse-child">&#x2022; By Jenis Hewan</div>
                 </a>
+                <a href="/admin/laporan/bulanan" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Bulanan</div>
+                </a>
+                <a href="/admin/laporan/bulanan" style="text-decoration: none">
+                    <div class="collapse-child">&#x2022; Tahunan</div>
+                </a>
             </div>
 
         </ul>
