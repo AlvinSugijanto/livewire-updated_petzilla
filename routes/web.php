@@ -77,5 +77,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/by_hewan', Livewire\Admin\Laporan\ByHewan::class);
 
     Route::get('/admin/laporan/bulanan', Livewire\Admin\Laporan\Bulanan::class);
+    Route::get('/admin/laporan/tahunan', Livewire\Admin\Laporan\Tahunan::class);
+
 
 });

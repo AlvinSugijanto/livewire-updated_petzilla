@@ -1,5 +1,5 @@
 <div>
-    <h5 class="gotham">Laporan Transaksi Bulanan</h5>
+    <h5 class="gotham">Laporan Transaksi Tahunan</h5>
     <div class="card shadow">
         <div class="card-body">
             <div class="d-flex">
@@ -13,54 +13,37 @@
                         <option value="2020">2020</option>
                     </select>
                 </div>
-                <div class="ml-2">
-                    <h6>Pilih Bulan</h6>
-                    <select wire:model.defer="bulan" class="custom-select" style="min-width:150px; width:auto;">
-                        <option hidden selected>--Bulan--</option>
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
-                </div>
                 <div class="input-group-append align-self-end">
                     <button class="btn btn-primary ml-2" type="button" wire:click="onSubmit()">Submit</button>
                 </div>
                 <div class="d-flex ml-auto align-self-center">
-                    <div class="border rounded px-2 py-2 mr-2" onclick="printDiv()"><i class="fa-solid fa-print"></i> Print</div>
+                    <div class="border rounded px-2 py-2 mr-2" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</div>
+
                 </div>
             </div>
             <div id="tableJudul" style="visibility: hidden;">
-                <h5>Tabel Transaksi Bulanan ({{ $bulan }}/{{ $tahun }})</h5>
+                <h5>Tabel Transaksi Tahunan (2023)</h5>
             </div>
             <table class="table mt-4" id="tableBulanan">
                 <thead>
                     <tr>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col">Bulan</th>
                         <th scope="col">Jumlah Transaksi</th>
                         <th scope="col">Nilai Transaksi</th>
                         <th scope="col">Biaya Pengiriman</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($tanggals as $tanggal)
+                    @foreach($datas as $data)
                     <tr>
-                        <td>{{ $tanggal['tanggal'] }}</td>
-                        <td>{{ $tanggal['jumlah'] }}</td>
-                        <td>Rp. {{ number_format($tanggal['grand_total'] - $tanggal['biaya_pengiriman'],0,',','.') }}</td>
-                        <td>Rp. {{ number_format($tanggal['biaya_pengiriman'],0,',','.') }}</td>
+                        <td>{{ $data['bulan'] }}</td>
+                        <td>{{ $data['jumlah'] }}</td>
+                        <td>Rp. {{ number_format($data['grand_total'] - $data['biaya_pengiriman'],0,',','.') }}</td>
+                        <td>Rp. {{ number_format($data['biaya_pengiriman'],0,',','.') }}</td>
                     </tr>
                     @endforeach
                     @if($openChart)
-                    <div class="card shadow my-4" id="chart">
+                    <div class="card shadow my-4" id="chart" wire:ignore>
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Tabel Penjualan</h6>
                             <div class="dropdown no-arrow">
@@ -98,10 +81,6 @@
     @push('scripts')
 
     <script>
-        function printDiv() {
-            window.print();
-        }
-
         Livewire.on('chartLoaded', data => {
             console.log(data);
             var transaction_data = [];
@@ -117,7 +96,6 @@
 
         function openChart(transaction_data) {
             var ctx = document.getElementById("myAreaChart");
-
             let chartStatus = Chart.getChart("myAreaChart"); // <canvas> id
             if (chartStatus != undefined) {
                 chartStatus.destroy();
@@ -125,7 +103,7 @@
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
+                    labels: ["January", "February", "March", "April", "Mey", "June", "July", "August", "September", "October", "November", "December"],
                     datasets: [{
                         label: "Nilai Transaksi",
                         lineTension: 0.3,

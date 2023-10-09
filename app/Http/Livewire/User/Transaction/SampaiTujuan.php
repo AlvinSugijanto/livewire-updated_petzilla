@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Rating;
 use App\Models\ProductReport;
 use App\Models\ProductReportPhoto;
+use Carbon\Carbon;
 use Livewire\WithFileUploads;
 
 class SampaiTujuan extends Component
@@ -97,7 +98,8 @@ class SampaiTujuan extends Component
             ]);
 
             Transaction::where('id_transaction', $this->selectedTransactionId)->update([
-                'status' => 'selesai'
+                'status' => 'selesai',
+                'completed_at' => Carbon::now()
             ]);
 
             $this->dispatchBrowserEvent('submitted-rating');
