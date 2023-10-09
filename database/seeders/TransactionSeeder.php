@@ -133,7 +133,7 @@ class TransactionSeeder extends Seeder
                     $store = $this->randomStore();
                     $animal = $this->randomAnimal($store);
 
-                    $random_qty = rand(1, 5);
+                    $random_qty = rand(1, 3);
                     $grand_total += $random_qty * $animal->harga;
                     DB::table('transaction_detail')->insert([
                         'subtotal' => $random_qty * $animal->harga,
