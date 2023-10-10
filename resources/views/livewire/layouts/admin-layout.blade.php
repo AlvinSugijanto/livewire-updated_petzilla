@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <link href="{{ asset('css/admin.css') }}" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="{{ asset('css/print.css') }}" type="text/css" media="print" />
+
 
     @livewireStyles
 
@@ -75,16 +77,10 @@
             </a>
 
             <div class="collapse mt-2" id="collapseLaporan">
-                <a href="/admin/laporan_keseluruhan" style="text-decoration: none">
-                    <div class="collapse-child">&#x2022; Keseluruhan</div>
-                </a>
-                <a href="/admin/by_hewan" style="text-decoration: none">
-                    <div class="collapse-child">&#x2022; By Jenis Hewan</div>
-                </a>
                 <a href="/admin/laporan/bulanan" style="text-decoration: none">
                     <div class="collapse-child">&#x2022; Bulanan</div>
                 </a>
-                <a href="/admin/laporan/bulanan" style="text-decoration: none">
+                <a href="/admin/laporan/tahunan" style="text-decoration: none">
                     <div class="collapse-child">&#x2022; Tahunan</div>
                 </a>
             </div>
@@ -104,6 +100,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script> 
     @stack('scripts')
     <script>
         function toggleDropDownLogo(x) {

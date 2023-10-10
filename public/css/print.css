@@ -1,0 +1,17 @@
+@media print {
+    body {
+      visibility: hidden;
+    }
+    #tableJudul{
+      visibility: visible !important;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    table {
+      visibility: visible;
+      position: absolute;
+      left: 0;
+      top: 30px;
+    }
+  }

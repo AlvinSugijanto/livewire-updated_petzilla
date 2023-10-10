@@ -106,7 +106,7 @@
                     <hr>
                     @endforeach
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" wire:click.prevent="createTransaction" >Ajukan Biaya Pengiriman</button>
+                        <button class="btn btn-primary" wire:click.prevent="createTransaction">Ajukan Biaya Pengiriman</button>
                     </div>
                 </div>
             </div>
@@ -125,6 +125,22 @@
 
             }
         }
+        window.addEventListener('success-transaction', function(e) {
+
+            Swal.fire({
+                title: 'Success',
+                text: 'Transaksi berhasil dibuat, silahkan menunggu toko memasukkan ongkos kirim',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/user/transaction";
+
+                }
+            })
+        });
     </script>
     @endpush
 </div>

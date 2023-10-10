@@ -106,14 +106,19 @@ class TransactionSeeder extends Seeder
             $id_transaction = strtoupper('TRX-' . Str::random(10, 'alnum'));
 
             if ($random_status != 0) {
+                $random_date = rand(01,30);
+                $random_month = rand(01,12);
+                // $created_at = Carbon::now()->addDays('-1');
+                $random_date = Carbon::createFromFormat('d/m/Y', $random_date.'/'.$random_month.'/2023');
+                // dd($completed_at);
                 DB::table('transaction')->insert([
                     'id_transaction' => $id_transaction,
                     'grand_total' => 0,
                     'status'      => $status[$random_status],
                     'users_id_user' => $user->id_user,
                     'store_id_store' => $store->id_store,
-                    'created_at'     => Carbon::now(),
-                    'completed_at' => $random_status == 6 ? Carbon::now()->addDay() : null,
+                    'created_at'     => $random_date,
+                    'completed_at' => $random_status == 6 ? $random_date->addDays(3) : null,
                 ]);
 
                 DB::table('informasi_pengiriman')->insert([
@@ -123,12 +128,12 @@ class TransactionSeeder extends Seeder
                 ]);
 
                 $grand_total = 0;
-                for ($i = 0; $i < rand(3, 5); $i++) {
+                for ($i = 0; $i < rand(1,3); $i++) {
 
                     $store = $this->randomStore();
                     $animal = $this->randomAnimal($store);
 
-                    $random_qty = rand(1, 5);
+                    $random_qty = rand(1, 3);
                     $grand_total += $random_qty * $animal->harga;
                     DB::table('transaction_detail')->insert([
                         'subtotal' => $random_qty * $animal->harga,

@@ -102,7 +102,7 @@ class HomepageComponent extends Component
             
             $reverse_geocode = Http::get('https://geocode.maps.co/reverse?lat='.$data->latitude.'&lon='.$data->longitude)->json();
             // dd($reverse_geocode);
-            $this->address = $reverse_geocode['address']['village'] . ', '. $reverse_geocode['address']['city'];
+            $this->address = $reverse_geocode['address']['village'] . ', '. $reverse_geocode['address']['state'];
             return $this->getAllAnimals($data);
         }
     }

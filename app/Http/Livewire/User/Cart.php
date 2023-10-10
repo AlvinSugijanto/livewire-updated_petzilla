@@ -109,6 +109,8 @@ class Cart extends Component
         // Delete Cart & Detail Cart
         CartDetail::where('cart_id', $this->cartz->id_cart)->delete();
         $this->cartz->delete();
+
+        $this->dispatchBrowserEvent('success-transaction');
     }
     public function incrementQty($id_cart_detail)
     {
