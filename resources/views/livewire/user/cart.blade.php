@@ -19,7 +19,7 @@
                         </div>
                         @foreach($cart->cartDetail as $cartDetail)
                         <div class="mt-4 ml-5 pr-5">
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex">
                                 <div class="d-flex">
                                     <input type="checkbox" class="checkBoxChild{{ $cartDetail->cart_id }}" wire:model="checkBoxChild" value="{{ $cartDetail->id_cart_detail }}" style="width: 15px;">
 
@@ -30,12 +30,7 @@
                                         <small class="text-muted">Warna: Merah, Umur : -</small>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <div class="stok-qty py-2 mr-3">
-                                        <i class="fa fa-circle-minus" style="color:black" wire:click="decrementQty({{ $cartDetail->id_cart_detail }})"></i>
-                                        <h6 class="mb-0">{{ $cartDetail->qty }}</h6>
-                                        <i class="fa fa-circle-plus" style="color:black" wire:click="incrementQty({{ $cartDetail->id_cart_detail }})"></i>
-                                    </div>
+                                <div class="ml-4 align-self-center">
                                     <a wire:click="" class="trash-hover"><i class="fa fa-solid fa-trash" aria-hidden="true" style="color:#FF5151; font-size:16px"></i></a>
                                 </div>
                             </div>
@@ -64,7 +59,7 @@
     <div wire:ignore.self class="modal fade" id="addTransactionModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body mb-4">
+                <div class="modal-body">
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0">Informasi Pembeli</h6>
                         <button type="button" class="close mr-2" data-dismiss="modal" aria-label="Close">&times</button>
@@ -93,14 +88,13 @@
                             <img src="{{ asset('/animal_photos/'.$item->animal->thumbnail) }}" class="card-img-top" style="height:90px; width:80px; object-fit:cover">
                             <div class="px-2">
                                 <h6 class="mb-0">{{$item->animal->judul_post}}</h6>
-                                <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">{{ $item->qty }} x Rp. {{ number_format($item->animal->harga,0,',','.') }}</h5>
                                 <small>Warna : {{$item->animal->warna ? $item->animal->warna : '-'}} </small>
                                 <small>Umur : {{$item->animal->umur}} {{$item->animal->satuan_umur}}</small>
                             </div>
                         </div>
                         <div class="mr-3">
-                            <div>Subtotal</div>
-                            <div class="font-weight-bold">Rp. {{ number_format($item->qty * $item->animal->harga,0,',','.') }}</div>
+                            <div>Harga</div>
+                            <div class="font-weight-bold">Rp. {{ number_format($item->animal->harga,0,',','.') }}</div>
                         </div>
                     </div>
                     <hr>

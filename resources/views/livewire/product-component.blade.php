@@ -45,20 +45,11 @@
                         <h6 class="mb-0 font-weight-normal font-italic">Umur : @if($animal->umur){{$animal->umur}} {{ $animal->satuan_umur }} @else - @endif</h6>
 
                         <h3 class="mt-3">Rp: {{ number_format($animal->harga,0,',','.') }}</h4>
-
-
-                            <h6 class="mb-0 mt-3">Total Stok : {{ $animal->stok }}</h6>
                             <div class="d-flex align-items-center mt-2">
-                                <div class="stok-qty border border-secondary py-2">
-                                    <i class="fa fa-minus" aria-hidden="true" wire:click.prevent="$emitSelf('dec_qty')"></i>
-                                    <h6 class="mb-0">{{$current_qty}}</h6>
-                                    <i class="fa fa-plus" aria-hidden="true" wire:click.prevent="$emitSelf('inc_qty')"></i>
-                                </div>
-                                <div class="button-list ml-3">
+                                <div class="button-list">
                                     <button class="btn btn-cart" data-toggle="modal" data-target="#addTransactionModal" wire:click="checkIfAuthenticated()"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Beli Sekarang</button>
                                     <button class="btn btn-transaction ml-2" wire:click.prevent="add_to_cart"><i class="fa fa-plus" aria-hidden="true"></i> Tambah ke Keranjang</button>
                                     <button class="btn btn-transaction ml-2" wire:click.prevent="add_to_wishlist"><i class="fa fa-bookmark" aria-hidden="true"></i> Simpan</button>
-
                                 </div>
                             </div>
                             <hr class="mb-0">
@@ -107,10 +98,9 @@
                     </div>
                     <hr>
                     <h6 class="mb-0 mt-3">Rangkuman Pembelian</h6>
-                    <div class="d-flex justify-content-between align-items-center px-3 mt-2">
+                    <div class="d-flex justify-content-between align-items-center pr-3 mt-2">
                         <div class="d-flex align-items-center">
-                            <span class="font-weight-bold">{{ $current_qty }}x</span>
-                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top ml-3" style="height:90px; width:80px; object-fit:cover">
+                            <img src="{{ asset('/animal_photos/'.$animal->thumbnail) }}" class="card-img-top" style="height:90px; width:80px; object-fit:cover">
                             <div class="px-2">
                                 <h6 class="mb-0">{{$animal->judul_post}}</h6>
                                 <small>Warna : {{$animal->warna}}</small>
@@ -120,7 +110,7 @@
                         </div>
                         <div class="mr-3">
                             <div>Total</div>
-                            <h5>Rp: {{ number_format($animal->harga * $current_qty ,0,',','.') }}</h5>
+                            <h5>Rp: {{ number_format($animal->harga ,0,',','.') }}</h5>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">

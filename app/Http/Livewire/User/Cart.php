@@ -16,7 +16,6 @@ class Cart extends Component
     public $checkBoxChild = [];
 
     public $totalHarga = 0;
-    public $currentQty = 1;
     public $user;
     public $cartz;
 
@@ -65,7 +64,7 @@ class Cart extends Component
             $cart_detail = CartDetail::where('id_cart_detail', $cart)->first();
 
             $animal = ListAnimal::where('id_animal', $cart_detail->list_animal_id_animal)->first();
-            $this->totalHarga += $animal->harga * $cart_detail->qty;
+            $this->totalHarga += $animal->harga;
 
         }
         if(isset($cart_detail))
@@ -82,7 +81,6 @@ class Cart extends Component
         $transaction = Transaction::create([
             'id_transaction' => strtoupper('TRX-' . Str::random(10, 'alnum')),
             'status'    => 'pengajuan_ongkir',
-            // 'grand_total' => $this->animal->harga * $this->current_qty,
             'users_id_user' => Auth::id(),
             'store_id_store' => $this->cartz->store->id_store,
         ]);
@@ -91,11 +89,10 @@ class Cart extends Component
         $grand_total = 0;
         foreach($this->cartz->cartDetail as $detail)
         {
-            $subtotal = $detail->qty * $detail->animal->harga;
+            $subtotal = $detail->animal->harga;
             $grand_total += $subtotal;
             TransactionDetail::create([
                 'subtotal' => $subtotal,
-                'qty' => $detail->qty,
                 'transaction_id_transaction' => $transaction->id_transaction,
                 'list_animal_id_animal' => $detail->list_animal_id_animal
             ]);
@@ -112,20 +109,7 @@ class Cart extends Component
 
         $this->dispatchBrowserEvent('success-transaction');
     }
-    public function incrementQty($id_cart_detail)
-    {
-        $cart_detail = CartDetail::where('id_cart_detail', $id_cart_detail)->first();
-        $cart_detail->qty += 1;
-        $cart_detail->save();
-        $this->updatedCheckBoxChild();
-    }
-    public function decrementQty($id_cart_detail)
-    {
-        $cart_detail = CartDetail::where('id_cart_detail', $id_cart_detail)->first();
-        $cart_detail->qty -= 1;
-        $cart_detail->save();
-        $this->updatedCheckBoxChild();
-    }
+
 
 
 }

@@ -14,7 +14,6 @@
             <img src="{{ asset('/animal_photos/'.$transaction->detailTransaction[0]->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:90px; object-fit:cover">
             <div class="ml-2">
                 <h5 class="mb-0">{{ $transaction->detailTransaction[0]->animal->judul_post }}</h5>
-                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->detailTransaction[0]->qty }} x Rp. {{ number_format($transaction->detailTransaction[0]->animal->harga,0,',','.') }}</span>
                 <div class="text-muted mt-2">+{{ count($transaction->detailTransaction)-1 }} item lainnya</div>
             </div>
             <div class="border-left pl-4 mr-5 ml-auto">
@@ -66,12 +65,11 @@
                                     <img src="{{ asset('/animal_photos/'.$detail->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
                                     <div class="d-flex flex-column ml-2 w-50">
                                         <h6 class="mb-0">{{ $detail->animal->judul_post }}</h6>
-                                        <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">{{ $detail->qty }} x Rp. {{ number_format($detail->animal->harga,0,',','.') }}</h5>
                                         <small class="mt-2 text-muted">Warna : {{$detail->animal->warna ? $detail->animal->warna : '-'}} Umur : {{$detail->animal->umur}} {{$detail->animal->satuan_umur}} </small>
                                     </div>
                                     <div class="ml-auto text-right align-self-center">
-                                        <div>Subtotal</div>
-                                        <div class="font-weight-bold">Rp. {{ number_format($detail->subtotal,0,',','.') }}</div>
+                                        <div>Harga</div>
+                                        <div class="font-weight-bold">Rp. {{ number_format($detail->animal->harga,0,',','.') }}</div>
                                     </div>
                                 </div>
                                 <hr class="mb-3">

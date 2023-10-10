@@ -26,8 +26,6 @@ class ProductComponent extends Component
 
     public $store, $user;
 
-    public $current_qty = 1;
-
     protected $listeners = [
         'dec_qty' => 'decrement_qty',
         'inc_qty' => 'increment_qty'
@@ -60,26 +58,18 @@ class ProductComponent extends Component
 
             $transaction = Transaction::create([
                 'id_transaction' => strtoupper('TRX-' . Str::random(10, 'alnum')),
-                // 'sub_total'  => $this->animal->harga * $this->current_qty,
                 'status'    => 'pengajuan_ongkir',
-                'grand_total' => $this->animal->harga * $this->current_qty,
+                'grand_total' => $this->animal->harga,
                 'users_id_user' => Auth::id(),
                 'store_id_store' => $this->animal->store_id_store,
-                // 'list_animal_id_animal' => $this->animal->id_animal,
-                // 'qty'           => $this->current_qty
             ]);
 
             TransactionDetail::create([
-                'subtotal' => $this->animal->harga * $this->current_qty,
-                'qty'      => $this->current_qty,
+                'subtotal' => $this->animal->harga,
                 'transaction_id_transaction' => $transaction->id_transaction,
                 'list_animal_id_animal' => $this->animal->id_animal,
             ]);
 
-            ListAnimal::where('id_animal', $this->animal->id_animal)
-                ->update([
-                    'stok'       => DB::raw('stok - ' . $this->current_qty)
-                ]);
 
             $this->dispatchBrowserEvent('success-modal');
         } catch (\Exception $e) {
@@ -122,7 +112,6 @@ class ProductComponent extends Component
                 if (!$checkDetail) {
                     CartDetail::create([
                         'cart_id' => $checkCart->id_cart,
-                        'qty'     => $this->current_qty,
                         'list_animal_id_animal' => $this->animal->id_animal
                     ]);
 
@@ -131,8 +120,6 @@ class ProductComponent extends Component
                     ]);
 
                 } else {
-                    $checkDetail->qty += $this->current_qty;
-                    $checkDetail->save();
 
                     $this->dispatchBrowserEvent('success-wishlist', [
                         'message' => 'Hewan sudah berada di cart !'
@@ -146,7 +133,6 @@ class ProductComponent extends Component
                 ]);
                 CartDetail::create([
                     'cart_id' => $cart->id_cart,
-                    'qty'     => $this->current_qty,
                     'list_animal_id_animal' => $this->animal->id_animal
                 ]);
 
@@ -159,18 +145,7 @@ class ProductComponent extends Component
             $this->dispatchBrowserEvent('unauthenticatedUser');
         }
     }
-    public function increment_qty()
-    {
-        if ($this->current_qty < $this->animal->stok) {
-            $this->current_qty++;
-        }
-    }
-    public function decrement_qty()
-    {
-        if ($this->current_qty > 1) {
-            $this->current_qty--;
-        }
-    }
+
 
     public function checkIfAuthenticated()
     {

@@ -66,12 +66,11 @@
                                     <img src="{{ asset('/animal_photos/'.$detail->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
                                     <div class="d-flex flex-column ml-2 w-50">
                                         <h6 class="mb-0">{{ $detail->animal->judul_post }}</h6>
-                                        <h6 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">{{ $detail->qty }} x Rp. {{ number_format($detail->animal->harga,0,',','.') }}</h6>
                                         <small class="mt-2 text-muted">Warna : {{$detail->animal->warna ? $detail->animal->warna : '-'}} Umur : {{$detail->animal->umur}} {{$detail->animal->satuan_umur}} </small>
                                     </div>
                                     <div class="ml-auto text-right align-self-center">
                                         <div>Subtotal</div>
-                                        <div class="font-weight-bold">Rp. {{ number_format($detail->subtotal,0,',','.') }}</div>
+                                        <div class="font-weight-bold">Rp. {{ number_format($detail->animal->harga,0,',','.') }}</div>
                                     </div>
                                 </div>
                                 <hr class="mb-3">
