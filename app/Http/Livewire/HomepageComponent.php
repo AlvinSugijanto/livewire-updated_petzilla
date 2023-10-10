@@ -99,9 +99,10 @@ class HomepageComponent extends Component
             $data = new stdClass();
             $data->latitude = session()->get('latitude');
             $data->longitude = session()->get('longitude');
-
+            
             $reverse_geocode = Http::get('https://geocode.maps.co/reverse?lat='.$data->latitude.'&lon='.$data->longitude)->json();
-            $this->address = $reverse_geocode['address']['village'] . ', '. $reverse_geocode['address']['state'];
+            // dd($reverse_geocode);
+            $this->address = $reverse_geocode['address']['village'] . ', '. $reverse_geocode['address']['city'];
             return $this->getAllAnimals($data);
         }
     }

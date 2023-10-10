@@ -177,7 +177,7 @@
                         <div class="d-flex align-items-center">
                             <button class="btn btn-outline-primary" onclick="getLocation()"><i class="fa-solid fa-location-crosshairs"></i> Gunakan Lokasi Saya Saat Ini</button>
                         </div>
-
+                        <a href="/login"><button class="btn btn-primary mt-4 align-self-center">Login</button></a>
                     </div>
                 </div>
             </div>
