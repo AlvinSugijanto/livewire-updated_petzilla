@@ -110,12 +110,12 @@
                     <h5 class="mb-0">Review Toko</h5>
                 </a>
             </li>
-            <li class="nav-item px-3 mt-3">
+            <!-- <li class="nav-item px-3 mt-3">
                 <a href="/store/wallet" class="d-flex btn nav-child align-items-center @if($blueButton == 'wallet') active @endif">
                     <i class="fa-solid fa-wallet mb-1 mr-2"></i>
                     <h5 class="mb-0">Dompet</h5>
                 </a>
-            </li>
+            </li> -->
 
         </ul>
         <!-- End of Sidebar -->
