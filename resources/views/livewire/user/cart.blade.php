@@ -27,7 +27,7 @@
                                     <div class="ml-3">
                                         <h6 class="text-title m-0">{{ $cartDetail->animal->judul_post }}</h6>
                                         <h5 class="cloud-font-bold m-0 mt-2" style="letter-spacing: 0.4px;">Rp. {{ number_format($cartDetail->animal->harga,0,',','.') }}</h5>
-                                        <small class="text-muted">Warna: Merah, Umur : -</small>
+                                        <small class="text-muted">Warna: {{$cartDetail->animal->warna ? $item->animal->warna : '-'}}, Umur : {{$cartDetail->animal->umur ? $cartDetail->animal->umur : '-'}}</small>
                                     </div>
                                 </div>
                                 <div class="ml-4 align-self-center">

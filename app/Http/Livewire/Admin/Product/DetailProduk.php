@@ -30,7 +30,6 @@ class DetailProduk extends Component
         $this->jenis_hewan = $this->animal->jenis_hewan;
         $this->judul_post = $this->animal->judul_post;
         $this->harga = $this->animal->harga;
-        $this->stok = $this->animal->stok;
         $this->warna = $this->animal->warna;
         $this->umur = $this->animal->umur;
         $this->satuan_umur = $this->animal->satuan_umur;

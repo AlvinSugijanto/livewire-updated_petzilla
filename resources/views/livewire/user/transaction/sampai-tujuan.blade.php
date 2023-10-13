@@ -14,7 +14,8 @@
             <img src="{{ asset('/animal_photos/'.$transaction->detailTransaction[0]->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:90px; object-fit:cover">
             <div class="ml-2">
                 <h5 class="mb-0">{{ $transaction->detailTransaction[0]->animal->judul_post }}</h5>
-                <span style="color:rgba(49,53,59,0.68)">{{ $transaction->detailTransaction[0]->qty }} x Rp. {{ number_format($transaction->detailTransaction[0]->animal->harga,0,',','.') }}</span>
+                <div class="text-muted mt-2">+{{ count($transaction->detailTransaction)-1 }} item lainnya</div>
+
             </div>
             <div class="border-left pl-4 mr-5 ml-auto">
                 <h6 class="mb-0" style="color:rgba(49,53,59,0.68)">Total Belanja</h6>
@@ -41,22 +42,36 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-center p-2 border-bottom">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom py-2">
                                 <h5 class="transaction mb-0">ID Transaksi</h5>
                                 <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->id_transaction }}</h5>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                                <h5 class="transaction mb-0">Nama Produk</h5>
-                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->animal->judul_post }}</h5>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom py-2">
+                                <h5 class="transaction mb-0">Tanggal Pembelian</h5>
+                                <h5 class="cloud-font-bold mb-0">{{ date('d/m/Y H:i', strtotime($selectedTransaction->created_at)) }}</h5>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                                <h5 class="transaction mb-0">Metode Pengiriman</h5>
-                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->pengiriman->jasa_pengiriman }}</h5>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom py-2">
+                                <h5 class="transaction mb-0">Total Transaksi</h5>
+                                <h5 class="cloud-font-bold mb-0">{{ $selectedTransaction->grand_total }}</h5>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                                <h5 class="transaction mb-0">Total Harga <small style="letter-spacing:1px">(termasuk ongkir+fee)</small></h5>
-
-                                <h5 class="cloud-font-bold mb-0">Rp. {{ number_format($selectedTransaction->grand_total,0,',','.') }}</h5>
+                            <h6 class="mt-3">Detail Belanja</h6>
+                            <div class="card mt-2">
+                                <div class="card-body">
+                                    @foreach($selectedTransaction->detailTransaction as $detail)
+                                    <div class="d-flex">
+                                        <img src="{{ asset('/animal_photos/'.$detail->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+                                        <div class="d-flex flex-column ml-2 w-50">
+                                            <h6 class="mb-0">{{ $detail->animal->judul_post }}</h6>
+                                            <small class="mt-2 text-muted">Warna : {{$detail->animal->warna ? $detail->animal->warna : '-'}} Umur : {{$detail->animal->umur}} {{$detail->animal->satuan_umur}} </small>
+                                        </div>
+                                        <div class="ml-auto text-right align-self-center">
+                                            <div>Harga</div>
+                                            <div class="font-weight-bold">Rp. {{ number_format($detail->animal->harga,0,',','.') }}</div>
+                                        </div>
+                                    </div>
+                                    <hr class="mb-3">
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="form-group px-2 mt-3">
                                 <label>Keluhan</label>
@@ -95,14 +110,20 @@
                                 <div class="d-flex align-items-center justify-content-between card-top px-3 py-1 border-bottom" style="background-color:#F5F5F5">
                                     <p class="m-0">Penjual : {{ $selectedTransaction->store->nama_toko }}</p>
                                 </div>
-                                <div class="card-bdy p-2 d-flex align-items-center">
-                                    <img src="{{ asset('/animal_photos/'.$selectedTransaction->animal->thumbnail) }}" class="card-img-top" style="height:100px; width:80px;  object-fit:cover">
-                                    <div class="ml-2">
-                                        <h5 class="cloud-font-bold">{{ $selectedTransaction->animal->judul_post }}</h5>
-                                        <h6 class="mb-0 mt-3 font-weight-normal">Rp: {{ number_format($selectedTransaction->animal->harga,0,',','.') }}</h6>
-
+                                @foreach($selectedTransaction->detailTransaction as $detail)
+                                <div class="d-flex p-2">
+                                    <img src="{{ asset('/animal_photos/'.$detail->animal->thumbnail) }}" class="card-img-top" style="height:80px; width:70px; object-fit:cover">
+                                    <div class="d-flex flex-column ml-2 w-50">
+                                        <h6 class="mb-0">{{ $detail->animal->judul_post }}</h6>
+                                        <small class="mt-2 text-muted">Warna : {{$detail->animal->warna ? $detail->animal->warna : '-'}} Umur : {{$detail->animal->umur}} {{$detail->animal->satuan_umur}} </small>
+                                    </div>
+                                    <div class="ml-auto text-right align-self-center">
+                                        <div>Harga</div>
+                                        <div class="font-weight-bold">Rp. {{ number_format($detail->animal->harga,0,',','.') }}</div>
                                     </div>
                                 </div>
+                                <hr class="mb-3">
+                                @endforeach
                             </div>
                             <div class="mt-2">Bagaimana Kualitas Hewan ini?</div>
                             <div class="form-group mt-1">

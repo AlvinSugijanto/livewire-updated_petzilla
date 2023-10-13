@@ -57,7 +57,6 @@ class TambahProduk extends Component
                 'judul_post'  => $this->judul_post,
                 'deskripsi'   => $this->deskripsi,
                 'harga'       => $this->harga,
-                'stok'        => $this->stok,
                 'warna'       => $this->warna,
                 'umur'        => $this->umur ? $this->umur : null,
                 'status'      => 'dalam_persetujuan',

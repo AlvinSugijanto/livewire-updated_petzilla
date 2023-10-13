@@ -29,12 +29,6 @@
                     </div>
                 </div>
 
-                <div class="form-group row align-items-center">
-                    <label for="phone" class="col-3">Stok <span style="color:red">*<span></label>
-                    <div class="col-2">
-                        <div class="form-control">{{ $stok }}</div>
-                    </div>
-                </div>
             </div>
         </div>
 

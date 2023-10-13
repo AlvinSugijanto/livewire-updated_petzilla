@@ -37,7 +37,7 @@ class SampaiTujuan extends Component
         $this->selectedTransactionId = $id;
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                     ->with('user')
-                                    ->with('animal')
+                                    ->with('detailTransaction')
                                     ->first();
         $this->currentReportModal = 1;
     }
@@ -80,7 +80,7 @@ class SampaiTujuan extends Component
         $this->selectedTransactionId = $id;
         $this->selectedTransaction = Transaction::where('id_transaction', $id)
                                                 ->with('user')
-                                                ->with('animal')
+                                                ->with('detailTransaction')
                                                 ->first();
         $this->currentRatingModal = 1;
     }

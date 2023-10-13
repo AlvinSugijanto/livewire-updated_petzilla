@@ -11,7 +11,7 @@
                             <small><i class="fa fa-map-marker" aria-hidden="true"></i> {{ $store->kabupaten }}, {{ $store->kecamatan }}</small>
                         </div>
                         <div class="d-flex align-items-center">
-                            <a href="" class="btn btn-success pt-1"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
+                            <a href="{{ route('user-inbox', ['toStore' => $store->id_store]) }}" class="btn btn-success pt-1"><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat penjual</a>
                         </div>
                     </div>
                     <div class="col-md-5 offset-md-1 justify-content-center row">

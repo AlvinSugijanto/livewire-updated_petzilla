@@ -46,15 +46,6 @@
                     </div>
                 </div>
 
-                <div class="form-group row align-items-center">
-                    <label for="phone" class="col-3">Stok <span style="color:red">*<span></label>
-                    <div class="col-2">
-                        <input type="number" class="form-control" wire:model.defer="stok">
-                        @error('stok')
-                        <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
             </div>
         </div>
 
