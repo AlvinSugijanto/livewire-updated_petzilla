@@ -102,34 +102,34 @@
     </section>
 
     <section id="home">
-        <div class="flex lg:flex-row flex-col justify-center py-6 sm:px-8 px-4 gap-10 lg:my-6">
+        <div class="grid md:grid-cols-3 sm:grid-cols-2 my-12 mx-8 place-items-center gap-6">
 
-            <div class="mx-6 drop-shadow-card2">
+            <div class="drop-shadow-card2">
                 <div class="rounded-md border-2 border-slate-900/60 p-6 bg-white max-w-80">
                     <div class="flex items-center">
-                        <img src="{{ asset('location-logo.png') }}" alt="" class="w-16">
-                        <p class="font-mono text-amber-900/90 lg:text-xl text-md font-bold ml-4">Cari Hewan Peliharaan Terdekat</p>
+                        <img src="{{ asset('location-logo.png') }}" alt="" class="w-16 h-16">
+                        <p class="font-mono text-amber-900/90 lg:text-xl text-md font-bold ml-4">Cari Hewan Peliharaan</p>
                     </div>
                     <p class="font-mono text-amber-900/70 sm:text-base text-sm mt-2">Temukan hewan peliharaan yang sempurna, tepat di sekitarmu !</p>
 
                 </div>
             </div>
-            <div class="mx-6 drop-shadow-card2 max-w-80">
+            <div class="drop-shadow-card2 max-w-80">
                 <div class="rounded-md border-2 border-slate-900/60 p-6 bg-white">
                     <div class="flex items-center">
-                        <img src="{{ asset('verify.png') }}" alt="" class="w-16">
-                        <p class="font-mono text-amber-900/90 lg:text-xl text-md font-bold ml-4 text-justify">Dapatkah Hewan Peliharaan Yang Sehat & Bersertifikat</p>
+                        <img src="{{ asset('verify.png') }}" alt="" class="w-16 h-16">
+                        <p class="font-mono text-amber-900/90 lg:text-xl text-md font-bold ml-4">Dapatkan Hewan Peliharaan Sehat</p>
                     </div>
-                    <p class="font-mono text-amber-900/70 sm:text-base text-sm mt-2">Setiap Penjual Menjamin Keunggulan melalui Silsilah Terverifikasi.</p>
+                    <p class="font-mono text-amber-900/70 sm:text-base text-sm mt-2">Setiap Penjual Menjamin Kesehatan Hewan </p>
                 </div>
             </div>
-            <div class="mx-6 drop-shadow-card2 max-w-80">
+            <div class="drop-shadow-card2 max-w-80">
                 <div class="rounded-md border-2 border-slate-900/60 p-6 bg-white">
                     <div class="flex items-center">
-                        <img src="{{ asset('credit-card.png') }}" alt="" class="w-16">
+                        <img src="{{ asset('credit-card.png') }}" alt="" class="w-16 h-16">
                         <p class="font-mono text-amber-900/90 lg:text-xl text-md font-bold ml-4 text-justify">Proses pembayaran secara instan</p>
                     </div>
-                    <p class="font-mono text-amber-900/70 sm:text-base text-sm mt-2">Discover your perfect pet, just around the corner</p>
+                    <p class="font-mono text-amber-900/70 sm:text-base text-sm mt-2">Selesaikan transaksi mu hanya dengan beberapa tahap</p>
                 </div>
             </div>
         </div>

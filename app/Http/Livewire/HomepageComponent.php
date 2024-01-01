@@ -34,7 +34,7 @@ class HomepageComponent extends Component
     public $searchCity, $searchResult = [];
     public $clickedCity;
     public $address;
-
+    public $coordinate;
 
     protected $listeners = ['locationFounded'];
 
@@ -61,7 +61,6 @@ class HomepageComponent extends Component
         $this->user = Auth::user();
         $this->address = $this->user->getAddress($this->user->provinsi, $this->user->kabupaten, $this->user->kecamatan);
         return $this->getAllAnimals($this->user);
-        
     }
     public function getAllAnimals($geodata)
     {
@@ -96,13 +95,17 @@ class HomepageComponent extends Component
     public function checkSession()
     {
         if (session()->has('latitude') && session()->has('longitude')) {
+
             $data = new stdClass();
             $data->latitude = session()->get('latitude');
             $data->longitude = session()->get('longitude');
-            
-            $reverse_geocode = Http::get('https://geocode.maps.co/reverse?lat='.$data->latitude.'&lon='.$data->longitude)->json();
-            // dd($reverse_geocode);
-            $this->address = $reverse_geocode['address']['city'] . ', '. $reverse_geocode['address']['state'];
+
+            if (!$this->address) {
+
+                $reverse_geocode = Http::get('https://geocode.maps.co/reverse?lat=' . $data->latitude . '&lon=' . $data->longitude)->json();
+                $this->address = $reverse_geocode['address']['state'];
+            }
+            // $coordinate = $this->coordinate;
             return $this->getAllAnimals($data);
         }
     }
@@ -116,7 +119,6 @@ class HomepageComponent extends Component
 
         $this->dispatchBrowserEvent('close-modal');
         $this->dispatchBrowserEvent('able-to-scroll');
-
     }
 
     public function locationFounded($coordinate)
@@ -131,7 +133,6 @@ class HomepageComponent extends Component
 
         $this->dispatchBrowserEvent('close-modal');
         $this->dispatchBrowserEvent('able-to-scroll');
-
     }
 
     public function updatedSearchCity()
